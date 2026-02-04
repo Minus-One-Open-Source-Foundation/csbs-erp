@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { toast } from "react-toastify";
 
 export default function GradeManagement() {
   const [studentInfo, setStudentInfo] = useState({
@@ -39,7 +40,7 @@ export default function GradeManagement() {
   const handleSave = () => {
     console.log("Student Info:", studentInfo);
     console.log("Uploaded Records:", semesters);
-    alert(
+    toast.success(
       "Grades/marksheets saved successfully and reflected on student page!"
     );
   };

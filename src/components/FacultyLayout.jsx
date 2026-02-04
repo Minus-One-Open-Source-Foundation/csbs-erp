@@ -57,6 +57,18 @@ export default function FacultyLayout({ children }) {
         .content::-webkit-scrollbar-track { background: transparent; }
 
         @media(max-width:768px){ .layout-wrapper { flex-direction: column; } .content { padding: 12px; padding-top: calc(56px + 10px); } }
+
+        /* Desktop: Adjust content margin when sidebar is docked */
+        @media (min-width: 900px) {
+          .content {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+          }
+          /* Hide overlay on desktop since sidebar is always visible */
+          .overlay {
+            display: none;
+          }
+        }
       `}</style>
     </div>
   );

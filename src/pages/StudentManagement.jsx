@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import { FaSearch, FaTrash } from "react-icons/fa";
 import api from "../services/api";
 
@@ -57,7 +58,7 @@ export default function StudentManagement() {
 
     const submitReason = async () => {
     if (deleteReason.trim() === "") {
-      alert("Please enter a reason for deletion.");
+      toast.warning("Please enter a reason for deletion.");
       return;
     }
     
@@ -67,13 +68,13 @@ export default function StudentManagement() {
       console.log(
         `Student ${studentToDelete.name} deleted. Reason: ${deleteReason}`
       );
-      alert(`Student ${studentToDelete.name} has been successfully deleted.`);
+      toast.success(`Student ${studentToDelete.name} has been successfully deleted.`);
       setDeleteReason("");
       setStudentToDelete(null);
       setShowReasonPopup(false);
     } catch (err) {
       console.error('Error deleting student:', err);
-      alert('Failed to delete student. Please try again.');
+      toast.error('Failed to delete student. Please try again.');
     }
   };
 

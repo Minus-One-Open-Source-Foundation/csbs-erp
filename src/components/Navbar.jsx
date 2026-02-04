@@ -21,7 +21,7 @@ export default function Navbar({ onToggleSidebar }) {
             color="inherit"
             aria-label="open sidebar"
             onClick={onToggleSidebar}
-            sx={{ mr: 1, display: { xs: "inline-flex", md: "inline-flex" } }}
+            sx={{ mr: 1, display: { xs: "inline-flex", md: "none" } }} // Hide hamburger on desktop
           >
             <MenuIcon />
           </IconButton>

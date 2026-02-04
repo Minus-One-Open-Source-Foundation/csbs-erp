@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import { FaClock, FaCheck, FaTimes, FaSpinner, FaSearch } from "react-icons/fa";
 import { facultyAPI } from "../services/api";
 import bgImage from "../assets/bg.jpg";
@@ -38,10 +39,10 @@ export default function Reports() {
       setRequests(requests.filter(request => request.id !== eventId));
       
       // Show success message (you could use a toast notification here)
-      alert('Event approved successfully!');
+      toast.success('Event approved successfully!');
     } catch (err) {
       console.error('Error approving event:', err);
-      alert('Failed to approve event. Please try again.');
+      toast.error('Failed to approve event. Please try again.');
     } finally {
       setProcessingId(null);
     }
@@ -56,10 +57,10 @@ export default function Reports() {
       setRequests(requests.filter(request => request.id !== eventId));
       
       // Show success message (you could use a toast notification here)
-      alert('Event rejected successfully!');
+      toast.success('Event rejected successfully!');
     } catch (err) {
       console.error('Error rejecting event:', err);
-      alert('Failed to reject event. Please try again.');
+      toast.error('Failed to reject event. Please try again.');
     } finally {
       setProcessingId(null);
     }
@@ -194,10 +195,10 @@ export default function Reports() {
                           setProcessingId(req.id);
                           await facultyAPI.rejectEvent(req.id); // Call API to reject the event
                           setRequests(requests.filter(request => request.id !== req.id)); // Remove the card from current list
-                          alert('Event rejected successfully!');
+                          toast.success('Event rejected successfully!');
                         } catch (err) {
                           console.error('Error rejecting event:', err);
-                          alert('Failed to reject event. Please try again.');
+                          toast.error('Failed to reject event. Please try again.');
                         } finally {
                           setProcessingId(null);
                         }
@@ -220,10 +221,10 @@ export default function Reports() {
                           setProcessingId(req.id);
                           await facultyAPI.approveEvent(req.id); // Call API to approve the event
                           setRequests(requests.filter(request => request.id !== req.id)); // Remove the card from current list
-                          alert('Event approved successfully!');
+                          toast.success('Event approved successfully!');
                         } catch (err) {
                           console.error('Error approving event:', err);
-                          alert('Failed to approve event. Please try again.');
+                          toast.error('Failed to approve event. Please try again.');
                         } finally {
                           setProcessingId(null);
                         }
@@ -712,6 +713,40 @@ export default function Reports() {
         .search-input:focus {
           border-color: #3b82f6;
           box-shadow: 0 4px 12px rgba(59,130,246,0.3);
+        }
+
+        .filter-btn-group {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.7rem;
+        }
+
+        @media (max-width: 900px) {
+           .request-box {
+             flex-direction: column;
+           }
+           .request-box-inner {
+             flex-direction: column;
+             padding: 1.5rem;
+           }
+           .document-preview-box {
+             width: 100%;
+             height: 200px;
+             margin-left: 0;
+             margin-top: 1.5rem;
+           }
+           .action-buttons {
+             position: static;
+             margin-top: 1rem;
+             width: 100%;
+             justify-content: flex-end;
+           }
+           .request-content {
+             padding-right: 0;
+           }
+           .request-header {
+             padding-right: 0;
+           }
         }
 
         .reapprove-btn {

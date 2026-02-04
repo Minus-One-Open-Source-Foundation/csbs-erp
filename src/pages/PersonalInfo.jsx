@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import { profileAPI } from "../services/api";
 import { useAuth } from "../contexts/AuthContext";
 import bgImage from "../assets/bg.jpg";
@@ -101,7 +102,7 @@ export default function StudentProfile() {
           
           // Show specific error messages to help debug
           if (error.message.includes('Authentication required')) {
-            alert('Please log in again to access your profile.');
+            toast.error('Please log in again to access your profile.');
             // Optionally redirect to login
           } else if (error.message.includes('Profile not found')) {
             console.log('No existing profile found, starting with empty form');
@@ -233,14 +234,23 @@ export default function StudentProfile() {
 
   const handleSave = async () => {
     if (!user?.email) {
-      alert('Please log in to save profile');
+      toast.error('Please log in to save profile');
       return;
     }
 
     // Validate form before saving
     const validationErrors = validateForm();
     if (validationErrors.length > 0) {
-      alert('Please fix the following errors:\n\n' + validationErrors.join('\n'));
+      toast.error(
+        <div>
+          Please fix the following errors:
+          <ul>
+            {validationErrors.map((err, index) => (
+              <li key={index}>{err}</li>
+            ))}
+          </ul>
+        </div>
+      );
       return;
     }
 
@@ -333,7 +343,7 @@ export default function StudentProfile() {
       }
       
       console.log('=== SAVE SUCCESS ===');
-      alert("Profile saved successfully!");
+      toast.success("Profile saved successfully!");
       setIsEditing(false); // Exit edit mode after saving
       
       // Update the form with the response data from backend
@@ -382,7 +392,7 @@ export default function StudentProfile() {
       console.error('Error response data:', error.response?.data);
       console.error('Error response status:', error.response?.status);
       
-      alert("Failed to save profile: " + (error.message || 'Unknown error'));
+      toast.error("Failed to save profile: " + (error.message || 'Unknown error'));
     } finally {
       setSaving(false);
       console.log('=== PROFILE SAVE DEBUG END ===');
@@ -405,12 +415,12 @@ export default function StudentProfile() {
     const alternateEmail = prompt('Enter alternate account email:'); // Prompt user for alternate email
 
     if (!alternateEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(alternateEmail)) {
-      alert('Please enter a valid email address.');
+      toast.warning('Please enter a valid email address.');
       return;
     }
 
     // Simulate manual transfer request
-    alert(`Manual transfer initiated from ${currentEmail} to ${alternateEmail}`);
+    toast.info(`Manual transfer initiated from ${currentEmail} to ${alternateEmail}`);
 
     // Replace with actual API call logic
     console.log(`Manual transfer: Current Email - ${currentEmail}, Alternate Email - ${alternateEmail}`);
@@ -584,12 +594,12 @@ export default function StudentProfile() {
                 const destinationEmail = e.target.elements.destinationEmail.value;
 
                 if (!destinationEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(destinationEmail)) {
-                  alert('Please enter a valid email address.');
+                  toast.warning('Please enter a valid email address.');
                   return;
                 }
 
                 if (destinationEmail === info.email) {
-                  alert('New email cannot be the same as current email.');
+                  toast.warning('New email cannot be the same as current email.');
                   return;
                 }
 
@@ -616,7 +626,7 @@ export default function StudentProfile() {
                   userData.email = destinationEmail;
                   localStorage.setItem('userData', JSON.stringify(userData));
                   
-                  alert(`Account successfully transferred to ${destinationEmail}. Please log in again with your new email.`);
+                  toast.success(`Account successfully transferred to ${destinationEmail}. Please log in again with your new email.`);
                   
                   // Redirect to login page after a short delay
                   setTimeout(() => {
@@ -625,7 +635,7 @@ export default function StudentProfile() {
                   
                 } catch (error) {
                   console.error('Transfer failed:', error);
-                  alert(`Transfer failed: ${error.message || 'Unknown error occurred'}`);
+                  toast.error(`Transfer failed: ${error.message || 'Unknown error occurred'}`);
                 } finally {
                   setSaving(false);
                 }

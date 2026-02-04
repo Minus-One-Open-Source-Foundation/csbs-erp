@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import { 
   FaPlus, 
   FaCheckCircle, 
@@ -77,10 +78,10 @@ export default function FacultyInternshipsRequests() {
       await fetchInternshipRequests();
       
       // Show success message
-      alert('Internship approved successfully!');
+      toast.success('Internship approved successfully!');
     } catch (err) {
       console.error('Error approving internship:', err);
-      alert('Failed to approve internship. Please try again.');
+      toast.error('Failed to approve internship. Please try again.');
     } finally {
       setProcessingId(null);
     }
@@ -95,10 +96,10 @@ export default function FacultyInternshipsRequests() {
       await fetchInternshipRequests();
       
       // Show success message
-      alert('Internship rejected successfully!');
+      toast.success('Internship rejected successfully!');
     } catch (err) {
       console.error('Error rejecting internship:', err);
-      alert('Failed to reject internship. Please try again.');
+      toast.error('Failed to reject internship. Please try again.');
     } finally {
       setProcessingId(null);
     }

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import { FaTrophy, FaCheckCircle, FaExclamationCircle, FaFileAlt, FaSpinner, FaTimes } from "react-icons/fa";
 import { achievementAPI } from "../services/api";
 import bgImage from "../assets/bg.jpg";
@@ -128,14 +129,14 @@ export default function Achievements() {
   const saveAchievement = async () => {
     try {
       if (!formData.title.trim()) {
-        alert("Please enter a title!");
+        toast.warning("Please enter a title!");
         return;
       }
 
       setSubmitting(true);
       const userEmail = getUserEmail();
       if (!userEmail) {
-        alert('Please log in to submit an achievement');
+        toast.error('Please log in to submit an achievement');
         return;
       }
 
@@ -171,13 +172,13 @@ export default function Achievements() {
           description: "",
           image: null,
         });
-        alert('Achievement submitted successfully!');
+        toast.success('Achievement submitted successfully!');
       } else {
-        alert(response.message || 'Failed to submit achievement');
+        toast.error(response.message || 'Failed to submit achievement');
       }
     } catch (err) {
       console.error('Error submitting achievement:', err);
-      alert('Failed to submit achievement. Please try again.');
+      toast.error('Failed to submit achievement. Please try again.');
     } finally {
       setSubmitting(false);
     }
@@ -274,7 +275,7 @@ export default function Achievements() {
               onClick={() => {
                 console.log('Current user data:', localStorage.getItem('userData'));
                 console.log('Current token:', localStorage.getItem('token'));
-                alert('Check browser console for debug information');
+                toast.info('Check browser console for debug information');
               }} 
               style={{ padding: "0.5rem 1rem", background: "#6c757d", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}
             >

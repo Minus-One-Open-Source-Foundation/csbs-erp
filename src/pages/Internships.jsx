@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import {
   FaPlus,
   FaCheckCircle,
@@ -67,13 +68,13 @@ export default function Internships() {
       setSubmitting(true);
       const userEmail = getUserEmail();
       if (!userEmail) {
-        alert('Please log in to submit an internship');
+        toast.error('Please log in to submit an internship');
         return;
       }
 
       // Validate form data
       if (!formData.title || !formData.companyName || !formData.startDate || !formData.endDate || !formData.mode) {
-        alert('Please fill in all required fields');
+        toast.warning('Please fill in all required fields');
         return;
       }
 
@@ -107,13 +108,13 @@ export default function Internships() {
           mode: "",
           certificate: null,
         });
-        alert('Internship submitted successfully!');
+        toast.success('Internship submitted successfully!');
       } else {
-        alert(response.message || 'Failed to submit internship');
+        toast.error(response.message || 'Failed to submit internship');
       }
     } catch (err) {
       console.error('Error submitting internship:', err);
-      alert('Failed to submit internship. Please try again.');
+      toast.error('Failed to submit internship. Please try again.');
     } finally {
       setSubmitting(false);
     }

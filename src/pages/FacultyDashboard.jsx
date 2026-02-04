@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import bgImage from "../assets/bg.jpg";
 
@@ -62,7 +63,7 @@ export default function FacultyDashboard() {
 
   const handleAction = (id, action) => {
     setRequests((prev) => prev.filter((req) => req.id !== id));
-    alert(`Request ${action} successfully!`);
+    toast.success(`Request ${action} successfully!`);
   };
 
   return (

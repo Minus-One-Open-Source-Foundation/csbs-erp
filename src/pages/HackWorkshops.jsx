@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import { FaPlus, FaSearch, FaCheckCircle, FaExclamationCircle, FaFileAlt } from "react-icons/fa";
 import { eventsAPI } from "../services/api";
 import { useAuth } from "../contexts/AuthContext";
@@ -67,21 +68,21 @@ export default function HackWorkshops() {
 
   const handleAddEvent = async () => {
     if (!user?.email) {
-      alert('Please log in to add events');
+      toast.error('Please log in to add events');
       return;
     }
 
     // Validate required fields
     if (!formData.title.trim()) {
-      alert('Please enter a title');
+      toast.warning('Please enter a title');
       return;
     }
     if (!formData.description.trim()) {
-      alert('Please enter a description');
+      toast.warning('Please enter a description');
       return;
     }
     if (!formData.date) {
-      alert('Please select an event date');
+      toast.warning('Please select an event date');
       return;
     }
 
@@ -137,7 +138,7 @@ export default function HackWorkshops() {
         status: "Pending",
       });
 
-      alert('Event added successfully!');
+      toast.success('Event added successfully!');
     } catch (error) {
       console.error('Failed to add event:', error);
       console.error('Error details:', {
@@ -166,7 +167,7 @@ export default function HackWorkshops() {
         errorMessage += error.message || 'Please try again.';
       }
       
-      alert(errorMessage);
+      toast.error(errorMessage);
     }
   };
 

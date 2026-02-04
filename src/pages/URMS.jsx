@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import { FaUpload, FaDownload, FaTrash, FaFilePdf, FaPlus, FaEye, FaTimes, FaExternalLinkAlt } from "react-icons/fa";
 import { resumeAPI } from "../services/api";
 
@@ -141,11 +142,11 @@ export default function URMS() {
     const file = e.target.files[0];
     if (file) {
       if (file.type !== 'application/pdf') {
-        alert('Please select a PDF file only');
+        toast.warning('Please select a PDF file only');
         return;
       }
       if (file.size > 10 * 1024 * 1024) { // 10MB limit
-        alert('File size should be less than 10MB');
+        toast.warning('File size should be less than 10MB');
         return;
       }
       setUploadForm({...uploadForm, file});
@@ -156,12 +157,12 @@ export default function URMS() {
     e.preventDefault();
     
     if (!uploadForm.role.trim()) {
-      alert('Please select or enter a role');
+      toast.warning('Please select or enter a role');
       return;
     }
     
     if (!uploadForm.file) {
-      alert('Please select a PDF file');
+      toast.warning('Please select a PDF file');
       return;
     }
 
@@ -178,10 +179,10 @@ export default function URMS() {
       // Reload resumes
       await loadUserResumes();
       
-      alert('Resume uploaded successfully!');
+      toast.success('Resume uploaded successfully!');
     } catch (err) {
       console.error('Error uploading resume:', err);
-      alert('Failed to upload resume. Please try again.');
+      toast.error('Failed to upload resume. Please try again.');
     } finally {
       setUploading(false);
     }
@@ -215,7 +216,7 @@ export default function URMS() {
       console.error('Error loading resume for view:', err);
       setLoadingViewer(false);
       setShowResumeViewer(false);
-      alert('Failed to load resume for viewing. Please try downloading it instead.');
+      toast.error('Failed to load resume for viewing. Please try downloading it instead.');
     }
   };
 
@@ -228,7 +229,7 @@ export default function URMS() {
       window.open(downloadUrl, '_blank');
     } catch (err) {
       console.error('Error downloading resume:', err);
-      alert('Failed to download resume. Please try again.');
+      toast.error('Failed to download resume. Please try again.');
     }
   };
 
@@ -246,10 +247,10 @@ export default function URMS() {
       // Reload resumes
       await loadUserResumes();
       
-      alert('Resume deleted successfully');
+      toast.success('Resume deleted successfully');
     } catch (err) {
       console.error('Error deleting resume:', err);
-      alert('Failed to delete resume');
+      toast.error('Failed to delete resume');
     }
   };
 

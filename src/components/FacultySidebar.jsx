@@ -70,8 +70,8 @@ export default function FacultySidebar({ open = false, onClose }) {
           left: 0;
           top: 0;
           height: 100vh;
-          width: 238px;
-          min-width: 238px;
+          width: 250px;
+          min-width: 250px;
           background: linear-gradient(135deg,#667eea 0%,#764ba2 100%);
           color: #fff;
           display: flex;
@@ -82,8 +82,18 @@ export default function FacultySidebar({ open = false, onClose }) {
           transform: translateX(-102%);
           transition: transform .24s ease, box-shadow .24s ease;
           z-index: 1199;
+          padding-top: 80px; /* Space for navbar */
         }
         .sidebar-open { transform: translateX(0); box-shadow: 0 20px 60px rgba(0,0,0,0.35); }
+
+        /* Desktop: Docked sidebar */
+        @media (min-width: 900px) {
+          .sidebar {
+             transform: translateX(0);
+             box-shadow: none;
+             z-index: 1000;
+          }
+        }
 
         .sidebar-top { flex: 1; overflow-y: auto; }
 

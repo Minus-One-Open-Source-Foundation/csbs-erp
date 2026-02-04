@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import { FaTrophy, FaCheckCircle, FaTimesCircle, FaSpinner, FaUser, FaCalendar, FaFileAlt, FaImage, FaTimes, FaExclamationCircle } from "react-icons/fa";
 import { achievementAPI } from "../services/api";
 
@@ -75,15 +76,16 @@ export default function AchievementsRequest() {
       
       if (response.success) {
         console.log('✅ Achievement approved successfully');
+        toast.success('Achievement approved successfully');
         // Refresh the list
         await fetchAllAchievements();
       } else {
         console.error('❌ Failed to approve achievement:', response.message);
-        alert('Failed to approve achievement: ' + (response.message || 'Unknown error'));
+        toast.error('Failed to approve achievement: ' + (response.message || 'Unknown error'));
       }
     } catch (error) {
       console.error('💥 Error approving achievement:', error);
-      alert('Error approving achievement. Please try again.');
+      toast.error('Error approving achievement. Please try again.');
     } finally {
       setProcessingIds(prev => {
         const newSet = new Set(prev);
@@ -102,16 +104,16 @@ export default function AchievementsRequest() {
       const response = await achievementAPI.updateStatus(achievementId, 'REJECTED');
       
       if (response.success) {
-        console.log('✅ Achievement rejected successfully');
+        toast.success('Achievement rejected successfully');
         // Refresh the list
         await fetchAllAchievements();
       } else {
         console.error('❌ Failed to reject achievement:', response.message);
-        alert('Failed to reject achievement: ' + (response.message || 'Unknown error'));
+        toast.error('Failed to reject achievement: ' + (response.message || 'Unknown error'));
       }
     } catch (error) {
       console.error('💥 Error rejecting achievement:', error);
-      alert('Error rejecting achievement. Please try again.');
+      toast.error('Error rejecting achievement. Please try again.');
     } finally {
       setProcessingIds(prev => {
         const newSet = new Set(prev);
@@ -191,10 +193,10 @@ export default function AchievementsRequest() {
                   console.log('🧪 Test response status:', testResponse.status);
                   const testData = await testResponse.text();
                   console.log('🧪 Test response data:', testData);
-                  alert(`Backend test result: Status ${testResponse.status}\nCheck console for details`);
+                  toast.info(`Backend test result: Status ${testResponse.status}. Check console for details`);
                 } catch (err) {
                   console.error('🧪 Backend test failed:', err);
-                  alert(`Backend test failed: ${err.message}`);
+                  toast.error(`Backend test failed: ${err.message}`);
                 }
               }} 
               style={{ padding: "0.5rem 1rem", background: "#6c757d", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}
