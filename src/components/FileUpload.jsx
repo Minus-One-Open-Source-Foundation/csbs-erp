@@ -15,16 +15,7 @@ export default function FileUpload({ onFileSelect }) {
   return (
     <Paper
       elevation={4}
-      sx={{
-        border: "2px dashed #90caf9",
-        borderRadius: 3,
-        p: 4,
-        textAlign: "center",
-        bgcolor: "#f9fbff",
-        cursor: "pointer",
-        transition: "0.3s",
-        "&:hover": { borderColor: "#1976d2", bgcolor: "#f1f5ff" },
-      }}
+      className="border-2 border-dashed border-[#90caf9] rounded-xl p-8 text-center bg-[#f9fbff] cursor-pointer transition-all duration-300 hover:border-[#1976d2] hover:bg-[#f1f5ff]"
     >
       <Typography variant="h6" gutterBottom>
         📂 Upload File
@@ -36,7 +27,7 @@ export default function FileUpload({ onFileSelect }) {
       <Button
         variant="contained"
         component="label"
-        sx={{ mt: 2, borderRadius: 2 }}
+        className="mt-4 rounded-lg"
       >
         Choose File
         <input type="file" hidden onChange={handleFileChange} />

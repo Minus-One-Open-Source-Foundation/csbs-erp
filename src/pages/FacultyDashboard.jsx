@@ -67,52 +67,81 @@ export default function FacultyDashboard() {
   };
 
   return (
-    <div className="faculty-dashboard">
+    <div
+      className="min-h-[120vh] overflow-y-auto p-8 font-sans bg-cover bg-center bg-fixed relative"
+      style={{ backgroundImage: `url('${bgImage}')` }}
+    >
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-white/30 backdrop-blur-[6px] -z-[1]" />
+
       {/* Header */}
-      <header>
-        <h1>Faculty Dashboard</h1>
-        <p>
-          Signed in as: <span className="faculty-email">faculty@test.com</span>
+      <header className="text-center mb-10">
+        <h1 className="text-[2.2rem] font-bold text-slate-800 mb-2">Faculty Dashboard</h1>
+        <p className="text-slate-700">
+          Signed in as: <span className="font-semibold text-slate-900">faculty@test.com</span>
         </p>
       </header>
 
       {/* Dashboard Navigation */}
-      <div className="top-cards">
-        <div className="card" onClick={() => navigate("/faculty/students")}>
-          <h3>Student Management</h3>
-          <p>Manage student profiles</p>
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-6 mb-12 max-w-[1000px] mx-auto">
+        <div
+          className="bg-white/70 backdrop-blur-[20px] text-slate-800 p-7 rounded-[18px] text-center transition-all duration-300 shadow-[0_12px_48px_rgba(0,0,0,0.15)] cursor-pointer hover:-translate-y-1.5 hover:scale-[1.02] hover:shadow-[0_16px_60px_rgba(0,0,0,0.25)] max-md:p-5"
+          onClick={() => navigate("/faculty/students")}
+        >
+          <h3 className="text-[1.3rem] mb-3">Student Management</h3>
+          <p className="text-[0.95rem] text-gray-600">Manage student profiles</p>
         </div>
-        <div className="card" onClick={() => navigate("/faculty/grades")}>
-          <h3>Grade Management</h3>
-          <p>Review and update student performance</p>
+        <div
+          className="bg-white/70 backdrop-blur-[20px] text-slate-800 p-7 rounded-[18px] text-center transition-all duration-300 shadow-[0_12px_48px_rgba(0,0,0,0.15)] cursor-pointer hover:-translate-y-1.5 hover:scale-[1.02] hover:shadow-[0_16px_60px_rgba(0,0,0,0.25)] max-md:p-5"
+          onClick={() => navigate("/faculty/grades")}
+        >
+          <h3 className="text-[1.3rem] mb-3">Grade Management</h3>
+          <p className="text-[0.95rem] text-gray-600">Review and update student performance</p>
         </div>
-        <div className="card" onClick={() => navigate("/faculty/reports")}> 
-          <h3>Hackathons And Workshops Requests</h3>
-          <p>Manage all hackathon and workshop requests efficiently.</p>
+        <div
+          className="bg-white/70 backdrop-blur-[20px] text-slate-800 p-7 rounded-[18px] text-center transition-all duration-300 shadow-[0_12px_48px_rgba(0,0,0,0.15)] cursor-pointer hover:-translate-y-1.5 hover:scale-[1.02] hover:shadow-[0_16px_60px_rgba(0,0,0,0.25)] max-md:p-5"
+          onClick={() => navigate("/faculty/reports")}
+        >
+          <h3 className="text-[1.3rem] mb-3">Hackathons And Workshops Requests</h3>
+          <p className="text-[0.95rem] text-gray-600">Manage all hackathon and workshop requests efficiently.</p>
         </div>
       </div>
 
       {/* Current Placement Drive Section */}
-      <h2 className="placement-title">Current Placement Drive - On Campus</h2>
-      <div className="placement-container">
-        <div className="carousel-viewport">
-          <div className="carousel-stack">
-            <div className={`carousel-slide current${animating ? ' animating' : ''}`}
-              style={animating ? { transform: 'translateX(-100%)' } : { transform: 'translateX(0)' }}>
+      <h2 className="text-center text-2xl font-semibold mt-8 mb-4 text-slate-800">Current Placement Drive - On Campus</h2>
+      <div
+        className="w-[1000px] max-w-full mx-auto mb-10 rounded-[18px] border-[1.5px] border-white/25 py-10 px-10 min-h-[240px] flex items-center justify-center"
+        style={{
+          background: "rgba(200, 200, 200, 0.35)",
+          backdropFilter: "blur(16px)",
+          boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.18), 0 1.5px 8px 0 rgba(255,255,255,0.25) inset",
+        }}
+      >
+        <div className="w-full overflow-hidden relative h-[140px] flex items-center justify-center">
+          <div className="w-full h-full relative flex items-center justify-center">
+            <div
+              className="flex gap-6 w-4/5 min-w-0 absolute top-[-6%] left-[12%] justify-center transition-transform duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)]"
+              style={{
+                transform: animating ? 'translateX(-100%)' : 'translateX(0)',
+                zIndex: animating ? 1 : 2,
+              }}
+            >
               {placementCards.slice(carouselIndex, carouselIndex + 1).map((card, idx) => (
-                <div className="placement-card" key={idx}>
-                  <img src={card.logo} alt="Company Logo" className="company-logo" />
-                  <div className="company-name">{card.company}</div>
+                <div className="bg-white rounded-[14px] shadow-[0_4px_24px_rgba(0,0,0,0.08)] py-10 px-10 flex flex-col items-center w-full max-w-full min-w-0 transition-shadow duration-300" key={idx}>
+                  <img src={card.logo} alt="Company Logo" className="w-[120px] h-[120px] object-contain mb-5 -mt-6" />
+                  <div className="font-bold text-slate-800 text-2xl text-center">{card.company}</div>
                 </div>
               ))}
             </div>
             {showNext && (
-              <div className="carousel-slide next animating"
-                style={{ transform: animating ? 'translateX(0)' : 'translateX(100%)' }}>
+              <div
+                className="flex gap-6 w-4/5 min-w-0 absolute top-[-6%] left-[12%] justify-center transition-transform duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)] z-[2]"
+                style={{ transform: animating ? 'translateX(0)' : 'translateX(100%)' }}
+              >
                 {placementCards.slice((carouselIndex + 1) % placementCards.length, (carouselIndex + 2) % placementCards.length).map((card, idx) => (
-                  <div className="placement-card" key={idx}>
-                    <img src={card.logo} alt="Company Logo" className="company-logo" />
-                    <div className="company-name">{card.company}</div>
+                  <div className="bg-white rounded-[14px] shadow-[0_4px_24px_rgba(0,0,0,0.08)] py-10 px-10 flex flex-col items-center w-full max-w-full min-w-0 transition-shadow duration-300" key={idx}>
+                    <img src={card.logo} alt="Company Logo" className="w-[120px] h-[120px] object-contain mb-5 -mt-6" />
+                    <div className="font-bold text-slate-800 text-2xl text-center">{card.company}</div>
                   </div>
                 ))}
               </div>
@@ -122,190 +151,10 @@ export default function FacultyDashboard() {
       </div>
 
       {/* Requests Section */}
-      <div className="dashboard-wrapper">
-        <style>{`
-          .faculty-dashboard {
-            min-height: 120vh;
-            overflow-y: auto;
-            padding: 2rem;
-            font-family: 'Inter', sans-serif;
-            background: url('${bgImage}') no-repeat center center fixed;
-            background-size: cover;
-            position: relative;
-          }
-
-          /* Overlay */
-          .faculty-dashboard::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(6px);
-            z-index: -1;
-          }
-
-          /* Header */
-          header {
-            text-align: center;
-            margin-bottom: 2.5rem;
-          }
-          header h1 {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 0.5rem;
-          }
-          header p {
-            color: #334155;
-          }
-          .faculty-email {
-            font-weight: 600;
-            color: #0f172a;
-          }
-
-          /* Navigation Cards */
-          .top-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-            max-width: 1000px;
-            margin-left: auto;
-            margin-right: auto;
-          }
-          .card {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px);
-            color: #1e293b;
-            padding: 1.8rem;
-            border-radius: 18px;
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
-            cursor: pointer;
-          }
-          .card:hover {
-            transform: translateY(-6px) scale(1.02);
-            box-shadow: 0 16px 60px rgba(0, 0, 0, 0.25);
-          }
-          .card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.8rem;
-          }
-          .card p {
-            font-size: 0.95rem;
-            color: #374151;
-          }
-
-          /* Current Placement Drive Section */
-          .placement-title {
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-            color: #1e293b;
-          }
-          .placement-container {
-            width: 1000px;
-            max-width: 100%;
-            margin: 0 auto 2.5rem auto;
-            background: rgba(200, 200, 200, 0.35); /* glassy grey */
-            backdrop-filter: blur(16px);
-            border-radius: 18px;
-            border: 1.5px solid rgba(255,255,255,0.25);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18), 0 1.5px 8px 0 rgba(255,255,255,0.25) inset;
-            padding: 2.5rem 2.5rem;
-            min-height: 240px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          }
-          .carousel-viewport {
-            width: 100%;
-            overflow: hidden;
-            position: relative;
-            height: 140px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          }
-          .carousel-stack {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          }
-          .carousel-slide {
-            display: flex;
-            gap: 1.5rem;
-            width: 80%;
-            min-width: 0;
-            position: absolute;
-            top: -6%;
-            left: 12%;
-            transform: translate(-50%, -50%);
-            transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
-            justify-content: center;
-          }
-          .carousel-slide.next.animating {
-            z-index: 2;
-          }
-          .carousel-slide.current.animating {
-            z-index: 1;
-          }
-          .placement-card {
-            background: #fff;
-            border-radius: 14px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-            padding: 2.5rem 2.5rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            max-width: 100%;
-            min-width: 0;
-            transition: box-shadow 0.3s;
-          }
-          .placement-card .company-logo {
-            width: 120px;
-            height: 120px;
-            object-fit: contain;
-            margin-bottom: 1.2rem;
-            margin-top: -24px;
-          }
-          .placement-card .company-name {
-            font-weight: 700;
-            color: #1e293b;
-            font-size: 1.5rem;
-            text-align: center;
-          }
-
-          /* Requests Section */
-          .dashboard-wrapper {
-            min-height: 100vh;
-            overflow: visible;
-            padding: 2rem;
-            font-family: 'Inter', sans-serif;
-            background: url('${bgImage}') no-repeat center center fixed;
-            background-size: cover;
-            color: #111;
-          }
-
-          @media (max-width: 768px) {
-            .card {
-              padding: 1.2rem;
-            }
-            header h1 {
-              font-size: 1.6rem;
-            }
-          }
-        `}</style>
+      <div
+        className="min-h-screen overflow-visible p-8 font-sans text-gray-900 bg-cover bg-center bg-fixed"
+        style={{ backgroundImage: `url('${bgImage}')` }}
+      >
       </div>
     </div>
   );

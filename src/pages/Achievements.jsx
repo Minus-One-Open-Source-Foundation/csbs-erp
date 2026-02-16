@@ -6,7 +6,7 @@ import bgImage from "../assets/bg.jpg";
 
 export default function Achievements() {
   console.log('🎯 Achievements component initialized');
-  
+
   const [achievements, setAchievements] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -56,7 +56,7 @@ export default function Achievements() {
     const initializeComponent = async () => {
       // First test backend connectivity
       const isBackendReachable = await testBackendConnection();
-      
+
       if (isBackendReachable) {
         fetchUserAchievements();
       } else {
@@ -73,7 +73,7 @@ export default function Achievements() {
       setLoading(true);
       const userEmail = getUserEmail();
       console.log('Fetching achievements for user:', userEmail);
-      
+
       if (!userEmail) {
         setError('Please log in to view your achievements');
         return;
@@ -81,14 +81,14 @@ export default function Achievements() {
 
       const userAchievements = await achievementAPI.getUserAchievements(userEmail);
       console.log('Fetched achievements:', userAchievements);
-      
+
       if (userAchievements && userAchievements.length > 0) {
         // Debug: Log all achievement categories
         const categories = userAchievements.map(ach => ach.category);
         console.log('🏷️ Achievement categories found:', categories);
         console.log('📋 Sample achievement data:', userAchievements[0]);
       }
-      
+
       setAchievements(userAchievements);
       setError(null);
     } catch (err) {
@@ -99,7 +99,7 @@ export default function Achievements() {
         status: err.response?.status,
         statusText: err.response?.statusText
       });
-      
+
       // More specific error messages
       if (err.response?.status === 404) {
         setError('Achievement service not found. Please check if the backend server is running.');
@@ -146,7 +146,7 @@ export default function Achievements() {
       submitData.append('category', formData.category);
       submitData.append('description', formData.description);
       submitData.append('userEmail', userEmail);
-      
+
       if (formData.image) {
         submitData.append('image', formData.image);
       }
@@ -161,7 +161,7 @@ export default function Achievements() {
 
       // Submit to backend
       const response = await achievementAPI.createAchievement(submitData);
-      
+
       if (response.success) {
         // Refresh the achievements list
         await fetchUserAchievements();
@@ -190,12 +190,12 @@ export default function Achievements() {
       const searchMatch = ach.title.toLowerCase().includes(search.toLowerCase()) ||
         ach.category.toLowerCase().includes(search.toLowerCase()) ||
         (ach.description && ach.description.toLowerCase().includes(search.toLowerCase()));
-      
+
       // Debug logging for filtering
       if (activeCategory !== "All") {
         console.log(`🔍 Filtering: "${ach.title}" - Category: "${ach.category}" vs Active: "${activeCategory}" - Match: ${categoryMatch}`);
       }
-      
+
       return categoryMatch && searchMatch;
     }
   );
@@ -208,7 +208,7 @@ export default function Achievements() {
     "All": "All",
     "SYMPOSIUM": "Symposium",
     "ACADEMIC": "Academic",
-    "CERTIFICATIONS": "Certifications", 
+    "CERTIFICATIONS": "Certifications",
     "OTHERS": "Others"
   };
 
@@ -223,11 +223,14 @@ export default function Achievements() {
 
   if (loading) {
     return (
-      <div className="achievements-wrapper">
-        <div style={{ textAlign: "center", padding: "3rem", background: "rgba(255,255,255,0.9)", borderRadius: "8px", margin: "2rem auto", maxWidth: "400px" }}>
-          <FaSpinner className="spinner" style={{ fontSize: "2rem", color: "#007bff" }} />
-          <p style={{ fontSize: "1.1rem", color: "#495057", margin: "1rem 0 0.5rem 0" }}>Loading your achievements...</p>
-          <div style={{ fontSize: "0.9rem", color: "#6c757d" }}>
+      <div
+        className="min-h-screen py-12 px-8 bg-cover bg-center bg-fixed font-sans flex flex-col items-center"
+        style={{ backgroundImage: `url('${bgImage}')` }}
+      >
+        <div className="text-center p-12 bg-white/90 rounded-lg mx-auto max-w-[400px]">
+          <FaSpinner className="animate-spin text-[2rem] text-blue-600 mx-auto" />
+          <p className="text-[1.1rem] text-gray-600 mt-4 mb-2">Loading your achievements...</p>
+          <div className="text-[0.9rem] text-gray-500">
             Connecting to server and fetching your data
           </div>
         </div>
@@ -237,14 +240,17 @@ export default function Achievements() {
 
   if (error) {
     return (
-      <div className="achievements-wrapper">
-        <div style={{ textAlign: "center", padding: "3rem", background: "rgba(255,255,255,0.9)", borderRadius: "8px", margin: "2rem auto", maxWidth: "600px" }}>
-          <h2 style={{ color: "#dc3545", marginBottom: "1rem" }}>⚠️ Connection Error</h2>
-          <p style={{ color: "#dc3545", fontSize: "1.1rem", marginBottom: "1rem" }}>{error}</p>
-          
-          <div style={{ background: "#f8f9fa", padding: "1rem", borderRadius: "4px", marginBottom: "1rem", textAlign: "left" }}>
-            <h4 style={{ margin: "0 0 0.5rem 0", color: "#495057" }}>🔧 Troubleshooting:</h4>
-            <ul style={{ margin: 0, paddingLeft: "1.5rem", color: "#6c757d" }}>
+      <div
+        className="min-h-screen py-12 px-8 bg-cover bg-center bg-fixed font-sans flex flex-col items-center"
+        style={{ backgroundImage: `url('${bgImage}')` }}
+      >
+        <div className="text-center p-12 bg-white/90 rounded-lg mx-auto max-w-[600px]">
+          <h2 className="text-red-600 mb-4">⚠️ Connection Error</h2>
+          <p className="text-red-600 text-[1.1rem] mb-4">{error}</p>
+
+          <div className="bg-gray-100 p-4 rounded mb-4 text-left">
+            <h4 className="m-0 mb-2 text-gray-700">🔧 Troubleshooting:</h4>
+            <ul className="m-0 pl-6 text-gray-500">
               <li>Check if the backend server is running</li>
               <li>Verify backend URL: <code>{import.meta.env.VITE_API_URL || 'Configured API URL'}</code></li>
               <li>Check browser console for detailed error logs</li>
@@ -252,8 +258,8 @@ export default function Achievements() {
             </ul>
           </div>
 
-          <div style={{ display: "flex", gap: "1rem", justifyContent: "center" }}>
-            <button 
+          <div className="flex gap-4 justify-center">
+            <button
               onClick={() => {
                 console.log('🔄 Retrying connection...');
                 setError(null);
@@ -266,18 +272,18 @@ export default function Achievements() {
                   }
                 };
                 initializeComponent();
-              }} 
-              style={{ padding: "0.5rem 1rem", background: "#007bff", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}
+              }}
+              className="py-2 px-4 bg-blue-600 text-white border-none rounded cursor-pointer"
             >
               🔄 Retry Connection
             </button>
-            <button 
+            <button
               onClick={() => {
                 console.log('Current user data:', localStorage.getItem('userData'));
                 console.log('Current token:', localStorage.getItem('token'));
                 toast.info('Check browser console for debug information');
-              }} 
-              style={{ padding: "0.5rem 1rem", background: "#6c757d", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}
+              }}
+              className="py-2 px-4 bg-gray-500 text-white border-none rounded cursor-pointer"
             >
               🐛 Debug Info
             </button>
@@ -288,32 +294,44 @@ export default function Achievements() {
   }
 
   return (
-    <div className="achievements-wrapper">
-      <h1>Achievements</h1>
-      <p>Add and manage your Symposium Achievements, Academic Certifications</p>
+    <div
+      className="min-h-screen py-12 px-8 bg-cover bg-center bg-fixed font-sans flex flex-col items-center"
+      style={{ backgroundImage: `url('${bgImage}')` }}
+    >
+      <h1 className="text-2xl font-bold text-black mb-2">Achievements</h1>
+      <p className="text-gray-500 mb-6 text-center">Add and manage your Symposium Achievements, Academic Certifications</p>
 
       {/* Top Controls */}
-      <div className="top-controls">
+      <div className="flex flex-col items-stretch gap-10">
         <input
           type="text"
           placeholder="Search achievements..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="search-bar"
+          className="w-full max-w-[700px] py-4 px-5 rounded-[30px] border-none outline-none text-[1.1rem] text-white placeholder:text-white placeholder:opacity-80"
+          style={{ background: "linear-gradient(90deg, #a18cd1, #fbc2eb)" }}
         />
 
-        <div className="category-row">
+        <div className="flex gap-2.5 flex-wrap items-center">
           {categories.map((cat) => (
             <button
               key={cat}
-              className={`category-btn ${activeCategory === cat ? "active" : ""}`}
+              className={`py-2.5 px-3.5 rounded-[14px] border cursor-pointer text-[0.9rem] font-medium transition-all duration-200 ${activeCategory === cat
+                  ? "text-white border-transparent"
+                  : "bg-white text-black border-gray-300"
+                }`}
+              style={activeCategory === cat ? { background: "linear-gradient(90deg, #ff6a00, #ee0979)" } : {}}
               onClick={() => setActiveCategory(cat)}
             >
               {categoryLabels[cat]}
             </button>
           ))}
 
-          <button className="add-btn" onClick={() => setShowForm(true)}>
+          <button
+            className="py-3 px-5 text-white font-semibold border-none rounded-[30px] cursor-pointer"
+            style={{ background: "linear-gradient(90deg, #ff6a00, #ee0979)" }}
+            onClick={() => setShowForm(true)}
+          >
             + Add Achievement
           </button>
         </div>
@@ -321,8 +339,14 @@ export default function Achievements() {
 
       {/* Modal Form */}
       {showForm && (
-        <div className="modal-overlay" onClick={() => setShowForm(false)}>
-          <div className="form-card" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="fixed inset-0 bg-black/50 flex justify-center items-center z-[1000]"
+          onClick={() => setShowForm(false)}
+        >
+          <div
+            className="bg-white p-6 rounded-xl shadow-[0_8px_20px_rgba(0,0,0,0.2)] flex flex-col gap-3 w-[90%] max-w-[500px]"
+            onClick={(e) => e.stopPropagation()}
+          >
             <h2>Add Achievement</h2>
 
             <input
@@ -331,9 +355,10 @@ export default function Achievements() {
               placeholder="Achievement Title"
               value={formData.title}
               onChange={handleChange}
+              className="p-3 border border-gray-300 rounded-lg text-base"
             />
 
-            <select name="category" value={formData.category} onChange={handleChange}>
+            <select name="category" value={formData.category} onChange={handleChange} className="p-3 border border-gray-300 rounded-lg text-base">
               <option value="SYMPOSIUM">Symposium</option>
               <option value="ACADEMIC">Academic</option>
               <option value="CERTIFICATIONS">Certifications</option>
@@ -346,6 +371,7 @@ export default function Achievements() {
               value={formData.description}
               onChange={handleChange}
               rows={4}
+              className="p-3 border border-gray-300 rounded-lg text-base"
             />
 
             <input
@@ -353,24 +379,26 @@ export default function Achievements() {
               name="image"
               accept="image/*,application/pdf"
               onChange={handleFileChange}
+              className="p-3 border border-gray-300 rounded-lg text-base"
             />
 
-            <div className="form-actions">
-              <button 
+            <div className="flex gap-3 justify-end">
+              <button
                 onClick={saveAchievement}
                 disabled={submitting}
+                className="py-2.5 px-5 text-white border-none rounded-lg cursor-pointer font-semibold flex items-center gap-2 disabled:cursor-not-allowed"
                 style={{
-                  background: submitting ? '#ccc' : 'linear-gradient(90deg,#ff6a00,#ee0979)',
-                  cursor: submitting ? 'not-allowed' : 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
+                  background: submitting ? '#ccc' : 'linear-gradient(90deg, #ff6a00, #ee0979)',
                 }}
               >
-                {submitting && <FaSpinner className="spinner" />}
+                {submitting && <FaSpinner className="animate-spin" />}
                 {submitting ? 'Submitting...' : 'Submit'}
               </button>
-              <button className="cancel-btn" onClick={() => setShowForm(false)} disabled={submitting}>
+              <button
+                className="bg-white text-black border border-gray-300 rounded-lg py-2.5 px-5 cursor-pointer"
+                onClick={() => setShowForm(false)}
+                disabled={submitting}
+              >
                 Cancel
               </button>
             </div>
@@ -379,31 +407,24 @@ export default function Achievements() {
       )}
 
       {/* Achievements List */}
-      <div className="achievements-list">
+      <div className="w-full max-w-[1900px] flex flex-col gap-5 mt-5">
         {filteredAchievements.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '3rem', background: 'rgba(255,255,255,0.9)', borderRadius: '8px' }}>
+          <div className="text-center p-12 bg-white/90 rounded-lg">
             {search ? (
               <div>
-                <p style={{ fontSize: '1.1rem', color: '#666', marginBottom: '0.5rem' }}>
+                <p className="text-[1.1rem] text-gray-500 mb-2">
                   No achievements found matching "{search}"
                 </p>
-                <button 
-                  onClick={() => setSearch("")} 
-                  style={{ 
-                    background: '#007bff', 
-                    color: 'white', 
-                    border: 'none', 
-                    padding: '0.5rem 1rem', 
-                    borderRadius: '4px', 
-                    cursor: 'pointer' 
-                  }}
+                <button
+                  onClick={() => setSearch("")}
+                  className="bg-blue-600 text-white border-none py-2 px-4 rounded cursor-pointer"
                 >
                   Clear Search
                 </button>
               </div>
             ) : (
-              <p style={{ fontSize: '1.1rem', color: '#666' }}>
-                {activeCategory === 'All' 
+              <p className="text-[1.1rem] text-gray-500">
+                {activeCategory === 'All'
                   ? 'No achievements found. Click "Add Achievement" to create your first achievement entry.'
                   : `No ${categoryLabels[activeCategory].toLowerCase()} achievements found.`
                 }
@@ -412,51 +433,52 @@ export default function Achievements() {
           </div>
         ) : (
           filteredAchievements.map((ach) => (
-            <div key={ach.id} className="achievement-card">
-              <div className="ach-text">
-                <div className="category-btn-display">{categoryLabels[ach.category] || ach.category}</div>
-                <strong>{ach.title}</strong>
-                <div className="ach-date">{formatDate(ach.createdAt)}</div>
-                <div className="ach-description">{ach.description}</div>
+            <div key={ach.id} className="bg-[#f9f9f9] p-5 rounded-xl flex justify-between items-start shadow-[0_4px_15px_rgba(0,0,0,0.1)] min-h-[140px]">
+              <div className="flex flex-col gap-1.5">
+                <div className="inline-block py-2 px-4 border-2 border-[#ff6a00] rounded-xl text-[#ff6a00] text-[0.9rem] font-semibold bg-transparent cursor-default mb-2">
+                  {categoryLabels[ach.category] || ach.category}
+                </div>
+                <strong className="text-[#3a3aee] text-base">{ach.title}</strong>
+                <div className="text-gray-500 text-[0.9rem] font-normal mb-2.5">{formatDate(ach.createdAt)}</div>
+                <div className="text-black text-base">{ach.description}</div>
                 {ach.imageFilename && (
-                  <div style={{ fontSize: '0.9rem', color: '#666', marginTop: '0.5rem' }}>
+                  <div className="text-[0.9rem] text-gray-500 mt-2">
                     <strong>File:</strong> {ach.imageFilename}
                   </div>
                 )}
               </div>
 
               {/* Right-side container */}
-              <div className="right-side">
-                <div className={`status-box ${
-                  ach.status === "APPROVED" ? "approved" : 
-                  ach.status === "REJECTED" ? "rejected" : "pending"
-                }`}>
+              <div className="flex flex-col items-center gap-3">
+                <div className={`font-bold text-[0.95rem] ${ach.status === "APPROVED" ? "text-green-500" :
+                    ach.status === "REJECTED" ? "text-red-500" : "text-orange-500"
+                  }`}>
                   {ach.status === "APPROVED" ? (
                     <span>
-                      <FaCheckCircle style={{ marginRight: "4px" }} /> Approved
+                      <FaCheckCircle className="inline mr-1" /> Approved
                     </span>
                   ) : ach.status === "REJECTED" ? (
                     <span>
-                      <FaTimes style={{ marginRight: "4px" }} /> Rejected
+                      <FaTimes className="inline mr-1" /> Rejected
                     </span>
                   ) : (
                     <span>
-                      <FaExclamationCircle style={{ marginRight: "4px" }} /> Pending
+                      <FaExclamationCircle className="inline mr-1" /> Pending
                     </span>
                   )}
                 </div>
 
-                <div className="file-preview">
+                <div className="w-[140px] h-[140px] flex items-center justify-center">
                   {ach.imageUrl ? (
                     <img
                       src={ach.imageUrl}
                       alt="Achievement Image"
-                      className="file-image"
+                      className="w-full h-full object-cover rounded-lg cursor-pointer"
                       onClick={() => window.open(ach.imageUrl, "_blank")}
                     />
                   ) : (
-                    <div className="file-placeholder">
-                      <FaFileAlt style={{ fontSize: "2rem", color: "#a18cd1" }} />
+                    <div className="flex flex-col items-center justify-center gap-1">
+                      <FaFileAlt className="text-[2rem] text-[#a18cd1]" />
                       <span>No Image</span>
                     </div>
                   )}
@@ -466,58 +488,6 @@ export default function Achievements() {
           ))
         )}
       </div>
-
-      {/* Styles */}
-      <style>{`
-        .achievements-wrapper { min-height: 100vh; padding: 3rem 2rem; background: url('${bgImage}') no-repeat center center fixed; background-size: cover; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: center; }
-        h1 { font-size: 2rem; font-weight: 700; color: #000; margin-bottom: 0.5rem; }
-        p { color: #555; margin-bottom: 1.5rem; text-align: center; }
-
-        .top-controls { display: flex; flex-direction: column; align-items: stretch; gap: 40px; }
-        .search-bar { width: 100%; max-width: 700px; padding: 16px 20px; border-radius: 30px; border: none; outline: none; font-size: 1.1rem; background: linear-gradient(90deg,#a18cd1,#fbc2eb); color: #fff; }
-        .search-bar::placeholder { color: #fff; opacity: 0.8; }
-        .category-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-
-        .category-btn { padding: 10px 14px; border-radius: 14px; border: 1px solid #ccc; background: #fff; color: #000; cursor: pointer; font-size: 0.9rem; font-weight: 500; transition: 0.2s; }
-        .category-btn.active { background: linear-gradient(90deg,#ff6a00,#ee0979); color: #fff; }
-
-        .category-btn-display { display: inline-block; padding: 8px 16px; border: 2px solid #ff6a00; border-radius: 12px; color: #ff6a00; font-size: 0.9rem; font-weight: 600; background: transparent; cursor: default; margin-bottom: 8px; }
-
-        .add-btn { padding: 12px 20px; background: linear-gradient(90deg,#ff6a00,#ee0979); color: #fff; font-weight: 600; border: none; border-radius: 30px; cursor: pointer; }
-
-        .achievements-list { width: 100%; max-width: 1900px; display: flex; flex-direction: column; gap: 20px; margin-top: 20px; }
-        .achievement-card { background: #f9f9f9; padding: 20px; border-radius: 12px; display: flex; justify-content: space-between; align-items: flex-start; box-shadow: 0 4px 15px rgba(0,0,0,0.1); min-height: 140px; }
-        .ach-text { display: flex; flex-direction: column; gap: 6px; }
-        .ach-date { color: #777; font-size: 0.9rem; font-weight: 400; margin-bottom: 10px; }
-        .ach-description { color: #000; font-size: 1rem; }
-        .ach-text strong { color: #3a3aee; font-size: 1rem; }
-
-        .right-side { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-        .file-preview { width: 140px; height: 140px; display: flex; align-items: center; justify-content: center; }
-        .file-image { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; cursor: pointer; }
-        .file-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
-
-        .status-box { font-weight: bold; font-size: 0.95rem; }
-        .status-box.approved { color: #4CAF50; }
-        .status-box.pending { color: #FF9800; }
-        .status-box.rejected { color: #f44336; }
-        
-        .spinner {
-          animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-
-        /* Modal Styles */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000; }
-        .form-card { background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.2); display: flex; flex-direction: column; gap: 12px; width: 90%; max-width: 500px; }
-        .form-card input, .form-card select, .form-card textarea { padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; }
-        .form-actions { display: flex; gap: 12px; justify-content: flex-end; }
-        .form-actions button:first-child { background: linear-gradient(90deg,#ff6a00,#ee0979); color: #fff; border: none; border-radius: 8px; cursor: pointer; padding: 10px 20px; }
-        .cancel-btn { background: #ffffff; color: #000; border: 1px solid #ccc; border-radius: 8px; padding: 10px 20px; cursor: pointer; }
-      `}</style>
     </div>
   );
 }

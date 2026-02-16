@@ -40,7 +40,7 @@ export default function Login() {
     try {
       const userData = await login(form.email, form.password);
       setFeedback({ text: "Login successful — redirecting...", type: "success" });
-      
+
       // Role-based redirection
       setTimeout(() => {
         if (userData?.role === "FACULTY" || userData?.role === "faculty") {
@@ -50,9 +50,9 @@ export default function Login() {
         }
       }, 900);
     } catch (error) {
-      setFeedback({ 
-        text: error.response?.data?.message || error.message || "Login failed. Please check your credentials.", 
-        type: "error" 
+      setFeedback({
+        text: error.response?.data?.message || error.message || "Login failed. Please check your credentials.",
+        type: "error"
       });
     } finally {
       setLoading(false);
@@ -60,52 +60,67 @@ export default function Login() {
   };
 
   return (
-    <div className="auth-wrapper">
-      <form className="auth-card animate-card" onSubmit={handleSubmit} autoComplete="off" noValidate>
-        <h1 className="title animate-fade-in">Welcome Back</h1>
-        <p className="subtitle">Sign in to access your dashboard</p>
+    <div
+      className="min-h-screen flex items-center justify-center p-8 font-sans bg-[length:800%_800%,cover] bg-center bg-fixed animate-gradient-move"
+      style={{
+        backgroundImage: `linear-gradient(270deg, rgba(142,197,252,0.75), rgba(224,195,252,0.75), rgba(240,244,248,0.75), rgba(207,217,223,0.75)), url("${bgImage}")`,
+      }}
+    >
+      <form
+        className="w-full max-w-[420px] bg-[rgba(255,255,255,0.85)] backdrop-blur-[12px] backdrop-saturate-[120%] rounded-[18px] p-[2.4rem] shadow-[0_18px_50px_rgba(0,0,0,0.1)] flex flex-col gap-[0.9rem] text-[#2c3e50] animate-fade-in max-[520px]:p-[1.6rem] max-[520px]:rounded-[14px]"
+        onSubmit={handleSubmit}
+        autoComplete="off"
+        noValidate
+      >
+        <h1 className="m-0 text-center text-[1.9rem] font-bold text-[#2c3e50] max-[520px]:text-[1.6rem]">Welcome Back</h1>
+        <p className="m-0 text-center text-[#4f5d75] text-[0.98rem] mb-[0.6rem]">Sign in to access your dashboard</p>
 
-        <label className="label">Email</label>
+        <label className="text-[0.95rem] mt-[0.6rem] mb-[0.35rem] font-semibold text-[#2c3e50]">Email</label>
         <input
           name="email"
           type="email"
           value={form.email}
           onChange={handleChange}
           placeholder="you@example.com"
-          className={errors.email ? "input input-error shake" : "input"}
+          className={`w-full py-[0.9rem] px-4 rounded-xl border bg-[rgba(240,244,248,0.95)] text-[#2c3e50] text-base outline-none transition-[box-shadow,transform] duration-200 placeholder:text-[#7d8ca3] focus:shadow-[0_6px_18px_rgba(0,0,0,0.1)] focus:-translate-y-px focus:border-[#a1b5d8] ${errors.email ? "border-[#fc5c7d] animate-shake" : "border-[rgba(200,217,223,0.7)]"}`}
           disabled={loading}
         />
-        {errors.email && <div className="field-error">{errors.email}</div>}
+        {errors.email && <div className="text-[#b00020] text-[0.86rem] mt-[0.35rem]">{errors.email}</div>}
 
-        <label className="label">Password</label>
-        <div className="password-row">
+        <label className="text-[0.95rem] mt-[0.6rem] mb-[0.35rem] font-semibold text-[#2c3e50]">Password</label>
+        <div className="relative flex items-center gap-[0.6rem]">
           <input
             name="password"
             type={showPassword ? "text" : "password"}
             value={form.password}
             onChange={handleChange}
             placeholder="At least 8 characters"
-            className={errors.password ? "input input-error shake" : "input"}
+            className={`w-full py-[0.9rem] px-4 rounded-xl border bg-[rgba(240,244,248,0.95)] text-[#2c3e50] text-base outline-none transition-[box-shadow,transform] duration-200 placeholder:text-[#7d8ca3] focus:shadow-[0_6px_18px_rgba(0,0,0,0.1)] focus:-translate-y-px focus:border-[#a1b5d8] ${errors.password ? "border-[#fc5c7d] animate-shake" : "border-[rgba(200,217,223,0.7)]"}`}
             disabled={loading}
           />
           <button
             type="button"
-            className="toggle-btn"
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-transparent border-none text-[#2c3e50] font-semibold cursor-pointer py-[0.15rem] px-[0.6rem] rounded-lg"
             onClick={() => setShowPassword((s) => !s)}
             aria-label={showPassword ? "Hide password" : "Show password"}
           >
             {showPassword ? "Hide" : "Show"}
           </button>
         </div>
-        {errors.password && <div className="field-error">{errors.password}</div>}
+        {errors.password && <div className="text-[#b00020] text-[0.86rem] mt-[0.35rem]">{errors.password}</div>}
 
-        <button type="submit" className="primary-btn ripple" disabled={loading}>
+        <button
+          type="submit"
+          className="mt-[0.65rem] border-none py-[0.95rem] rounded-xl text-white font-bold text-base cursor-pointer shadow-[0_10px_20px_rgba(102,130,251,0.2)] transition-[transform,box-shadow] duration-150 enabled:hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed"
+          style={{ background: "linear-gradient(90deg, #6a82fb, #fc5c7d)" }}
+          disabled={loading}
+        >
           {loading ? "Logging in..." : "Login"}
         </button>
 
         <button
           type="button"
-          className="ghost-btn"
+          className="mt-1 bg-transparent text-[#2c3e50] border-none underline font-semibold cursor-pointer"
           onClick={() => navigate("/register")}
           disabled={loading}
         >
@@ -113,123 +128,11 @@ export default function Login() {
         </button>
 
         {feedback && (
-          <div className={`feedback ${feedback.type === "success" ? "fb-success pop-in" : "fb-error shake"}`}>
+          <div className={`mt-[0.6rem] p-[0.6rem] rounded-[10px] text-center font-bold ${feedback.type === "success" ? "bg-[#d8ffe8] text-[#006b29] animate-pop-in" : "bg-[#fff2f3] text-[#b00020] animate-shake"}`}>
             {feedback.text}
           </div>
         )}
       </form>
-
-      <style>{`
-        :root {
-          --card-bg: rgba(255,255,255,0.85);
-          --input-bg: rgba(240, 244, 248, 0.95);
-          --glass-border: rgba(200, 217, 223,0.7);
-          --accent-1: #6a82fb;
-          --accent-2: #fc5c7d;
-        }
-
-        * { box-sizing: border-box }
-
-        .auth-wrapper {
-          min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 2rem;
-          font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-
-          /* Background image + gradient overlay */
-          background-image: 
-            linear-gradient(270deg, rgba(142,197,252,0.75), rgba(224,195,252,0.75), rgba(240,244,248,0.75), rgba(207,217,223,0.75)),
-            url("${bgImage}"); /* 👉 replace with your image path */
-          background-size: 800% 800%, cover;
-          background-position: center;
-          background-attachment: fixed;
-          animation: gradientMove 25s ease infinite;
-        }
-
-        @keyframes gradientMove {
-          0% { background-position: 0% 50%, center; }
-          25% { background-position: 50% 50%, center; }
-          50% { background-position: 100% 50%, center; }
-          75% { background-position: 50% 50%, center; }
-          100% { background-position: 0% 50%, center; }
-        }
-
-        .auth-card {
-          width: 100%;
-          max-width: 420px;
-          background: var(--card-bg);
-          backdrop-filter: blur(12px) saturate(120%);
-          border-radius: 18px;
-          padding: 2.4rem;
-          box-shadow: 0 18px 50px rgba(0,0,0,0.1);
-          display: flex;
-          flex-direction: column;
-          gap: 0.9rem;
-          color: #2c3e50;
-          animation: fadeIn 0.8s ease-out;
-        }
-
-        .title {
-          margin: 0;
-          text-align: center;
-          font-size: 1.9rem;
-          font-weight: 700;
-          color: #2c3e50;
-        }
-
-        .subtitle {
-          margin: 0;
-          text-align: center;
-          color: #4f5d75;
-          font-size: 0.98rem;
-          margin-bottom: 0.6rem;
-        }
-
-        .label { font-size: 0.95rem; margin-top:0.6rem; margin-bottom:0.35rem; font-weight:600; color:#2c3e50; }
-
-        .input {
-          width: 100%;
-          padding: 0.9rem 1rem;
-          border-radius: 12px;
-          border: 1px solid var(--glass-border);
-          background: var(--input-bg);
-          color: #2c3e50;
-          font-size: 1rem;
-          outline: none;
-          transition: box-shadow .18s, transform .12s;
-        }
-
-        .input::placeholder { color: #7d8ca3; }
-        .input:focus { box-shadow: 0 6px 18px rgba(0,0,0,0.1); transform: translateY(-1px); border-color: #a1b5d8; }
-        .input-error { border-color: #fc5c7d; }
-
-        .field-error { color: #b00020; font-size: 0.86rem; margin-top: 0.35rem; }
-
-        .password-row { position: relative; display: flex; align-items: center; gap:0.6rem; }
-
-        .toggle-btn { position: absolute; right: 0.5rem; top:50%; transform: translateY(-50%); background:transparent; border:none; color:#2c3e50; font-weight:600; cursor:pointer; padding:0.15rem 0.6rem; border-radius:8px; }
-
-        .primary-btn { margin-top:0.65rem; background: linear-gradient(90deg, var(--accent-1), var(--accent-2)); border:none; padding:0.95rem; border-radius:12px; color:#fff; font-weight:700; font-size:1rem; cursor:pointer; box-shadow:0 10px 20px rgba(102,130,251,0.2); transition: transform .12s, box-shadow .18s; }
-        .primary-btn:not(:disabled):hover { transform: translateY(-2px); }
-        .primary-btn:disabled { opacity:0.7; cursor:not-allowed; }
-
-        .ghost-btn { margin-top:0.25rem; background:transparent; color:#2c3e50; border:none; text-decoration:underline; font-weight:600; cursor:pointer; }
-
-        .feedback { margin-top:0.6rem; padding:0.6rem; border-radius:10px; text-align:center; font-weight:700; }
-        .fb-success { background:#d8ffe8; color:#006b29; }
-        .fb-error { background:#fff2f3; color:#b00020; }
-
-        @keyframes fadeIn { from{opacity:0; transform:translateY(-10px);} to{opacity:1; transform:translateY(0);} }
-        @keyframes shake { 10%,90%{transform:translateX(-2px);}20%,80%{transform:translateX(4px);}30%,50%,70%{transform:translateX(-6px);}40%,60%{transform:translateX(6px);} }
-        @keyframes popIn { from{transform:scale(0.9); opacity:0;} to{transform:scale(1); opacity:1;} }
-
-        .shake { animation: shake 0.4s ease-in-out; }
-        .pop-in { animation: popIn 0.4s ease-out; }
-
-        @media (max-width:520px) { .auth-card { padding:1.6rem; border-radius:14px; } .title{font-size:1.6rem;} }
-      `}</style>
     </div>
   );
 }

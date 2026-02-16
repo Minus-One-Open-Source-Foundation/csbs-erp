@@ -21,18 +21,16 @@ export default function Navbar({ onToggleSidebar }) {
             color="inherit"
             aria-label="open sidebar"
             onClick={onToggleSidebar}
-            sx={{ mr: 1, display: { xs: "inline-flex", md: "none" } }} // Hide hamburger on desktop
+            className="mr-2 md:!hidden"
+            sx={{ display: { xs: "inline-flex", md: "none" } }}
           >
             <MenuIcon />
           </IconButton>
         )}
         <Typography
           variant="h6"
-          sx={{
-            fontWeight: "bold",
-            letterSpacing: "0.5px",
-            color: "#ffd700",
-          }}
+          className="font-bold tracking-wide"
+          sx={{ color: "#ffd700" }}
         >
           {user
             ? (user.role && user.role.toLowerCase() === "faculty")
@@ -40,22 +38,13 @@ export default function Navbar({ onToggleSidebar }) {
               : "Student Activity Hub"
             : "Student Activity Hub"}
         </Typography>
-        <div
-          style={{
-            marginLeft: "auto",
-            display: "flex",
-            alignItems: "center",
-            gap: "1rem",
-          }}
-        >
+        <div className="ml-auto flex items-center gap-4">
           {user ? (
             <>
               <Typography
                 variant="body1"
-                sx={{
-                  fontWeight: 600,
-                  color: "#000",
-                }}
+                className="font-semibold"
+                sx={{ color: "#000" }}
               >
                 Welcome, {user.email}
               </Typography>
@@ -84,12 +73,7 @@ export default function Navbar({ onToggleSidebar }) {
           ) : (
             <Button
               color="inherit"
-              sx={{
-                border: "1px solid white",
-                borderRadius: "10px",
-                px: 2,
-                "&:hover": { backgroundColor: "rgba(255,255,255,0.2)" },
-              }}
+              className="border border-white rounded-[10px] px-4 hover:bg-white/20"
             >
               Login
             </Button>

@@ -5,53 +5,23 @@ export default function FacultySidebar() {
   const { logout } = useAuth();
   const navigate = useNavigate();
 
-  const accentGradient = "linear-gradient(90deg,#4e54c8,#8f94fb)";
-  const linkStyle = {
-    padding: "12px 18px",
-    borderRadius: "12px",
-    textDecoration: "none",
-    color: "#fff",
-    fontWeight: 600,
-    background: "rgba(255,255,255,0.08)",
-    transition: "box-shadow 0.22s, background 0.18s",
-    border: "1px solid rgba(255,255,255,0.12)",
-    fontSize: "1rem"
-  };
-
-  const activeStyle = {
-    background: "rgba(255,255,255,0.12)",
-    boxShadow: "0 8px 26px rgba(78,84,200,0.13)",
-    borderColor: "#ffd700"
-  };
-
   return (
     <div
-      style={{
-        width: "238px",
-        background: "linear-gradient(135deg,#4e54c8 0%,#8f94fb 100%)",
-        color: "#fff",
-        minHeight: "100vh",
-        padding: "22px",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial"
-      }}
+      className="w-[238px] text-white min-h-screen p-[22px] flex flex-col justify-between font-sans max-[520px]:!w-screen max-[520px]:!p-4"
+      style={{ background: "linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%)" }}
     >
       <div>
-        <h2 style={{
-          marginBottom: "26px",
-          textAlign: "center",
-          fontWeight: 700,
-          fontSize: "1.46rem",
-          lineHeight:"1.08",
-          background: "linear-gradient(90deg,#fff,#ffd700)",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent"
-        }}>
+        <h2
+          className="mb-[26px] text-center font-bold text-[1.46rem] leading-[1.08] bg-clip-text max-[520px]:!text-[1.15rem]"
+          style={{
+            background: "linear-gradient(90deg, #fff, #ffd700)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}
+        >
           Faculty Hub
         </h2>
-        <nav style={{display:"flex",flexDirection:"column",gap:"10px"}}>
+        <nav className="flex flex-col gap-[10px]">
           {[
             { to: "/faculty/approvals", label: "Approvals Dashboard" },
             // Add more faculty links here as needed
@@ -59,7 +29,12 @@ export default function FacultySidebar() {
             <NavLink
               key={i}
               to={item.to}
-              style={({ isActive }) => (isActive ? { ...linkStyle, ...activeStyle } : linkStyle)}
+              className={({ isActive }) =>
+                `py-3 px-[18px] rounded-xl no-underline text-white font-semibold text-base border border-white/12 transition-[box-shadow,background] duration-200 ${isActive
+                  ? "bg-white/12 shadow-[0_8px_26px_rgba(78,84,200,0.13)] border-[#ffd700]"
+                  : "bg-white/8"
+                }`
+              }
             >
               {item.label}
             </NavLink>
@@ -68,30 +43,12 @@ export default function FacultySidebar() {
       </div>
 
       <button
+        className="mb-[60px] border-none py-[13px] px-5 text-white rounded-xl cursor-pointer font-bold text-base shadow-[0_8px_26px_rgba(78,84,200,0.13)] transition-transform duration-150 hover:-translate-y-0.5"
+        style={{ background: "linear-gradient(90deg, #4e54c8, #8f94fb)" }}
         onClick={() => { logout(); navigate("/login"); }}
-        style={{
-          marginBottom: "60px",
-          background: accentGradient,
-          border: "none",
-          padding: "13px 20px",
-          color: "#fff",
-          borderRadius: "12px",
-          cursor: "pointer",
-          fontWeight: 700,
-          fontSize: "1rem",
-          boxShadow: "0 8px 26px rgba(78,84,200,0.13)",
-          transition: "transform .13s"
-        }}
       >
         Logout
       </button>
-
-      <style>{`
-        @media (max-width:520px){
-          div[style] { width:100vw !important; padding:1rem !important; }
-          h2 { font-size:1.15rem !important;}
-        }
-      `}</style>
     </div>
   );
 }
