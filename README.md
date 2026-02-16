@@ -4,6 +4,7 @@
 
 [![React](https://img.shields.io/badge/React-19.1.1-61DAFB?style=flat&logo=react)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-7.1.2-646CFF?style=flat&logo=vite)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.1.18-06B6D4?style=flat&logo=tailwindcss)](https://tailwindcss.com/)
 [![Material-UI](https://img.shields.io/badge/MUI-7.3.2-007FFF?style=flat&logo=mui)](https://mui.com/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
@@ -123,6 +124,7 @@ The application follows a **modular component-based architecture**:
 |------------|---------|---------|
 | **React** | 19.1.1 | UI library for building interactive interfaces |
 | **Vite** | 7.1.2 | Next-generation frontend build tool |
+| **Tailwind CSS** | 4.1.18 | Utility-first CSS framework |
 | **Material-UI** | 7.3.2 | Enterprise-ready React component library |
 | **React Router** | 7.9.1 | Client-side routing and navigation |
 | **Axios** | 1.12.2 | HTTP client for API communication |
@@ -132,6 +134,7 @@ The application follows a **modular component-based architecture**:
 
 - **@emotion/react** & **@emotion/styled**: CSS-in-JS styling
 - **@mui/x-data-grid**: Advanced data table component
+- **react-toastify**: Toast notifications for user feedback
 - **jsPDF**: PDF generation for reports
 - **qrcode**: QR code generation for portfolios
 - **react-icons**: Icon library
@@ -139,6 +142,8 @@ The application follows a **modular component-based architecture**:
 ### Development Tools
 
 - **ESLint**: Code linting and quality enforcement
+- **Tailwind CSS Vite Plugin**: Integrated Tailwind CSS processing
+- **PostCSS**: CSS transformation pipeline
 - **Vite Plugin React**: Fast Refresh and JSX support
 - **Node.js**: Runtime environment (v18+ required)
 
@@ -163,13 +168,13 @@ Before you begin, ensure you have the following installed:
 
 ```bash
 # Using HTTPS
-git clone https://github.com/Team-Minus-One/frontend.git
+git clone https://github.com/Minus-One-Open-Source-Foundation/csbs-erp.git
 
 # Using SSH
-git clone git@github.com:Team-Minus-One/frontend.git
+git clone git@github.com:Minus-One-Open-Source-Foundation/csbs-erp.git
 
 # Navigate to project directory
-cd frontend
+cd csbs-erp
 ```
 
 ### 2. Install Dependencies
@@ -328,15 +333,13 @@ src/
 │   ├── Register.jsx        # Registration page
 │   ├── Dashboard.jsx       # Student dashboard
 │   ├── PersonalInfo.jsx    # Profile management
-│   ├── AcademicRecords.jsx # Academic records
 │   ├── Activities.jsx      # Activities tracking
 │   ├── Achievements.jsx    # Achievements management
 │   ├── Internships.jsx     # Internship applications
-│   ├── Portfolio.jsx       # Portfolio showcase
-│   ├── Analytics.jsx       # Analytics dashboard
 │   ├── HackWorkshops.jsx   # Hackathons & workshops
 │   ├── URMS.jsx            # Resume management system
 │   ├── FacultyDashboard.jsx        # Faculty dashboard
+│   ├── FacultyRequests.jsx         # Faculty request management
 │   ├── StudentManagement.jsx       # Student management
 │   ├── GradeManagement.jsx         # Grade assignment
 │   ├── Reports.jsx                 # Report generation
@@ -345,9 +348,8 @@ src/
 ├── services/               # External service integrations
 │   └── api.js              # Axios configuration & API clients
 ├── App.jsx                 # Main application component
-├── App.css                 # Global styles
 ├── main.jsx                # Application entry point
-└── index.css               # Base CSS styles
+└── index.css               # Base CSS styles with Tailwind imports
 ```
 
 ## 🏭 Building & Deployment
@@ -483,25 +485,37 @@ npm run build -- --mode staging
 ### High-Level Organization
 
 ```
-frontend/
+csbs-erp/
 ├── .vscode/                # VS Code workspace settings
 ├── dist/                   # Production build output (generated)
 ├── node_modules/           # Dependencies (generated)
 ├── public/                 # Static public assets
 ├── src/                    # Source code (see detailed structure above)
+├── .dockerignore           # Docker ignore rules
+├── .env.example            # Environment variable template
 ├── .gitignore              # Git ignore rules
+├── CHANGELOG.md            # Version history
+├── CONTRIBUTING.md         # Contribution guidelines
+├── LICENSE                 # MIT License
+├── SECURITY.md             # Security policies
+├── dockerfile              # Docker build configuration
 ├── eslint.config.js        # ESLint configuration
 ├── index.html              # HTML entry point
+├── nginx.conf              # Nginx configuration for Docker
 ├── package.json            # Project metadata and dependencies
 ├── package-lock.json       # Locked dependency versions
+├── postcss.config.js       # PostCSS configuration
 ├── README.md               # This file
+├── tailwind.configf.js     # Tailwind CSS configuration
 └── vite.config.js          # Vite configuration
 ```
 
 ### Configuration Files
 
-- **`vite.config.js`**: Vite build tool configuration
+- **`vite.config.js`**: Vite build tool configuration with Tailwind CSS plugin
 - **`eslint.config.js`**: Code quality and linting rules
+- **`postcss.config.js`**: PostCSS configuration for Tailwind CSS
+- **`tailwind.configf.js`**: Tailwind CSS theme and content configuration
 - **`package.json`**: Dependencies and npm scripts
 - **`index.html`**: SPA entry point with root div
 
@@ -936,12 +950,12 @@ SOFTWARE.
 ### Getting Help
 
 - **Documentation**: Read this README and inline code comments
-- **Issues**: [GitHub Issues](https://github.com/Team-Minus-One/frontend/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/Team-Minus-One/frontend/discussions)
+- **Issues**: [GitHub Issues](https://github.com/Minus-One-Open-Source-Foundation/csbs-erp/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Minus-One-Open-Source-Foundation/csbs-erp/discussions)
 
 ### Maintainers
 
-- **Team Minus One**: [GitHub Organization](https://github.com/Team-Minus-One)
+- **Minus One Open Source Foundation**: [GitHub Organization](https://github.com/Minus-One-Open-Source-Foundation)
 
 ### Reporting Issues
 
@@ -968,7 +982,7 @@ We welcome feature requests! Please:
 
 <div align="center">
 
-**Built with ❤️ by Team Minus One**
+**Built with ❤️ by Minus One Open Source Foundation**
 
 [⬆ Back to Top](#-student-activity-hub---frontend)
 
