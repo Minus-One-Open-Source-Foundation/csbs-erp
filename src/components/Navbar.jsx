@@ -1,8 +1,9 @@
 import { AppBar, Toolbar, Typography, Button, IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useAuth } from "../contexts/AuthContext";
+import { FaBars, FaChevronLeft } from "react-icons/fa";
 
-export default function Navbar({ onToggleSidebar }) {
+export default function Navbar({ onToggleSidebar, collapsed, onToggleCollapse }) {
   const { user, logout } = useAuth();
 
   return (
@@ -15,6 +16,7 @@ export default function Navbar({ onToggleSidebar }) {
       }}
     >
       <Toolbar>
+        {/* Mobile hamburger menu */}
         {user && (
           <IconButton
             edge="start"
@@ -27,6 +29,25 @@ export default function Navbar({ onToggleSidebar }) {
             <MenuIcon />
           </IconButton>
         )}
+
+        {/* Desktop sidebar collapse toggle */}
+        {user && onToggleCollapse && (
+          <IconButton
+            color="inherit"
+            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+            onClick={onToggleCollapse}
+            sx={{
+              display: { xs: "none", md: "inline-flex" },
+              mr: 1,
+              transition: "transform 0.2s ease",
+              "&:hover": { transform: "scale(1.1)" },
+            }}
+            title={`${collapsed ? "Expand" : "Collapse"} sidebar (Ctrl+B)`}
+          >
+            {collapsed ? <FaBars style={{ fontSize: "1.1rem" }} /> : <FaChevronLeft style={{ fontSize: "1rem" }} />}
+          </IconButton>
+        )}
+
         <Typography
           variant="h6"
           className="font-bold tracking-wide"
