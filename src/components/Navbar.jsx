@@ -1,8 +1,9 @@
 import { AppBar, Toolbar, Typography, Button, IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useAuth } from "../contexts/AuthContext";
+import { FaBars, FaChevronLeft } from "react-icons/fa";
 
-export default function Navbar({ onToggleSidebar }) {
+export default function Navbar({ onToggleSidebar, collapsed, onToggleCollapse }) {
   const { user, logout } = useAuth();
 
   return (
@@ -15,24 +16,42 @@ export default function Navbar({ onToggleSidebar }) {
       }}
     >
       <Toolbar>
+        {/* Mobile hamburger menu */}
         {user && (
           <IconButton
             edge="start"
             color="inherit"
             aria-label="open sidebar"
             onClick={onToggleSidebar}
-            sx={{ mr: 1, display: { xs: "inline-flex", md: "none" } }} // Hide hamburger on desktop
+            className="mr-2 md:!hidden"
+            sx={{ display: { xs: "inline-flex", md: "none" } }}
           >
             <MenuIcon />
           </IconButton>
         )}
+
+        {/* Desktop sidebar collapse toggle */}
+        {user && onToggleCollapse && (
+          <IconButton
+            color="inherit"
+            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+            onClick={onToggleCollapse}
+            sx={{
+              display: { xs: "none", md: "inline-flex" },
+              mr: 1,
+              transition: "transform 0.2s ease",
+              "&:hover": { transform: "scale(1.1)" },
+            }}
+            title={`${collapsed ? "Expand" : "Collapse"} sidebar (Ctrl+B)`}
+          >
+            {collapsed ? <FaBars style={{ fontSize: "1.1rem" }} /> : <FaChevronLeft style={{ fontSize: "1rem" }} />}
+          </IconButton>
+        )}
+
         <Typography
           variant="h6"
-          sx={{
-            fontWeight: "bold",
-            letterSpacing: "0.5px",
-            color: "#ffd700",
-          }}
+          className="font-bold tracking-wide"
+          sx={{ color: "#ffd700" }}
         >
           {user
             ? (user.role && user.role.toLowerCase() === "faculty")
@@ -40,22 +59,13 @@ export default function Navbar({ onToggleSidebar }) {
               : "Student Activity Hub"
             : "Student Activity Hub"}
         </Typography>
-        <div
-          style={{
-            marginLeft: "auto",
-            display: "flex",
-            alignItems: "center",
-            gap: "1rem",
-          }}
-        >
+        <div className="ml-auto flex items-center gap-4">
           {user ? (
             <>
               <Typography
                 variant="body1"
-                sx={{
-                  fontWeight: 600,
-                  color: "#000",
-                }}
+                className="font-semibold"
+                sx={{ color: "#000" }}
               >
                 Welcome, {user.email}
               </Typography>
@@ -84,12 +94,7 @@ export default function Navbar({ onToggleSidebar }) {
           ) : (
             <Button
               color="inherit"
-              sx={{
-                border: "1px solid white",
-                borderRadius: "10px",
-                px: 2,
-                "&:hover": { backgroundColor: "rgba(255,255,255,0.2)" },
-              }}
+              className="border border-white rounded-[10px] px-4 hover:bg-white/20"
             >
               Login
             </Button>

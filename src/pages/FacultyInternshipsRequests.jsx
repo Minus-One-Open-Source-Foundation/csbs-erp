@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { 
-  FaPlus, 
-  FaCheckCircle, 
-  FaExclamationCircle, 
-  FaFileAlt, 
+import {
+  FaPlus,
+  FaCheckCircle,
+  FaExclamationCircle,
+  FaFileAlt,
   FaSpinner,
-  FaCheck, 
+  FaCheck,
   FaTimes,
   FaEye
 } from "react-icons/fa";
@@ -40,7 +40,7 @@ export default function FacultyInternshipsRequests() {
     try {
       setLoading(true);
       let internships;
-      
+
       switch (activeFilter) {
         case "PENDING":
           internships = await facultyAPI.getPendingInternships();
@@ -50,15 +50,13 @@ export default function FacultyInternshipsRequests() {
           break;
         case "APPROVED":
         case "REJECTED":
-          // For now, we'll get all internships and filter client-side
-          // You can add specific backend endpoints later if needed
           const allInternships = await facultyAPI.getAllInternships();
           internships = allInternships.filter(internship => internship.status === activeFilter);
           break;
         default:
           internships = await facultyAPI.getPendingInternships();
       }
-      
+
       setEvents(internships);
       setError(null);
     } catch (err) {
@@ -73,11 +71,7 @@ export default function FacultyInternshipsRequests() {
     try {
       setProcessingId(internshipId);
       await facultyAPI.approveInternship(internshipId);
-      
-      // Refresh the list to reflect changes
       await fetchInternshipRequests();
-      
-      // Show success message
       toast.success('Internship approved successfully!');
     } catch (err) {
       console.error('Error approving internship:', err);
@@ -91,11 +85,7 @@ export default function FacultyInternshipsRequests() {
     try {
       setProcessingId(internshipId);
       await facultyAPI.rejectInternship(internshipId);
-      
-      // Refresh the list to reflect changes
       await fetchInternshipRequests();
-      
-      // Show success message
       toast.success('Internship rejected successfully!');
     } catch (err) {
       console.error('Error rejecting internship:', err);
@@ -131,6 +121,7 @@ export default function FacultyInternshipsRequests() {
     setShowCertificateViewer(false);
     setViewingCertificate(null);
   };
+
   const filteredEvents = events.filter((ev) =>
     ev.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     ev.companyName.toLowerCase().includes(searchTerm.toLowerCase())
@@ -138,9 +129,12 @@ export default function FacultyInternshipsRequests() {
 
   if (loading) {
     return (
-      <div className="internships-requests-wrapper" style={{ minHeight: "100vh", padding: "2rem 1rem", fontFamily: "'Inter', sans-serif", background: `url('${bgImage}') no-repeat center center fixed`, backgroundSize: "cover", color: "#111" }}>
-        <div style={{ textAlign: "center", padding: "3rem" }}>
-          <FaSpinner className="spinner" style={{ fontSize: "2rem", color: "#007bff" }} />
+      <div
+        className="min-h-screen py-8 px-4 font-sans bg-cover bg-center bg-fixed text-gray-900"
+        style={{ backgroundImage: `url('${bgImage}')` }}
+      >
+        <div className="text-center p-12">
+          <FaSpinner className="animate-spin text-[2rem] text-blue-600 mx-auto" />
           <p>Loading internship requests...</p>
         </div>
       </div>
@@ -149,10 +143,16 @@ export default function FacultyInternshipsRequests() {
 
   if (error) {
     return (
-      <div className="internships-requests-wrapper" style={{ minHeight: "100vh", padding: "2rem 1rem", fontFamily: "'Inter', sans-serif", background: `url('${bgImage}') no-repeat center center fixed`, backgroundSize: "cover", color: "#111" }}>
-        <div style={{ textAlign: "center", padding: "3rem", background: "rgba(255,255,255,0.9)", borderRadius: "8px", margin: "2rem auto", maxWidth: "500px" }}>
-          <p style={{ color: "#dc3545", fontSize: "1.1rem", marginBottom: "1rem" }}>{error}</p>
-          <button onClick={fetchInternshipRequests} style={{ padding: "0.5rem 1rem", background: "#007bff", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}>
+      <div
+        className="min-h-screen py-8 px-4 font-sans bg-cover bg-center bg-fixed text-gray-900"
+        style={{ backgroundImage: `url('${bgImage}')` }}
+      >
+        <div className="text-center p-12 bg-white/90 rounded-lg mx-auto my-8 max-w-[500px]">
+          <p className="text-red-500 text-[1.1rem] mb-4">{error}</p>
+          <button
+            onClick={fetchInternshipRequests}
+            className="py-2 px-4 bg-blue-600 text-white border-none rounded cursor-pointer"
+          >
             Retry
           </button>
         </div>
@@ -161,97 +161,74 @@ export default function FacultyInternshipsRequests() {
   }
 
   return (
-    <div className="internships-requests-wrapper" style={{ minHeight: "100vh", padding: "2rem 1rem", fontFamily: "'Inter', sans-serif", background: `url('${bgImage}') no-repeat center center fixed`, backgroundSize: "cover", color: "#111" }}>
-      <header style={{ textAlign: "center", marginBottom: "2.5rem", marginTop: "2.5rem" }}>
-        <div className="search-bar-wrapper">
-            <h2 style={{ fontWeight: 700, fontSize: '2.1rem', color: '#3a3aee', marginBottom: '1.5rem' }}>Internship Requests</h2>
-            
-            {/* Filter Tabs */}
-            <div style={{ 
-              display: 'flex', 
-              justifyContent: 'center', 
-              gap: '0.5rem', 
-              marginBottom: '1.5rem',
-              flexWrap: 'wrap'
-            }}>
-              {filterOptions.map((option) => {
-                const IconComponent = option.icon;
-                return (
-                  <button
-                    key={option.key}
-                    onClick={() => setActiveFilter(option.key)}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.5rem',
-                      padding: '0.7rem 1.2rem',
-                      border: activeFilter === option.key ? `2px solid ${option.color}` : '2px solid transparent',
-                      borderRadius: '25px',
-                      background: activeFilter === option.key ? `${option.color}15` : 'rgba(255,255,255,0.8)',
-                      color: activeFilter === option.key ? option.color : '#666',
-                      fontWeight: activeFilter === option.key ? 600 : 500,
-                      fontSize: '0.95rem',
-                      cursor: 'pointer',
-                      transition: 'all 0.3s ease',
-                      boxShadow: activeFilter === option.key ? `0 4px 12px ${option.color}30` : '0 2px 8px rgba(0,0,0,0.1)',
-                      transform: activeFilter === option.key ? 'translateY(-1px)' : 'none'
-                    }}
-                  >
-                    {IconComponent && <IconComponent style={{ fontSize: '0.9rem' }} />}
-                    {option.label}
-                    {option.key !== 'ALL' && (
-                      <span style={{
-                        background: option.color,
-                        color: 'white',
-                        borderRadius: '12px',
-                        padding: '0.2rem 0.5rem',
-                        fontSize: '0.75rem',
-                        fontWeight: 600,
-                        minWidth: '20px',
-                        textAlign: 'center'
-                      }}>
-                        {option.key === activeFilter ? events.length : '•'}
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
+    <div
+      className="min-h-screen py-8 px-4 font-sans bg-cover bg-center bg-fixed text-gray-900"
+      style={{ backgroundImage: `url('${bgImage}')` }}
+    >
+      <header className="text-center mb-10 mt-10">
+        <div>
+          <h2 className="font-bold text-[2.1rem] text-[#3a3aee] mb-6">Internship Requests</h2>
 
-            <input
-              type="text"
-              placeholder="Search internships..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="search-bar"
-              style={{ flex: 1, padding: "1rem 3rem 1rem 1.5rem", borderRadius: "30px", border: "none", background: "rgba(255,255,255,0.7)", color: "#232526", fontSize: "1.1rem", outline: "none", width: "580px" }}
-            />
+          {/* Filter Tabs */}
+          <div className="flex justify-center gap-2 mb-6 flex-wrap">
+            {filterOptions.map((option) => {
+              const IconComponent = option.icon;
+              return (
+                <button
+                  key={option.key}
+                  onClick={() => setActiveFilter(option.key)}
+                  className="flex items-center gap-2 py-3 px-5 rounded-[25px] text-[0.95rem] cursor-pointer transition-all duration-300"
+                  style={{
+                    border: activeFilter === option.key ? `2px solid ${option.color}` : '2px solid transparent',
+                    background: activeFilter === option.key ? `${option.color}15` : 'rgba(255,255,255,0.8)',
+                    color: activeFilter === option.key ? option.color : '#666',
+                    fontWeight: activeFilter === option.key ? 600 : 500,
+                    boxShadow: activeFilter === option.key ? `0 4px 12px ${option.color}30` : '0 2px 8px rgba(0,0,0,0.1)',
+                    transform: activeFilter === option.key ? 'translateY(-1px)' : 'none'
+                  }}
+                >
+                  {IconComponent && <IconComponent className="text-[0.9rem]" />}
+                  {option.label}
+                  {option.key !== 'ALL' && (
+                    <span
+                      className="rounded-xl py-0.5 px-2 text-[0.75rem] font-semibold min-w-[20px] text-center text-white"
+                      style={{ background: option.color }}
+                    >
+                      {option.key === activeFilter ? events.length : '•'}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          <input
+            type="text"
+            placeholder="Search internships..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="flex-1 py-4 pr-12 pl-6 rounded-[30px] border-none bg-white/70 text-gray-800 text-[1.1rem] outline-none w-[580px] max-w-full"
+          />
         </div>
       </header>
-      <section className="cards-container" style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
+
+      <section className="flex flex-col gap-8">
         {filteredEvents.length === 0 ? (
-          <div className="event-card" style={{ background: "#fff", borderRadius: "18px", boxShadow: "0 6px 24px rgba(0,0,0,0.13)", padding: "2rem 1.6rem", textAlign: 'center' }}>
+          <div className="bg-white rounded-[18px] shadow-[0_6px_24px_rgba(0,0,0,0.13)] py-8 px-6 text-center">
             {searchTerm ? (
               <div>
-                <p style={{ fontSize: '1.1rem', color: '#666', marginBottom: '0.5rem' }}>
+                <p className="text-[1.1rem] text-gray-500 mb-2">
                   No internship requests found matching "{searchTerm}"
                 </p>
-                <button 
-                  onClick={() => setSearchTerm("")} 
-                  style={{ 
-                    background: '#007bff', 
-                    color: 'white', 
-                    border: 'none', 
-                    padding: '0.5rem 1rem', 
-                    borderRadius: '4px', 
-                    cursor: 'pointer' 
-                  }}
+                <button
+                  onClick={() => setSearchTerm("")}
+                  className="bg-blue-600 text-white border-none py-2 px-4 rounded cursor-pointer"
                 >
                   Clear Search
                 </button>
               </div>
             ) : (
-              <p style={{ fontSize: '1.1rem', color: '#666' }}>
+              <p className="text-[1.1rem] text-gray-500">
                 No {activeFilter.toLowerCase()} internship requests found.
                 {activeFilter === 'PENDING' && ' Great! All requests have been reviewed.'}
               </p>
@@ -259,49 +236,35 @@ export default function FacultyInternshipsRequests() {
           </div>
         ) : (
           filteredEvents.map((event) => (
-            <div key={event.id} style={{ marginBottom: '1.5rem', position: 'relative' }}>
-              <div className="event-card" style={{ background: "#fff", borderRadius: "18px", boxShadow: "0 6px 24px rgba(0,0,0,0.13)", padding: "2rem 1.6rem", display: "flex", flexDirection: "row", gap: "2rem", alignItems: "flex-start", position: "relative" }}>
-                <div className="badge" style={{ position: "absolute", top: "1.2rem", left: "1.2rem", padding: "0.4rem 1.2rem", borderRadius: "14px", fontWeight: 700, fontSize: "1rem", background: "#fff", border: "2px solid #ff6a00", color: "#ff6a00" }}>
+            <div key={event.id} className="mb-6 relative">
+              <div className="bg-white rounded-[18px] shadow-[0_6px_24px_rgba(0,0,0,0.13)] py-8 px-6 flex flex-row gap-8 items-start relative">
+                <span className="absolute top-5 left-5 py-1.5 px-5 rounded-[14px] font-bold text-base bg-white border-2 border-orange-500 text-orange-500">
                   Internship
-                </div>
-                <div className="event-info" style={{ flex: 1, display: "flex", flexDirection: "column", marginTop: "1rem" }}>
+                </span>
+                <div className="flex-1 flex flex-col mt-4">
                   <p><strong>Student:</strong> {event.userEmail}</p>
-                  <h4 className="event-subtitle" style={{ color: "#3a3aee", fontSize: "1.1rem", fontWeight: 600, margin: "0.5rem 0" }}>{event.title}</h4>
-                  <span className="company-name" style={{ fontSize: "1rem", color: "#555", fontWeight: 600, marginBottom: "0.5rem", display: "block" }}><strong>Company:</strong> {event.companyName}</span>
-                  <span className="date" style={{ fontSize: "0.95rem", color: "#777", marginBottom: "0.5rem", display: "block" }}>
+                  <h4 className="text-[#3a3aee] text-[1.1rem] font-semibold my-2">{event.title}</h4>
+                  <span className="text-base text-gray-600 font-semibold mb-2 block"><strong>Company:</strong> {event.companyName}</span>
+                  <span className="text-[0.95rem] text-gray-500 mb-2 block">
                     <strong>Duration:</strong> {formatDate(event.startDate)} - {formatDate(event.endDate)}
                   </span>
-                  <div style={{ fontSize: '1rem', color: '#3a3aee', fontWeight: 600, marginBottom: '0.7rem', textAlign: 'left' }}>
-                    <strong>Mode:</strong> <span style={{ color: '#222', fontWeight: 500 }}>{event.mode || 'REMOTE'}</span>
+                  <div className="text-base text-[#3a3aee] font-semibold mb-3 text-left">
+                    <strong>Mode:</strong> <span className="text-gray-800 font-medium">{event.mode || 'REMOTE'}</span>
                   </div>
                   {event.description && (
-                    <p style={{ color: "#444", fontSize: "1rem", marginBottom: "0.7rem" }}>
+                    <p className="text-gray-600 text-base mb-3">
                       <strong>Description:</strong> {event.description}
                     </p>
                   )}
                   {event.certificateFilename && (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: "0.7rem" }}>
-                      <p style={{ color: "#666", fontSize: "0.9rem", margin: 0 }}>
+                    <div className="flex items-center gap-2 mb-3">
+                      <p className="text-gray-500 text-[0.9rem] m-0">
                         <strong>Certificate:</strong> {event.certificateFilename}
                       </p>
                       {event.certificateUrl && (
                         <button
                           onClick={() => handleViewCertificate(event)}
-                          style={{
-                            background: '#3b82f6',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '4px',
-                            padding: '0.3rem 0.5rem',
-                            cursor: 'pointer',
-                            fontSize: '0.8rem',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.3rem',
-                            transition: 'background 0.2s'
-                          }}
-                          onMouseOver={(e) => e.target.style.background = '#2563eb'}
-                          onMouseOut={(e) => e.target.style.background = '#3b82f6'}
+                          className="bg-blue-500 text-white border-none rounded py-1 px-2 cursor-pointer text-[0.8rem] flex items-center gap-1 transition-colors duration-200 hover:bg-blue-600"
                           title="View Certificate"
                         >
                           <FaEye /> View
@@ -309,67 +272,34 @@ export default function FacultyInternshipsRequests() {
                       )}
                     </div>
                   )}
-                  <p style={{ color: "#888", fontSize: "0.85rem" }}>
+                  <p className="text-gray-400 text-[0.85rem]">
                     <strong>Submitted:</strong> {formatDate(event.createdAt)}
                   </p>
 
                   {/* Status Display */}
-                  <div style={{ marginTop: '1rem', marginBottom: '1rem' }}>
+                  <div className="mt-4 mb-4">
                     {event.status === "APPROVED" && (
-                      <span style={{ 
-                        color: '#4CAF50', 
-                        fontWeight: 'bold', 
-                        fontSize: '1rem', 
-                        display: 'inline-flex', 
-                        alignItems: 'center', 
-                        gap: '0.5rem', 
-                        background: '#e8f5e9', 
-                        borderRadius: '8px', 
-                        padding: '0.5rem 1rem', 
-                        border: '2px solid #4CAF50' 
-                      }}>
+                      <span className="text-green-600 font-bold text-base inline-flex items-center gap-2 bg-green-50 rounded-lg py-2 px-4 border-2 border-green-600">
                         <FaCheckCircle /> APPROVED
                         {event.updatedAt && (
-                          <span style={{ fontSize: '0.8rem', color: '#666', marginLeft: '0.5rem' }}>
+                          <span className="text-[0.8rem] text-gray-500 ml-2">
                             on {formatDate(event.updatedAt)}
                           </span>
                         )}
                       </span>
                     )}
                     {event.status === "REJECTED" && (
-                      <span style={{ 
-                        color: '#f44336', 
-                        fontWeight: 'bold', 
-                        fontSize: '1rem', 
-                        display: 'inline-flex', 
-                        alignItems: 'center', 
-                        gap: '0.5rem', 
-                        background: '#ffebee', 
-                        borderRadius: '8px', 
-                        padding: '0.5rem 1rem', 
-                        border: '2px solid #f44336' 
-                      }}>
+                      <span className="text-red-500 font-bold text-base inline-flex items-center gap-2 bg-red-50 rounded-lg py-2 px-4 border-2 border-red-500">
                         <FaTimes /> REJECTED
                         {event.updatedAt && (
-                          <span style={{ fontSize: '0.8rem', color: '#666', marginLeft: '0.5rem' }}>
+                          <span className="text-[0.8rem] text-gray-500 ml-2">
                             on {formatDate(event.updatedAt)}
                           </span>
                         )}
                       </span>
                     )}
                     {event.status === "PENDING" && (
-                      <span style={{ 
-                        color: '#FF9800', 
-                        fontWeight: 'bold', 
-                        fontSize: '1rem', 
-                        display: 'inline-flex', 
-                        alignItems: 'center', 
-                        gap: '0.5rem', 
-                        background: '#fff8e1', 
-                        borderRadius: '8px', 
-                        padding: '0.5rem 1rem', 
-                        border: '2px solid #FF9800' 
-                      }}>
+                      <span className="text-amber-500 font-bold text-base inline-flex items-center gap-2 bg-amber-50 rounded-lg py-2 px-4 border-2 border-amber-500">
                         <FaExclamationCircle /> PENDING REVIEW
                       </span>
                     )}
@@ -377,42 +307,14 @@ export default function FacultyInternshipsRequests() {
 
                   {/* Action Buttons - Only show for PENDING status */}
                   {event.status === "PENDING" && (
-                    <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+                    <div className="flex gap-4 mt-4">
                       <button
                         onClick={() => handleApprove(event.id)}
                         disabled={processingId === event.id}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.5rem',
-                          padding: '0.7rem 1.5rem',
-                          background: processingId === event.id ? '#ccc' : '#28a745',
-                          color: '#fff',
-                          border: 'none',
-                          borderRadius: '6px',
-                          cursor: processingId === event.id ? 'not-allowed' : 'pointer',
-                          fontWeight: 600,
-                          fontSize: '0.9rem',
-                          transition: 'all 0.2s ease',
-                          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-                        }}
-                        onMouseOver={(e) => {
-                          if (processingId !== event.id) {
-                            e.target.style.background = '#218838';
-                            e.target.style.transform = 'translateY(-1px)';
-                            e.target.style.boxShadow = '0 4px 8px rgba(40, 167, 69, 0.3)';
-                          }
-                        }}
-                        onMouseOut={(e) => {
-                          if (processingId !== event.id) {
-                            e.target.style.background = '#28a745';
-                            e.target.style.transform = 'none';
-                            e.target.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
-                          }
-                        }}
+                        className="flex items-center gap-2 py-3 px-6 bg-green-600 text-white border-none rounded-md font-semibold text-[0.9rem] transition-all duration-200 shadow-sm cursor-pointer hover:-translate-y-px hover:shadow-md hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                       >
                         {processingId === event.id ? (
-                          <FaSpinner className="spinner" />
+                          <FaSpinner className="animate-spin" />
                         ) : (
                           <FaCheck />
                         )}
@@ -421,38 +323,10 @@ export default function FacultyInternshipsRequests() {
                       <button
                         onClick={() => handleReject(event.id)}
                         disabled={processingId === event.id}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.5rem',
-                          padding: '0.7rem 1.5rem',
-                          background: processingId === event.id ? '#ccc' : '#dc3545',
-                          color: '#fff',
-                          border: 'none',
-                          borderRadius: '6px',
-                          cursor: processingId === event.id ? 'not-allowed' : 'pointer',
-                          fontWeight: 600,
-                          fontSize: '0.9rem',
-                          transition: 'all 0.2s ease',
-                          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-                        }}
-                        onMouseOver={(e) => {
-                          if (processingId !== event.id) {
-                            e.target.style.background = '#c82333';
-                            e.target.style.transform = 'translateY(-1px)';
-                            e.target.style.boxShadow = '0 4px 8px rgba(220, 53, 69, 0.3)';
-                          }
-                        }}
-                        onMouseOut={(e) => {
-                          if (processingId !== event.id) {
-                            e.target.style.background = '#dc3545';
-                            e.target.style.transform = 'none';
-                            e.target.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
-                          }
-                        }}
+                        className="flex items-center gap-2 py-3 px-6 bg-red-500 text-white border-none rounded-md font-semibold text-[0.9rem] transition-all duration-200 shadow-sm cursor-pointer hover:-translate-y-px hover:shadow-md hover:bg-red-600 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                       >
                         {processingId === event.id ? (
-                          <FaSpinner className="spinner" />
+                          <FaSpinner className="animate-spin" />
                         ) : (
                           <FaTimes />
                         )}
@@ -461,30 +335,18 @@ export default function FacultyInternshipsRequests() {
                     </div>
                   )}
                 </div>
-                
+
                 {/* Document preview box */}
-                <div style={{ 
-                  width: '180px', 
-                  height: '160px', 
-                  minWidth: '180px', 
-                  minHeight: '160px', 
-                  border: '2px dashed #bbb', 
-                  borderRadius: '12px', 
-                  background: '#fff', 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'center',
-                  overflow: 'hidden'
-                }}>
+                <div className="w-[180px] h-[160px] min-w-[180px] min-h-[160px] border-2 border-dashed border-gray-400 rounded-xl bg-white flex items-center justify-center overflow-hidden">
                   {event.certificateUrl ? (
-                    <img 
-                      src={event.certificateUrl} 
-                      alt="Certificate" 
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    <img
+                      src={event.certificateUrl}
+                      alt="Certificate"
+                      className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div style={{ textAlign: 'center', color: '#666', fontSize: '0.9rem' }}>
-                      <FaFileAlt style={{ fontSize: '2rem', marginBottom: '0.5rem' }} />
+                    <div className="text-center text-gray-500 text-[0.9rem]">
+                      <FaFileAlt className="text-[2rem] mb-2 mx-auto" />
                       <br />No certificate
                     </div>
                   )}
@@ -497,79 +359,27 @@ export default function FacultyInternshipsRequests() {
 
       {/* Certificate Viewer Modal */}
       {showCertificateViewer && viewingCertificate && (
-        <div 
-          style={{
-            position: 'fixed',
-            top: '80px',
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: 'rgba(0, 0, 0, 0.8)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 1000,
-            padding: '1rem'
-          }}
+        <div
+          className="fixed top-[80px] left-0 right-0 bottom-0 bg-black/80 flex items-center justify-center z-[1000] p-4"
           onClick={closeCertificateViewer}
         >
-          <div 
-            className="certificate-modal"
-            style={{
-              width: '90vw',
-              height: 'calc(100vh - 120px)',
-              maxWidth: '1200px',
-              maxHeight: '800px',
-              background: 'white',
-              borderRadius: '12px',
-              overflow: 'hidden',
-              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-              display: 'flex',
-              flexDirection: 'column',
-              margin: 'auto'
-            }}
+          <div
+            className="w-[90vw] h-[calc(100vh-120px)] max-w-[1200px] max-h-[800px] bg-white rounded-xl overflow-hidden shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] flex flex-col m-auto max-md:w-[95vw] max-md:h-[calc(100vh-140px)]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="certificate-header" style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              padding: '1.5rem 2rem',
-              background: '#f8fafc',
-              borderBottom: '1px solid #e2e8f0'
-            }}>
+            <div className="flex justify-between items-center py-6 px-8 bg-slate-50 border-b border-slate-200 max-md:p-4 max-md:flex-col max-md:items-start max-md:gap-4">
               <div>
-                <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 600, color: '#1e293b' }}>
+                <h3 className="m-0 text-[1.25rem] font-semibold text-slate-800">
                   Certificate - {viewingCertificate.title}
                 </h3>
-                <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.875rem', color: '#64748b' }}>
+                <p className="mt-1 mb-0 text-[0.875rem] text-slate-400">
                   {viewingCertificate.studentName} • {viewingCertificate.companyName}
                 </p>
               </div>
               <button
                 onClick={closeCertificateViewer}
-                style={{
-                  background: '#ef4444',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '8px',
-                  padding: '0.75rem',
-                  cursor: 'pointer',
-                  fontSize: '1rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  transition: 'all 0.2s'
-                }}
-                onMouseOver={(e) => {
-                  e.target.style.background = '#dc2626';
-                  e.target.style.transform = 'scale(1.05)';
-                }}
-                onMouseOut={(e) => {
-                  e.target.style.background = '#ef4444';
-                  e.target.style.transform = 'scale(1)';
-                }}
+                className="bg-red-500 text-white border-none rounded-lg p-3 cursor-pointer text-base flex items-center justify-center transition-all duration-200 hover:bg-red-600 hover:scale-105"
                 title="Close"
               >
                 <FaTimes />
@@ -577,39 +387,13 @@ export default function FacultyInternshipsRequests() {
             </div>
 
             {/* Certificate Content */}
-            <div className="certificate-content" style={{
-              flex: 1,
-              padding: '1rem',
-              background: '#f1f5f9',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              overflow: 'auto',
-              minHeight: 0
-            }}>
-              <div style={{
-                width: '100%',
-                height: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}>
+            <div className="flex-1 p-4 bg-slate-100 flex items-center justify-center overflow-auto min-h-0 max-md:p-2">
+              <div className="w-full h-full flex items-center justify-center">
                 <img
-                  className="certificate-image"
                   src={viewingCertificate.url}
                   alt={viewingCertificate.filename}
-                  style={{
-                    maxWidth: '100%',
-                    maxHeight: '100%',
-                    width: 'auto',
-                    height: 'auto',
-                    objectFit: 'contain',
-                    borderRadius: '8px',
-                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-                    transition: 'all 0.3s ease'
-                  }}
+                  className="max-w-full max-h-full w-auto h-auto object-contain rounded-lg shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1)] transition-all duration-300"
                   onLoad={(e) => {
-                    // Ensure the image is fully visible after loading
                     console.log('Certificate loaded:', e.target.naturalWidth, 'x', e.target.naturalHeight);
                   }}
                 />
@@ -618,58 +402,6 @@ export default function FacultyInternshipsRequests() {
           </div>
         </div>
       )}
-
-      <style>{`
-        .approved { color: #10b981; }
-        .pending { color: #ff4b5c; }
-        .spinner {
-          animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-
-        /* Certificate Viewer Responsive Styles */
-        @media (max-width: 768px) {
-          .certificate-modal {
-            width: 95vw !important;
-            height: calc(100vh - 140px) !important;
-            margin: 0 !important;
-          }
-          
-          .certificate-header {
-            padding: 1rem !important;
-            flex-direction: column !important;
-            align-items: flex-start !important;
-            gap: 1rem !important;
-          }
-          
-          .certificate-content {
-            padding: 0.5rem !important;
-          }
-          
-          .certificate-image {
-            border-radius: 4px !important;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .certificate-modal {
-            border-radius: 8px !important;
-            height: calc(100vh - 160px) !important;
-            width: 98vw !important;
-          }
-          
-          .certificate-header h3 {
-            font-size: 1rem !important;
-          }
-          
-          .certificate-header p {
-            font-size: 0.75rem !important;
-          }
-        }
-      `}</style>
     </div>
   );
 }

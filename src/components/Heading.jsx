@@ -2,16 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 
 export default function Heading({ text, alignment = "center", style = {} }) {
-  const headingStyle = {
-    textAlign: alignment,
-    fontSize: "2.5rem",
-    fontWeight: "700",
-    color: "#000",
-    marginBottom: "0.5rem",
-    ...style,
-  };
+  const alignClass = alignment === "left" ? "text-left" : alignment === "right" ? "text-right" : "text-center";
 
-  return <h1 style={headingStyle}>{text}</h1>;
+  return (
+    <h1
+      className={`${alignClass} text-[2.5rem] font-bold text-black mb-2`}
+      style={style}
+    >
+      {text}
+    </h1>
+  );
 }
 
 Heading.propTypes = {
