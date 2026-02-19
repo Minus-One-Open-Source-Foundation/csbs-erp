@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import bgImage from "../assets/bg.jpg";
 
 export default function Register() {
   const { register } = useAuth();
@@ -57,7 +58,7 @@ export default function Register() {
       setFeedback({ text: "Please fix form errors", type: "error" });
       return;
     }
-    
+
     setLoading(true);
     setFeedback(null);
 
@@ -68,215 +69,172 @@ export default function Register() {
       setTimeout(() => navigate("/login"), 1500);
     } catch (error) {
       console.error('Registration error details:', error);
-      setFeedback({ 
-        text: error.message || "Registration failed. Please try again.", 
-        type: "error" 
+      setFeedback({
+        text: error.message || "Registration failed. Please try again.",
+        type: "error"
       });
     } finally {
       setLoading(false);
     }
   };
 
-  return (
-    <div className="auth-wrapper">
-      <form className="auth-card" onSubmit={handleSubmit} noValidate>
-        <h1 className="title">Create Student Account</h1>
-        <p className="subtitle">Register to manage your student activity portfolio</p>
+  const inputBaseClass = "w-full py-[0.9rem] px-4 rounded-xl border bg-[rgba(240,244,248,0.95)] text-[#2c3e50] text-base outline-none transition-[box-shadow,transform] duration-200 placeholder:text-[rgba(44,62,80,0.5)] focus:shadow-[0_6px_18px_rgba(0,0,0,0.1)] focus:-translate-y-px focus:border-[rgba(44,62,80,0.7)]";
+  const inputNormalClass = `${inputBaseClass} border-[rgba(200,217,223,0.7)]`;
+  const inputErrorClass = `${inputBaseClass} !border-[#fc5c7d]`;
 
-        <label className="label">Full Name</label>
+  return (
+    <div
+      className="min-h-screen flex items-center justify-center p-8 font-sans bg-[length:cover,800%_800%] bg-blend-overlay animate-gradient-move"
+      style={{
+        background: `url("${bgImage}") center/cover no-repeat, linear-gradient(270deg, #8ec5fc, #e0c3fc, #f0f4f8, #cfd9df)`,
+        backgroundSize: "cover, 800% 800%",
+        animation: "gradientMove 25s ease infinite",
+      }}
+    >
+      <form
+        className="w-full max-w-[520px] bg-[rgba(255,255,255,0.85)] backdrop-blur-[12px] backdrop-saturate-[120%] rounded-[18px] p-[2.4rem] shadow-[0_18px_50px_rgba(0,0,0,0.1)] flex flex-col gap-[0.9rem] text-[#2c3e50] max-[720px]:p-[1.6rem] max-[720px]:text-[1.6rem]"
+        onSubmit={handleSubmit}
+        noValidate
+      >
+        <h1 className="m-0 text-center text-[1.9rem] font-bold text-[#2c3e50]">Create Student Account</h1>
+        <p className="m-0 text-center text-[#4f5d75] text-[0.98rem] mb-1">Register to manage your student activity portfolio</p>
+
+        <label className="text-[0.95rem] mt-2 text-[#2c3e50] font-semibold">Full Name</label>
         <input
           name="name"
           type="text"
           value={form.name}
           onChange={handleChange}
           placeholder="Your full name"
-          className={errors.name ? "input input-error" : "input"}
+          className={errors.name ? inputErrorClass : inputNormalClass}
           disabled={loading}
         />
-        {errors.name && <div className="field-error">{errors.name}</div>}
+        {errors.name && <div className="text-[#e74c3c] text-[0.86rem] mt-[0.35rem]">{errors.name}</div>}
 
-        <label className="label">Email</label>
+        <label className="text-[0.95rem] mt-2 text-[#2c3e50] font-semibold">Email</label>
         <input
           name="email"
           type="email"
           value={form.email}
           onChange={handleChange}
           placeholder="you@example.com"
-          className={errors.email ? "input input-error" : "input"}
+          className={errors.email ? inputErrorClass : inputNormalClass}
           disabled={loading}
         />
-        {errors.email && <div className="field-error">{errors.email}</div>}
+        {errors.email && <div className="text-[#e74c3c] text-[0.86rem] mt-[0.35rem]">{errors.email}</div>}
 
-        <label className="label">Password</label>
-        <div className="password-row">
+        <label className="text-[0.95rem] mt-2 text-[#2c3e50] font-semibold">Password</label>
+        <div className="relative flex items-center gap-[0.6rem]">
           <input
             name="password"
             type={showPassword ? "text" : "password"}
             value={form.password}
             onChange={handleChange}
             placeholder="At least 8 characters"
-            className={errors.password ? "input input-error" : "input"}
+            className={errors.password ? inputErrorClass : inputNormalClass}
             disabled={loading}
           />
           <button
             type="button"
-            className="toggle-btn"
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-transparent border-none text-[#2c3e50] font-semibold cursor-pointer py-[0.15rem] px-[0.6rem] rounded-lg"
             onClick={() => setShowPassword((s) => !s)}
             aria-label={showPassword ? "Hide password" : "Show password"}
           >
             {showPassword ? "Hide" : "Show"}
           </button>
         </div>
-        {errors.password && <div className="field-error">{errors.password}</div>}
+        {errors.password && <div className="text-[#e74c3c] text-[0.86rem] mt-[0.35rem]">{errors.password}</div>}
 
-        <label className="label">Confirm Password</label>
-        <div className="password-row">
+        <label className="text-[0.95rem] mt-2 text-[#2c3e50] font-semibold">Confirm Password</label>
+        <div className="relative flex items-center gap-[0.6rem]">
           <input
             name="confirmPassword"
             type={showConfirmPassword ? "text" : "password"}
             value={form.confirmPassword}
             onChange={handleChange}
             placeholder="Repeat password"
-            className={errors.confirmPassword ? "input input-error" : "input"}
+            className={errors.confirmPassword ? inputErrorClass : inputNormalClass}
             disabled={loading}
           />
           <button
             type="button"
-            className="toggle-btn"
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-transparent border-none text-[#2c3e50] font-semibold cursor-pointer py-[0.15rem] px-[0.6rem] rounded-lg"
             onClick={() => setShowConfirmPassword((s) => !s)}
             aria-label={showConfirmPassword ? "Hide confirm password" : "Show confirm password"}
           >
             {showConfirmPassword ? "Hide" : "Show"}
           </button>
         </div>
-        {errors.confirmPassword && <div className="field-error">{errors.confirmPassword}</div>}
+        {errors.confirmPassword && <div className="text-[#e74c3c] text-[0.86rem] mt-[0.35rem]">{errors.confirmPassword}</div>}
 
-        <label className="label">Phone (optional)</label>
+        <label className="text-[0.95rem] mt-2 text-[#2c3e50] font-semibold">Phone (optional)</label>
         <input
           name="phone"
           type="tel"
           value={form.phone}
           onChange={handleChange}
           placeholder="10-digit phone number"
-          className={errors.phone ? "input input-error" : "input"}
+          className={errors.phone ? inputErrorClass : inputNormalClass}
           disabled={loading}
         />
-        {errors.phone && <div className="field-error">{errors.phone}</div>}
+        {errors.phone && <div className="text-[#e74c3c] text-[0.86rem] mt-[0.35rem]">{errors.phone}</div>}
 
-        <button type="button" className="secondary-btn" onClick={handleSendOtp} disabled={loading}>
+        <button
+          type="button"
+          className="mt-[0.6rem] bg-transparent border border-dashed border-[rgba(44,62,80,0.3)] text-[#2c3e50] py-3 rounded-[10px] cursor-pointer hover:-translate-y-0.5"
+          onClick={handleSendOtp}
+          disabled={loading}
+        >
           {otpSent ? "Resend OTP" : "Send OTP"}
         </button>
 
         {otpSent && (
           <>
-            <label className="label">OTP</label>
+            <label className="text-[0.95rem] mt-2 text-[#2c3e50] font-semibold">OTP</label>
             <input
               name="otp"
               type="text"
               value={form.otp}
               onChange={handleChange}
               placeholder="Enter OTP (mock)"
-              className={errors.otp ? "input input-error" : "input"}
+              className={errors.otp ? inputErrorClass : inputNormalClass}
               disabled={loading}
             />
-            {errors.otp && <div className="field-error">{errors.otp}</div>}
+            {errors.otp && <div className="text-[#e74c3c] text-[0.86rem] mt-[0.35rem]">{errors.otp}</div>}
           </>
         )}
 
-        <button type="submit" className="primary-btn" disabled={loading}>
+        <button
+          type="submit"
+          className="mt-3 border-none py-[0.95rem] rounded-xl text-white font-bold text-base cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+          style={{ background: "linear-gradient(90deg, #6a82fb, #fc5c7d)" }}
+          disabled={loading}
+        >
           {loading ? "Registering..." : "Register"}
         </button>
 
-        <button type="button" className="ghost-btn" onClick={() => navigate("/login")} disabled={loading}>
+        <button
+          type="button"
+          className="mt-2 bg-transparent border-none text-[#2c3e50] font-semibold underline cursor-pointer"
+          onClick={() => navigate("/login")}
+          disabled={loading}
+        >
           Back to Login
         </button>
 
         {feedback && (
           <div
-            className={`feedback ${
-              feedback.type === "success"
-                ? "fb-success"
+            className={`mt-[0.6rem] p-[0.6rem] rounded-[10px] text-center font-bold ${feedback.type === "success"
+                ? "bg-[#d8ffe8] text-[#006b29]"
                 : feedback.type === "info"
-                ? "fb-info"
-                : "fb-error"
-            }`}
+                  ? "bg-[#dbe7ff] text-[#0446c7]"
+                  : "bg-[#fff2f3] text-[#b00020]"
+              }`}
           >
             {feedback.text}
           </div>
         )}
       </form>
-
-      <style>{`
-        :root {
-          --card-bg: rgba(255,255,255,0.85);
-          --input-bg: rgba(240, 244, 248, 0.95);
-          --glass-border: rgba(200, 217, 223,0.7);
-          --accent-1: #6a82fb;
-          --accent-2: #fc5c7d;
-        }
-
-        * { box-sizing: border-box; }
-
-        .auth-wrapper {
-          min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 2rem;
-          font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-
-          /* Background image + animated gradient overlay */
-          background: url("/src/assets/bg.jpg") center/cover no-repeat,
-                      linear-gradient(270deg, #8ec5fc, #e0c3fc, #f0f4f8, #cfd9df);
-          background-size: cover, 800% 800%;
-          background-blend-mode: overlay;
-          animation: gradientMove 25s ease infinite;
-        }
-
-        @keyframes gradientMove {
-          0% { background-position: center, 0% 50%; }
-          25% { background-position: center, 50% 50%; }
-          50% { background-position: center, 100% 50%; }
-          75% { background-position: center, 50% 50%; }
-          100% { background-position: center, 0% 50%; }
-        }
-
-        .auth-card {
-          width: 100%;
-          max-width: 520px;
-          background: var(--card-bg);
-          backdrop-filter: blur(12px) saturate(120%);
-          border-radius: 18px;
-          padding: 2.4rem;
-          box-shadow: 0 18px 50px rgba(0,0,0,0.1);
-          display: flex;
-          flex-direction: column;
-          gap: 0.9rem;
-          color: #2c3e50;
-        }
-
-        .title{ margin:0; text-align:center; font-size:1.9rem; font-weight:700; color:#2c3e50; }
-        .subtitle{ margin:0; text-align:center; color:#4f5d75; font-size:0.98rem; margin-bottom:0.4rem; }
-        .label{ font-size:0.95rem; margin-top:0.5rem; color:#2c3e50; font-weight:600; }
-        .input{ width:100%; padding:0.9rem 1rem; border-radius:12px; border:1px solid var(--glass-border); background:var(--input-bg); color:#2c3e50; font-size:1rem; outline:none; transition: box-shadow .18s, transform .12s; }
-        .input::placeholder{ color: rgba(44,62,80,0.5); }
-        .input:focus{ box-shadow:0 6px 18px rgba(0,0,0,0.1); transform:translateY(-1px); border-color: rgba(44,62,80,0.7); }
-        .input-error{ border-color:#fc5c7d !important; }
-        .field-error{ color:#e74c3c; font-size:0.86rem; margin-top:0.35rem; }
-        .password-row{ position:relative; display:flex; align-items:center; gap:0.6rem; }
-        .toggle-btn{ position:absolute; right:0.5rem; top:50%; transform:translateY(-50%); background:transparent; border:none; color:#2c3e50; font-weight:600; cursor:pointer; padding:0.15rem 0.6rem; border-radius:8px; }
-        .secondary-btn{ margin-top:0.6rem; background:transparent; border:1px dashed rgba(44,62,80,0.3); color:#2c3e50; padding:0.75rem; border-radius:10px; cursor:pointer; }
-        .secondary-btn:hover{ transform:translateY(-2px); }
-        .primary-btn{ margin-top:0.8rem; background: linear-gradient(90deg,var(--accent-1),var(--accent-2)); border:none; padding:0.95rem; border-radius:12px; color:#fff; font-weight:700; font-size:1rem; cursor:pointer; }
-        .primary-btn:disabled{ opacity:0.7; cursor:not-allowed; }
-        .ghost-btn{ margin-top:0.5rem; background:none; border:none; color:#2c3e50; font-weight:600; text-decoration:underline; cursor:pointer; }
-        .feedback{ margin-top:0.6rem; padding:0.6rem; border-radius:10px; text-align:center; font-weight:700; }
-        .fb-success{ background:#d8ffe8; color:#006b29; }
-        .fb-error{ background:#fff2f3; color:#b00020; }
-        .fb-info{ background:#dbe7ff; color:#0446c7; }
-
-        @media (max-width:720px){ .auth-card{ padding:1.6rem; } .title{ font-size:1.6rem; } }
-      `}</style>
     </div>
   );
 }

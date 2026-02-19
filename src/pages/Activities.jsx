@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import bgImage from "../assets/bg.jpg";
 
 export default function Activities() {
   const [activities, setActivities] = useState([]);
   const [activity, setActivity] = useState("");
   const [showForm, setShowForm] = useState(false);
-  const [selectedFilter, setSelectedFilter] = useState("All"); // State to track selected filter
+  const [selectedFilter, setSelectedFilter] = useState("All");
   const [formData, setFormData] = useState({
     title: "",
     date: "",
@@ -24,45 +25,42 @@ export default function Activities() {
   };
 
   return (
-    <div className="activities-wrapper">
-      <header>
-        <h1>Co-Curriculars</h1>
-        <p>Add and track all your activities</p>
+    <div
+      className="min-h-screen py-12 px-8 bg-cover bg-center bg-fixed font-sans text-gray-800 max-sm:px-3 max-sm:py-6"
+      style={{ backgroundImage: `url('${bgImage}')` }}
+    >
+      <header className="text-center mb-8">
+        <h1 className="text-2xl font-bold text-black mb-2">Co-Curriculars</h1>
+        <p className="text-base text-gray-500">Add and track all your activities</p>
       </header>
 
       {/* Search + Filters + Add Button */}
-      <section className="form-section">
+      <section className="flex gap-4 flex-wrap justify-center mb-8 max-sm:flex-col max-sm:gap-3">
         <input
           type="text"
           placeholder="Search activity..."
           value={activity}
           onChange={(e) => setActivity(e.target.value)}
-          className="search-bar"
+          className="flex-[0.5] min-w-[220px] py-3 px-4 rounded-[14px] border border-gray-300 outline-none text-base shadow-[0_2px_8px_rgba(0,0,0,0.05)] focus:shadow-[0_0_10px_rgba(100,100,255,0.2)] max-sm:min-w-0 max-sm:w-full"
         />
-        <div className="button-group-under-search">
-          <div className="filters-and-add">
-            <div className="filters">
-              <button
-                className={`filter-btn ${selectedFilter === "All" ? "active" : ""}`}
-                onClick={() => setSelectedFilter("All")}
-              >
-                All
-              </button>
-              <button
-                className={`filter-btn ${selectedFilter === "Participation" ? "active" : ""}`}
-                onClick={() => setSelectedFilter("Participation")}
-              >
-                Participation
-              </button>
-              <button
-                className={`filter-btn ${selectedFilter === "Prize Winning" ? "active" : ""}`}
-                onClick={() => setSelectedFilter("Prize Winning")}
-              >
-                Prize Winning
-              </button>
+        <div className="w-full flex flex-col items-stretch">
+          <div className="flex flex-row gap-[1.2rem] items-center mt-[0.7rem] flex-wrap justify-center">
+            <div className="flex gap-4 max-sm:gap-2 max-sm:flex-wrap">
+              {["All", "Participation", "Prize Winning"].map((f) => (
+                <button
+                  key={f}
+                  className={`py-[13px] px-5 rounded-xl border-none cursor-pointer text-white font-bold text-base shadow-[0_8px_26px_rgba(238,9,121,0.13)] transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_rgba(238,9,121,0.18)] ${selectedFilter === f ? "opacity-100" : "opacity-80"
+                    }`}
+                  style={{ background: "linear-gradient(90deg, #ff6a00, #ee0979)" }}
+                  onClick={() => setSelectedFilter(f)}
+                >
+                  {f}
+                </button>
+              ))}
             </div>
             <button
-              className="add-btn"
+              className="py-3 px-6 border-none text-white font-semibold text-base rounded-2xl cursor-pointer shadow-[0_8px_26px_rgba(238,9,121,0.13)] transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_rgba(238,9,121,0.18)]"
+              style={{ background: "linear-gradient(90deg, #ff6a00, #ee0979)" }}
               onClick={() => setShowForm(true)}
             >
               Add Activity
@@ -73,12 +71,15 @@ export default function Activities() {
 
       {/* Modal Form */}
       {showForm && (
-        <div className="modal-overlay" onClick={() => setShowForm(false)}>
+        <div
+          className="fixed inset-0 bg-black/50 flex justify-center items-center z-[1000]"
+          onClick={() => setShowForm(false)}
+        >
           <div
-            className="modal"
+            className="bg-[#f0f7ff] p-8 rounded-2xl w-full max-w-[400px] flex flex-col gap-4 shadow-[0_12px_30px_rgba(0,0,0,0.2)] animate-fade-in border border-[#c8e1ff] max-sm:max-w-[95vw] max-sm:p-5"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 style={{ color: "#000" }}>Add New Activity</h2>
+            <h2 className="m-0 mb-2 text-[1.4rem] text-[#1a3c6e]">Add New Activity</h2>
             <input
               type="text"
               placeholder="Enter Title"
@@ -86,6 +87,7 @@ export default function Activities() {
               onChange={(e) =>
                 setFormData({ ...formData, title: e.target.value })
               }
+              className="w-full py-3 px-3 border border-[#aac9f0] rounded-[10px] text-base bg-white"
             />
             <input
               type="date"
@@ -93,6 +95,7 @@ export default function Activities() {
               onChange={(e) =>
                 setFormData({ ...formData, date: e.target.value })
               }
+              className="w-full py-3 px-3 border border-[#aac9f0] rounded-[10px] text-base bg-white"
             />
             <textarea
               placeholder="Enter Description"
@@ -100,17 +103,27 @@ export default function Activities() {
               onChange={(e) =>
                 setFormData({ ...formData, description: e.target.value })
               }
+              className="w-full py-3 px-3 border border-[#aac9f0] rounded-[10px] text-base bg-white min-h-[80px] resize-none"
             />
             <select
-              style={{ padding: "0.6rem", borderRadius: "12px", border: "1px solid #ccc" }}
+              className="py-2.5 px-3 rounded-xl border border-gray-300"
               onChange={(e) => console.log(e.target.value)}
             >
               <option value="participation">Participation</option>
               <option value="prize">Prize Winning</option>
             </select>
-            <div className="modal-actions">
-              <button onClick={addActivity}>Save</button>
-              <button className="cancel" onClick={() => setShowForm(false)}>
+            <div className="flex justify-end gap-4 mt-2">
+              <button
+                onClick={addActivity}
+                className="py-2.5 px-5 border-none rounded-lg font-semibold cursor-pointer text-white"
+                style={{ background: "linear-gradient(90deg, #6a11cb, #2575fc)" }}
+              >
+                Save
+              </button>
+              <button
+                className="py-2.5 px-5 border-none rounded-lg font-semibold cursor-pointer bg-[#e3eaf7] text-gray-800"
+                onClick={() => setShowForm(false)}
+              >
                 Cancel
               </button>
             </div>
@@ -119,247 +132,30 @@ export default function Activities() {
       )}
 
       {/* Activities List */}
-      <section className="cards-container">
+      <section className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-6 max-[480px]:grid-cols-1">
         {activities.length === 0 ? (
-          <div className="empty">No activities added yet.</div>
+          <div className="text-center text-base text-gray-400 col-span-full">No activities added yet.</div>
         ) : (
           activities.map((act) => (
-            <div key={act.id} className="activity-card">
+            <div
+              key={act.id}
+              className="bg-[#f9f9f9] rounded-2xl py-4 px-6 flex flex-col gap-2 font-medium transition-[transform,box-shadow] duration-[250ms] hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(0,0,0,0.1)]"
+            >
               <div>
                 <strong>{act.title}</strong>
                 <p>{act.date}</p>
                 <small>{act.description}</small>
               </div>
-              <button onClick={() => removeActivity(act.id)}>❌</button>
+              <button
+                onClick={() => removeActivity(act.id)}
+                className="bg-none border-none text-[#ff4b5c] cursor-pointer text-[1.1rem] self-end"
+              >
+                ❌
+              </button>
             </div>
           ))
         )}
       </section>
-
-      <style>{`
-        .activities-wrapper {
-          min-height: 100vh;
-          padding: 3rem 2rem;
-          background: url("/src/assets/bg.jpg") no-repeat center center fixed;
-          background-size: cover;
-          font-family: 'Inter', sans-serif;
-          color: #333;
-        }
-        header {
-          text-align: center;
-          margin-bottom: 2rem;
-        }
-        header h1 {
-          font-size: 2rem;
-          font-weight: 700;
-          color: #000;
-          margin-bottom: 0.5rem;
-        }
-        header p {
-          font-size: 1rem;
-          color: #555;
-        }
-        .form-section {
-          display: flex;
-          gap: 1rem;
-          flex-wrap: wrap;
-          justify-content: center;
-          margin-bottom: 2rem;
-        }
-        .form-section input {
-          flex: 0.5;
-          min-width: 220px;
-          padding: 0.8rem 1rem;
-          border-radius: 12px;
-          border: 1px solid #ccc;
-          outline: none;
-          font-size: 1rem;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        .form-section input:focus {
-          box-shadow: 0 0 10px rgba(100, 100, 255, 0.2);
-        }
-        .form-section button {
-          padding: 0.8rem 1.5rem;
-          background: linear-gradient(90deg,#6a11cb,#2575fc);
-          border: none;
-          color: #fff;
-          font-weight: 600;
-          border-radius: 12px;
-          cursor: pointer;
-          transition: transform 0.15s, box-shadow 0.2s;
-        }
-        .form-section button:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-        }
-        /* Only this section changes for full button gradient color */
-        .add-btn {
-          padding: 0.75rem 1.6rem;
-          background: linear-gradient(90deg, #ff6a00 0%, #ee0979 100%) !important;
-          border: none;
-          color: #fff;
-          font-weight: 600;
-          font-size: 1rem;
-          border-radius: 16px;
-          cursor: pointer;
-          box-shadow: 0 8px 26px rgba(238, 9, 121, 0.13);
-          transition: transform 0.15s, box-shadow 0.2s;
-        }
-        .add-btn:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 10px 30px rgba(238, 9, 121, 0.18);
-        }
-        .cards-container {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-          gap: 1.5rem;
-        }
-        .activity-card {
-          background: #f9f9f9;
-          border-radius: 16px;
-          padding: 1rem 1.5rem;
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          font-weight: 500;
-          flex-direction: column;
-          gap: 0.5rem;
-          transition: transform 0.25s, box-shadow 0.25s;
-        }
-        .activity-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 12px 28px rgba(0,0,0,0.1);
-        }
-        .activity-card button {
-          background: none;
-          border: none;
-          color: #ff4b5c;
-          cursor: pointer;
-          font-size: 1.1rem;
-          align-self: flex-end;
-        }
-        .empty {
-          text-align: center;
-          font-size: 1rem;
-          color: #999;
-          grid-column: 1/-1;
-        }
-        /* Modal Styling */
-        .modal-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0,0,0,0.5);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          z-index: 1000;
-        }
-        .modal {
-          background: #f0f7ff;
-          padding: 2rem;
-          border-radius: 16px;
-          width: 100%;
-          max-width: 400px;
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-          box-shadow: 0 12px 30px rgba(0,0,0,0.2);
-          animation: fadeIn 0.3s ease-in-out;
-          border: 1px solid #c8e1ff;
-        }
-        .modal h2 {
-          margin: 0 0 0.5rem;
-          font-size: 1.4rem;
-          color: #1a3c6e;
-        }
-        .modal input,
-        .modal textarea {
-          width: 100%;
-          padding: 0.8rem;
-          border: 1px solid #aac9f0;
-          border-radius: 10px;
-          font-size: 1rem;
-          background: #ffffff;
-        }
-        .modal textarea {
-          min-height: 80px;
-          resize: none;
-        }
-        .modal-actions {
-          display: flex;
-          justify-content: flex-end;
-          gap: 1rem;
-          margin-top: 0.5rem;
-        }
-        .modal-actions button {
-          padding: 0.6rem 1.2rem;
-          border: none;
-          border-radius: 8px;
-          font-weight: 600;
-          cursor: pointer;
-        }
-        .modal-actions button:first-child {
-          background: linear-gradient(90deg,#6a11cb,#2575fc);
-          color: #fff;
-        }
-        .modal-actions .cancel {
-          background: #e3eaf7;
-          color: #333;
-        }
-        @keyframes fadeIn {
-          from { opacity: 0; transform: scale(0.95); }
-          to { opacity: 1; transform: scale(1); }
-        }
-        @media(max-width:600px){
-          .form-section { flex-direction: column; gap: 0.8rem; }
-        }
-        .search-bar {
-          padding: 0.75rem 1.2rem;
-          border-radius: 14px;
-          border: 1px solid #ccc;
-          outline: none;
-          font-size: 1rem;
-        }
-        .filter-btn {
-          padding: 13px 20px;
-          border-radius: 12px;
-          border: none;
-          cursor: pointer;
-          background: linear-gradient(90deg, #ff6a00, #ee0979);
-          color: #fff;
-          font-weight: 700;
-          font-size: 1rem;
-          box-shadow: 0 8px 26px rgba(238, 9, 121, 0.13);
-          transition: transform 0.13s, box-shadow 0.2s;
-        }
-        .filter-btn:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 10px 30px rgba(238, 9, 121, 0.18);
-        }
-        .button-group-under-search {
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: stretch;
-        }
-        .filters-and-add {
-          display: flex;
-          flex-direction: row;
-          gap: 1.2rem;
-          align-items: center;
-          margin-top: 0.7rem;
-          flex-wrap: wrap;
-          justify-content: center;
-        }
-        .filters {
-          display: flex;
-          gap: 1rem;
-        }
-      `}</style>
     </div>
   );
 }

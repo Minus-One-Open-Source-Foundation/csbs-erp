@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { toast } from "react-toastify";
 
 export default function GradeManagement() {
   const [studentInfo, setStudentInfo] = useState({
@@ -39,22 +40,24 @@ export default function GradeManagement() {
   const handleSave = () => {
     console.log("Student Info:", studentInfo);
     console.log("Uploaded Records:", semesters);
-    alert(
+    toast.success(
       "Grades/marksheets saved successfully and reflected on student page!"
     );
   };
 
+  const inputClass = "ml-2 py-2 px-2.5 border border-purple-400/35 rounded-lg min-w-[220px] max-w-[320px] text-base backdrop-blur-[6px] text-white transition-all duration-[250ms] focus:border-purple-700 placeholder:text-white/70";
+
   return (
-    <div className="grade-management">
+    <div className="p-8 font-sans text-center max-sm:p-4">
       <h1>Grade Management</h1>
-      <p className="subtitle">
+      <p className="mb-4 text-gray-600">
         Upload marksheets for each semester. These will reflect in the
-        student’s Academic Records page.
+        student's Academic Records page.
       </p>
 
       {/* Editable student info */}
-      <div className="student-info">
-        <label>
+      <div className="p-4 rounded-lg mb-6 flex flex-wrap justify-center gap-4 items-center max-sm:flex-col max-sm:items-stretch">
+        <label className="text-[0.95rem] text-black font-semibold">
           Student Name:{" "}
           <input
             type="text"
@@ -62,9 +65,11 @@ export default function GradeManagement() {
             onChange={(e) =>
               setStudentInfo({ ...studentInfo, name: e.target.value })
             }
+            className={inputClass}
+            style={{ background: "rgba(118, 75, 162, 0.45)" }}
           />
         </label>
-        <label>
+        <label className="text-[0.95rem] text-black font-semibold">
           Register No:{" "}
           <input
             type="text"
@@ -72,216 +77,69 @@ export default function GradeManagement() {
             onChange={(e) =>
               setStudentInfo({ ...studentInfo, registerNo: e.target.value })
             }
+            className={inputClass}
+            style={{ background: "rgba(118, 75, 162, 0.45)" }}
           />
         </label>
-        <label>
+        <label className="text-[0.95rem] text-black font-semibold">
           Department:{" "}
           <input
             type="text"
-            className="dept-input"
             size={studentInfo.dept.length + 2}
             value={studentInfo.dept}
             onChange={(e) =>
               setStudentInfo({ ...studentInfo, dept: e.target.value })
             }
             ref={deptInputRef}
+            className={`${inputClass} min-w-[120px] max-w-full transition-[width] duration-200`}
+            style={{ background: "rgba(118, 75, 162, 0.45)" }}
           />
         </label>
 
-        <button className="search-btn">Search</button>
+        <button
+          className="border-none rounded-md py-2.5 px-5 cursor-pointer text-white text-base font-semibold transition-all duration-300 hover:-translate-y-[3px] hover:shadow-[0_6px_20px_rgba(102,126,234,0.3)]"
+          style={{ background: "linear-gradient(90deg, #ff6a00, #ee0979)" }}
+        >
+          Search
+        </button>
       </div>
 
       {/* Semester cards */}
-      <div className="semester-grid">
+      <div className="grid grid-cols-4 gap-8 mt-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 max-sm:gap-4">
         {semesters.map((sem) => (
-          <div key={sem.id} className="semester-card">
-            <h3>{sem.name}</h3>
-            <label className="custom-file-upload">
+          <div
+            key={sem.id}
+            className="bg-white rounded-xl shadow-[0_2px_6px_#764ba2] p-8 text-center min-h-[180px] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_8px_20px_#667eea]"
+          >
+            <h3 className="mb-4 text-[#3a3aee]">{sem.name}</h3>
+            <label
+              className="inline-block py-2 px-4 cursor-pointer rounded-md text-white font-semibold text-[0.9rem] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(102,126,234,0.3)]"
+              style={{ background: "linear-gradient(90deg, #667eea, #764ba2)" }}
+            >
               Choose File
               <input
                 type="file"
                 accept=".pdf,.xlsx,.xls"
                 onChange={(e) => handleFileChange(sem.id, e.target.files[0])}
+                className="hidden"
               />
             </label>
 
             {/* Display file name or "Not uploaded" below the button */}
-            <p className={sem.file ? "uploaded" : "not-uploaded"}>
+            <p className={sem.file ? "text-green-600 font-bold text-[0.9rem] mt-2.5" : "text-[#e7529a] text-[0.9rem] mt-2.5"}>
               {sem.file ? `📄 ${sem.file.name}` : "Not Uploaded"}
             </p>
           </div>
         ))}
       </div>
 
-      <button className="save-btn" onClick={handleSave}>
+      <button
+        className="mt-8 py-3 px-8 border-none rounded-lg text-white text-base cursor-pointer transition-all duration-300 hover:-translate-y-[3px] hover:shadow-[0_6px_20px_rgba(238,9,121,0.3)]"
+        style={{ background: "linear-gradient(90deg, #ff6a00, #ee0979)" }}
+        onClick={handleSave}
+      >
         Save Changes
       </button>
-
-      <style>{`
-        /* Hide default file input */
-        .semester-card input[type="file"] {
-          display: none;
-        }
-
-        /* Custom file upload button */
-        .custom-file-upload {
-          display: inline-block;
-          padding: 0.5rem 1rem;
-          cursor: pointer;
-          border-radius: 6px;
-          background: linear-gradient(90deg, #667eea, #764ba2);
-          color: white;
-          font-weight: 600;
-          font-size: 0.9rem;
-          transition: all 0.3s ease;
-        }
-
-        .custom-file-upload:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-        }
-
-        /* File name display below button */
-        .uploaded {
-          color: green;
-          font-weight: bold;
-          font-size: 0.9rem;
-          margin-top: 0.6rem;
-        }
-
-        .not-uploaded {
-          color: #e7529aff;
-          font-size: 0.9rem;
-          margin-top: 0.6rem;
-        }
-
-        .grade-management {
-          padding: 2rem;
-          font-family: 'Inter', sans-serif;
-          text-align: center;
-        }
-
-        .subtitle {
-          margin-bottom: 1rem;
-          color: #505255ff;
-        }
-
-        .student-info {
-         
-          padding: 1rem;
-          border-radius: 8px;
-          margin-bottom: 1.5rem;
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: center;
-          gap: 1rem;
-          align-items: center;
-        }
-
-        .student-info label {
-          font-size: 0.95rem;
-          color: #000000ff;
-          font-weight: 580;
-        }
-
-        .student-info input {
-          margin-left: 0.5rem;
-          padding: 0.5rem 0.6rem;
-          border: 1px solid rgba(118, 75, 162, 0.35);
-          border-radius: 8px;
-          min-width: 220px;
-          max-width: 320px;
-          font-size: 1rem;
-          background: rgba(118, 75, 162, 0.45);
-          backdrop-filter: blur(6px);
-          color: #fff;
-          transition: all 0.25s ease;
-        }
-
-        .student-info input::placeholder {
-          color: rgba(255, 255, 255, 0.7);
-        }
-
-        .student-info input:focus {
-          border-color: #764ba2;
-          background: rgba(118, 75, 162, 0.45);
-          color: #fff;
-        }
-
-        .dept-input {
-          min-width: 120px;
-          max-width: 100%;
-          transition: width 0.2s ease;
-        }
-
-        .search-btn {
-          background: linear-gradient(90deg, #ff6a00, #ee0979);
-          border: none;
-          border-radius: 6px;
-          padding: 0.6rem 1.4rem;
-          cursor: pointer;
-          color: white;
-          font-size: 1rem;
-          font-weight: 600;
-          transition: background 0.3s, transform 0.15s ease, box-shadow 0.2s ease;
-        }
-
-        .search-btn:hover {
-          background: linear-gradient(90deg, #ff6a00, #ee0979);
-          transform: translateY(-3px);
-          box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        .semester-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2rem; /* Increased gap for more vertical & horizontal spacing */
-  margin-top: 1rem;
-}
-
-.semester-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px #764ba2;
-  padding: 2rem; /* Increased padding to make card taller */
-  text-align: center;
-  min-height: 180px; /* Ensure consistent taller height */
-  transition: all 0.3s ease;
-}
-
-
-        .semester-card:hover {
-          transform: translateY(-6px);
-          box-shadow: 0 8px 20px #667eea;
-        }
-
-        .semester-card h3 {
-          margin-bottom: 1rem;
-          color: #3a3aee;
-        }
-
-        .semester-card input {
-          margin: 0.5rem 0;
-        }
-
-        .save-btn {
-          margin-top: 2rem;
-          padding: 0.8rem 2rem;
-          border: none;
-          border-radius: 8px;
-          background: linear-gradient(90deg, #ff6a00, #ee0979);
-          color: white;
-          font-size: 1rem;
-          cursor: pointer;
-          transition: background 0.3s, transform 0.15s ease, box-shadow 0.2s ease;
-        }
-
-        .save-btn:hover {
-          background: linear-gradient(90deg, #ff6a00, #ee0979);
-          transform: translateY(-3px);
-          box-shadow: 0 6px 20px rgba(238, 9, 121, 0.3);
-        }
-      `}</style>
     </div>
   );
 }

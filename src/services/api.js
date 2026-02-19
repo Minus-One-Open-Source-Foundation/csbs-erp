@@ -1,7 +1,18 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL, // Spring Boot backend
+  baseURL: (() => {
+    let url = import.meta.env.VITE_API_URL;
+    // Fallback to localhost only if strictly necessary or removed per instruction
+    if (!url) {
+      console.warn('VITE_API_URL is not defined in .env');
+      return '/api'; // Relative path for proxy or similar
+    }
+    if (!url.endsWith('/api')) {
+      return url.endsWith('/') ? `${url}api` : `${url}/api`;
+    }
+    return url;
+  })(), // Spring Boot backend
 });
 
 // Add token to requests if available
@@ -68,6 +79,7 @@ api.deleteUserByEmail = async (email) => {
 };
 
 // Authentication API functions
+// Matches AuthController endpoints: @RequestMapping("/api/auth")
 export const authAPI = {
   login: async (email, password) => {
     try {
@@ -79,7 +91,9 @@ export const authAPI = {
     } catch (error) {
       // Handle HTTP error responses
       if (error.response) {
-        throw error.response.data;
+        // Extract error message from AuthResponse if available
+        const errorMessage = error.response.data?.message || 'Login failed';
+        throw new Error(errorMessage);
       }
       throw error;
     }
@@ -123,7 +137,14 @@ export const authAPI = {
 
 // File upload API (for blob storage)
 const fileAPI = axios.create({
-  baseURL: import.meta.env.VITE_API_URL.replace('/api/', '/'), // No /api prefix for file endpoints
+  baseURL: (() => {
+    let url = import.meta.env.VITE_API_URL;
+    if (!url) return 'http://localhost:8080/api';
+    if (!url.endsWith('/api')) {
+      return url.endsWith('/') ? `${url}api` : `${url}/api`;
+    }
+    return url;
+  })(), // Ensure /api prefix for file endpoints too
 });
 
 // Add token to file requests if available

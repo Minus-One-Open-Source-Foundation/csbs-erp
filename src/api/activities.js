@@ -1,5 +1,15 @@
-// src/api/activities.js
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8080";
+// src/activities.js
+const API_BASE = (() => {
+  let url = import.meta.env.VITE_API_URL;
+  if (!url) {
+     console.warn("VITE_API_URL not set in .env");
+     return "";
+  }
+  if (!url.endsWith('/api')) {
+    return url.endsWith('/') ? `${url}api` : `${url}/api`;
+  }
+  return url;
+})();
 
 function getAuthHeader() {
   const token = localStorage.getItem("token");
@@ -38,15 +48,15 @@ async function request(path, options = {}) {
 
 export const getPendingActivities = (params = {}) => {
   const qs = new URLSearchParams(params).toString();
-  const path = `/api/activities/pending${qs ? `?${qs}` : ""}`;
+  const path = `/activities/pending${qs ? `?${qs}` : ""}`;
   return request(path, { method: "GET" });
 };
 
 export const approveActivity = (id) =>
-  request(`/api/activities/${id}/approve`, { method: "POST" });
+  request(`/activities/${id}/approve`, { method: "POST" });
 
 export const rejectActivity = (id, reason) =>
-  request(`/api/activities/${id}/reject`, {
+  request(`/activities/${id}/reject`, {
     method: "POST",
     body: JSON.stringify({ reason }),
   });

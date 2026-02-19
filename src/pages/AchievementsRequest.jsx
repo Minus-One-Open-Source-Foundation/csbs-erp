@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import { FaTrophy, FaCheckCircle, FaTimesCircle, FaSpinner, FaUser, FaCalendar, FaFileAlt, FaImage, FaTimes, FaExclamationCircle } from "react-icons/fa";
 import { achievementAPI } from "../services/api";
 
 export default function AchievementsRequest() {
   console.log('🎯 AchievementsRequest component initialized');
-  
+
   const [achievements, setAchievements] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -23,6 +24,8 @@ export default function AchievementsRequest() {
 
   const achievementCategoryLabels = {
     "SYMPOSIUM": "Symposium",
+    "INTRA_DEPARTMENT": "Intra-Department",
+    "INTER_DEPARTMENT": "Inter-Department",
     "ACADEMIC": "Academic",
     "CERTIFICATIONS": "Certifications",
     "OTHERS": "Others"
@@ -39,7 +42,7 @@ export default function AchievementsRequest() {
       // Get all achievements (faculty endpoint should return all student achievements)
       const response = await achievementAPI.getAllForFaculty();
       console.log('📊 Raw API Response:', response);
-      
+
       if (response.success && response.data) {
         console.log('✅ Successfully fetched achievement requests:', response.data.length);
         setAchievements(response.data);
@@ -72,18 +75,19 @@ export default function AchievementsRequest() {
       setProcessingIds(prev => new Set([...prev, achievementId]));
 
       const response = await achievementAPI.updateStatus(achievementId, 'APPROVED');
-      
+
       if (response.success) {
         console.log('✅ Achievement approved successfully');
+        toast.success('Achievement approved successfully');
         // Refresh the list
         await fetchAllAchievements();
       } else {
         console.error('❌ Failed to approve achievement:', response.message);
-        alert('Failed to approve achievement: ' + (response.message || 'Unknown error'));
+        toast.error('Failed to approve achievement: ' + (response.message || 'Unknown error'));
       }
     } catch (error) {
       console.error('💥 Error approving achievement:', error);
-      alert('Error approving achievement. Please try again.');
+      toast.error('Error approving achievement. Please try again.');
     } finally {
       setProcessingIds(prev => {
         const newSet = new Set(prev);
@@ -100,18 +104,18 @@ export default function AchievementsRequest() {
       setProcessingIds(prev => new Set([...prev, achievementId]));
 
       const response = await achievementAPI.updateStatus(achievementId, 'REJECTED');
-      
+
       if (response.success) {
-        console.log('✅ Achievement rejected successfully');
+        toast.success('Achievement rejected successfully');
         // Refresh the list
         await fetchAllAchievements();
       } else {
         console.error('❌ Failed to reject achievement:', response.message);
-        alert('Failed to reject achievement: ' + (response.message || 'Unknown error'));
+        toast.error('Failed to reject achievement: ' + (response.message || 'Unknown error'));
       }
     } catch (error) {
       console.error('💥 Error rejecting achievement:', error);
-      alert('Error rejecting achievement. Please try again.');
+      toast.error('Error rejecting achievement. Please try again.');
     } finally {
       setProcessingIds(prev => {
         const newSet = new Set(prev);
@@ -150,11 +154,11 @@ export default function AchievementsRequest() {
 
   if (loading) {
     return (
-      <div className="achievements-request-wrapper" style={{ padding: "2rem", minHeight: "100vh", background: "#ffffff" }}>
-        <div style={{ textAlign: "center", padding: "3rem", background: "#f8f9fa", borderRadius: "8px", margin: "2rem auto", maxWidth: "400px", border: "1px solid #e0e0e0" }}>
-          <FaSpinner className="spinner" style={{ fontSize: "2rem", color: "#007bff" }} />
-          <p style={{ fontSize: "1.1rem", color: "#495057", margin: "1rem 0 0.5rem 0" }}>Loading achievement requests...</p>
-          <div style={{ fontSize: "0.9rem", color: "#6c757d" }}>
+      <div className="p-8 min-h-screen bg-white animate-fade-in">
+        <div className="text-center p-12 bg-gray-50 rounded-lg mx-auto my-8 max-w-[400px] border border-gray-200">
+          <FaSpinner className="animate-spin text-[2rem] text-blue-600 mx-auto" />
+          <p className="text-[1.1rem] text-gray-600 mt-4 mb-2">Loading achievement requests...</p>
+          <div className="text-[0.9rem] text-gray-500">
             Fetching student submissions for review
           </div>
         </div>
@@ -164,22 +168,24 @@ export default function AchievementsRequest() {
 
   if (error) {
     return (
-      <div className="achievements-request-wrapper" style={{ padding: "2rem", minHeight: "100vh", background: "#ffffff" }}>
-        <div style={{ textAlign: "center", padding: "3rem", background: "#f8f9fa", borderRadius: "8px", margin: "2rem auto", maxWidth: "500px", border: "1px solid #e0e0e0" }}>
-          <h2 style={{ color: "#dc3545", marginBottom: "1rem" }}>⚠️ Error Loading Requests</h2>
-          <p style={{ color: "#dc3545", fontSize: "1.1rem", marginBottom: "1rem" }}>{error}</p>
-          <div style={{ display: "flex", gap: "1rem", justifyContent: "center" }}>
-            <button 
-              onClick={fetchAllAchievements} 
-              style={{ padding: "0.5rem 1rem", background: "#007bff", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}
+      <div className="p-8 min-h-screen bg-white animate-fade-in">
+        <div className="text-center p-12 bg-gray-50 rounded-lg mx-auto my-8 max-w-[500px] border border-gray-200">
+          <h2 className="text-red-600 mb-4">⚠️ Error Loading Requests</h2>
+          <p className="text-red-600 text-[1.1rem] mb-4">{error}</p>
+          <div className="flex gap-4 justify-center">
+            <button
+              onClick={fetchAllAchievements}
+              className="py-2 px-4 bg-blue-600 text-white border-none rounded cursor-pointer hover:-translate-y-0.5 hover:shadow-[0_4px_8px_rgba(0,0,0,0.2)] transition-all duration-300"
             >
               🔄 Retry
             </button>
-            <button 
+            <button
               onClick={async () => {
                 try {
                   console.log('🧪 Testing backend connectivity...');
-                  const testResponse = await fetch('http://98.70.26.80:8058/api/achievements/faculty/all', {
+                  const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
+                  const apiUrl = baseUrl.endsWith('/api') ? baseUrl : `${baseUrl}/api`;
+                  const testResponse = await fetch(`${apiUrl}/achievements/faculty/all`, {
                     method: 'GET',
                     headers: {
                       'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -189,13 +195,13 @@ export default function AchievementsRequest() {
                   console.log('🧪 Test response status:', testResponse.status);
                   const testData = await testResponse.text();
                   console.log('🧪 Test response data:', testData);
-                  alert(`Backend test result: Status ${testResponse.status}\nCheck console for details`);
+                  toast.info(`Backend test result: Status ${testResponse.status}. Check console for details`);
                 } catch (err) {
                   console.error('🧪 Backend test failed:', err);
-                  alert(`Backend test failed: ${err.message}`);
+                  toast.error(`Backend test failed: ${err.message}`);
                 }
-              }} 
-              style={{ padding: "0.5rem 1rem", background: "#6c757d", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}
+              }}
+              className="py-2 px-4 bg-gray-500 text-white border-none rounded cursor-pointer hover:-translate-y-0.5 hover:shadow-[0_4px_8px_rgba(0,0,0,0.2)] transition-all duration-300"
             >
               🧪 Test Backend
             </button>
@@ -206,50 +212,32 @@ export default function AchievementsRequest() {
   }
 
   return (
-    <div className="achievements-request-wrapper" style={{ padding: "2rem", minHeight: "100vh", background: "#ffffff" }}>
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+    <div className="p-8 min-h-screen bg-white animate-fade-in max-sm:p-4">
+      <div className="max-w-[1200px] mx-auto">
         {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: "2rem", color: "#333" }}>
-          <h1 style={{ fontSize: "2.5rem", marginBottom: "0.5rem", display: "flex", alignItems: "center", justifyContent: "center", gap: "1rem" }}>
-            <FaTrophy style={{ color: "#ff6b6b" }} /> Achievement Requests
+        <div className="text-center mb-8 text-gray-800">
+          <h1 className="text-[2.5rem] mb-2 flex items-center justify-center gap-4 max-sm:text-[1.6rem] max-sm:gap-2">
+            <FaTrophy className="text-red-400" /> Achievement Requests
           </h1>
-          <p style={{ fontSize: "1.1rem", color: "#666" }}>
+          <p className="text-[1.1rem] text-gray-500">
             Review and manage student achievement submissions
           </p>
         </div>
 
         {/* Filter Tabs */}
-        <div style={{ display: "flex", justifyContent: "center", marginBottom: "2rem", gap: "1rem", flexWrap: "wrap" }}>
+        <div className="flex justify-center mb-8 gap-4 flex-wrap">
           {categories.map((category) => (
             <button
               key={category}
               onClick={() => setFilter(category)}
-              style={{
-                padding: "0.75rem 1.5rem",
-                border: filter === category ? "2px solid #ff6b6b" : "2px solid #e0e0e0",
-                borderRadius: "25px",
-                background: filter === category ? "#ff6b6b" : "#ffffff",
-                color: filter === category ? "white" : "#333",
-                fontWeight: "bold",
-                cursor: "pointer",
-                transition: "all 0.3s ease",
-                position: "relative",
-                fontSize: "0.9rem",
-                boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
-              }}
+              className={`py-3 px-6 rounded-[25px] font-bold cursor-pointer transition-all duration-300 relative text-[0.9rem] shadow-sm hover:-translate-y-0.5 hover:shadow-[0_4px_8px_rgba(0,0,0,0.2)] ${filter === category
+                ? "bg-red-400 text-white border-2 border-red-400"
+                : "bg-white text-gray-800 border-2 border-gray-200"
+                }`}
             >
               {categoryLabels[category]}
-              <span style={{
-                background: filter === category ? "rgba(255,255,255,0.3)" : "#007bff",
-                color: filter === category ? "white" : "white",
-                borderRadius: "50%",
-                padding: "0.2rem 0.5rem",
-                fontSize: "0.8rem",
-                marginLeft: "0.5rem",
-                minWidth: "1.5rem",
-                display: "inline-block",
-                textAlign: "center"
-              }}>
+              <span className={`rounded-full py-0.5 px-2 text-[0.8rem] ml-2 min-w-[1.5rem] inline-block text-center ${filter === category ? "bg-white/30 text-white" : "bg-blue-600 text-white"
+                }`}>
                 {getStatusCount(category)}
               </span>
             </button>
@@ -258,79 +246,67 @@ export default function AchievementsRequest() {
 
         {/* Achievement Requests List */}
         {filteredAchievements.length === 0 ? (
-          <div style={{ textAlign: "center", padding: "3rem", background: "#f8f9fa", borderRadius: "8px", border: "1px solid #e0e0e0" }}>
-            <FaTrophy style={{ fontSize: "3rem", color: "#ccc", marginBottom: "1rem" }} />
-            <h3 style={{ color: "#666", marginBottom: "0.5rem" }}>No Achievement Requests</h3>
-            <p style={{ color: "#999" }}>
+          <div className="text-center p-12 bg-gray-50 rounded-lg border border-gray-200">
+            <FaTrophy className="text-[3rem] text-gray-300 mb-4 mx-auto" />
+            <h3 className="text-gray-500 mb-2">No Achievement Requests</h3>
+            <p className="text-gray-400">
               {filter === "ALL" ? "No achievement requests found." : `No ${filter.toLowerCase()} achievement requests.`}
             </p>
           </div>
         ) : (
-          <div style={{ display: "grid", gap: "1.5rem" }}>
+          <div className="grid gap-6">
             {filteredAchievements.map((achievement) => (
               <div
                 key={achievement.id}
-                className="achievement-card"
-                style={{
-                  background: "#ffffff",
-                  borderRadius: "12px",
-                  padding: "1.5rem",
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-                  border: achievement.status === 'PENDING' ? "2px solid #ffc107" : 
-                         achievement.status === 'APPROVED' ? "2px solid #28a745" : 
-                         "2px solid #dc3545"
-                }}
+                className={`bg-white rounded-xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.15)] transition-all duration-300 hover:-translate-y-[5px] hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] border-2 ${achievement.status === 'PENDING' ? "border-yellow-400" :
+                  achievement.status === 'APPROVED' ? "border-green-500" :
+                    "border-red-500"
+                  }`}
               >
-                <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: "1rem", alignItems: "start" }}>
+                <div className="grid grid-cols-[1fr_auto] gap-4 items-start max-sm:grid-cols-1">
                   {/* Achievement Details */}
                   <div>
-                    <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1rem" }}>
-                      <h3 style={{ margin: 0, color: "#333", fontSize: "1.3rem" }}>
+                    <div className="flex items-center gap-4 mb-4">
+                      <h3 className="m-0 text-gray-800 text-[1.3rem]">
                         {achievement.title}
                       </h3>
-                      <span style={{
-                        background: achievement.status === 'PENDING' ? "#ffc107" : 
-                                   achievement.status === 'APPROVED' ? "#28a745" : "#dc3545",
-                        color: "white",
-                        padding: "0.3rem 0.8rem",
-                        borderRadius: "15px",
-                        fontSize: "0.8rem",
-                        fontWeight: "bold"
-                      }}>
+                      <span className={`text-white py-1 px-3 rounded-[15px] text-[0.8rem] font-bold ${achievement.status === 'PENDING' ? "bg-yellow-400" :
+                        achievement.status === 'APPROVED' ? "bg-green-500" : "bg-red-500"
+                        }`}>
                         {achievement.status}
                       </span>
                     </div>
 
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem", marginBottom: "1rem" }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: "#666" }}>
+                    <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4 mb-4 max-[480px]:grid-cols-1">
+                      <div className="flex items-center gap-2 text-gray-500">
                         <FaUser />
                         <span><strong>Student:</strong> {achievement.userEmail}</span>
                       </div>
-                      <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: "#666" }}>
+                      <div className="flex items-center gap-2 text-gray-500">
                         <FaTrophy />
                         <span><strong>Category:</strong> {achievementCategoryLabels[achievement.category] || achievement.category}</span>
                       </div>
-                      <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: "#666" }}>
+                      <div className="flex items-center gap-2 text-gray-500">
                         <FaCalendar />
                         <span><strong>Submitted:</strong> {formatDate(achievement.createdAt)}</span>
                       </div>
                     </div>
 
                     {achievement.description && (
-                      <div style={{ marginBottom: "1rem" }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: "#666", marginBottom: "0.5rem" }}>
+                      <div className="mb-4">
+                        <div className="flex items-center gap-2 text-gray-500 mb-2">
                           <FaFileAlt />
                           <strong>Description:</strong>
                         </div>
-                        <p style={{ margin: 0, color: "#555", lineHeight: "1.5", paddingLeft: "1.5rem" }}>
+                        <p className="m-0 text-gray-600 leading-relaxed pl-6">
                           {achievement.description}
                         </p>
                       </div>
                     )}
 
                     {achievement.imageUrl && (
-                      <div style={{ marginBottom: "1rem" }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: "#666", marginBottom: "0.5rem" }}>
+                      <div className="mb-4">
+                        <div className="flex items-center gap-2 text-gray-500 mb-2">
                           <FaImage />
                           <strong>Certificate/Image:</strong>
                         </div>
@@ -343,19 +319,7 @@ export default function AchievementsRequest() {
                             });
                             setShowCertificate(true);
                           }}
-                          style={{ 
-                            background: "#007bff",
-                            color: "white",
-                            border: "none",
-                            borderRadius: "6px",
-                            padding: "0.5rem 1rem",
-                            marginLeft: "1.5rem",
-                            cursor: "pointer",
-                            fontSize: "0.9rem",
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "0.5rem"
-                          }}
+                          className="bg-blue-600 text-white border-none rounded-md py-2 px-4 ml-6 cursor-pointer text-[0.9rem] flex items-center gap-2 hover:-translate-y-0.5 hover:shadow-[0_4px_8px_rgba(0,0,0,0.2)] transition-all duration-300"
                         >
                           <FaImage /> View Certificate
                         </button>
@@ -365,28 +329,14 @@ export default function AchievementsRequest() {
 
                   {/* Action Buttons */}
                   {achievement.status === 'PENDING' && (
-                    <div style={{ display: "flex", gap: "0.5rem", flexDirection: "column" }}>
+                    <div className="flex gap-2 flex-col max-sm:flex-row">
                       <button
                         onClick={() => handleApprove(achievement.id)}
                         disabled={processingIds.has(achievement.id)}
-                        style={{
-                          padding: "0.5rem 1rem",
-                          background: "#28a745",
-                          color: "white",
-                          border: "none",
-                          borderRadius: "6px",
-                          cursor: processingIds.has(achievement.id) ? "not-allowed" : "pointer",
-                          fontSize: "0.9rem",
-                          fontWeight: "bold",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          gap: "0.5rem",
-                          opacity: processingIds.has(achievement.id) ? 0.7 : 1
-                        }}
+                        className="py-2 px-4 bg-green-500 text-white border-none rounded-md cursor-pointer text-[0.9rem] font-bold flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed hover:-translate-y-0.5 hover:shadow-[0_4px_8px_rgba(0,0,0,0.2)] transition-all duration-300 disabled:hover:translate-y-0 disabled:hover:shadow-none"
                       >
                         {processingIds.has(achievement.id) ? (
-                          <FaSpinner className="spinner" />
+                          <FaSpinner className="animate-spin" />
                         ) : (
                           <FaCheckCircle />
                         )}
@@ -395,24 +345,10 @@ export default function AchievementsRequest() {
                       <button
                         onClick={() => handleReject(achievement.id)}
                         disabled={processingIds.has(achievement.id)}
-                        style={{
-                          padding: "0.5rem 1rem",
-                          background: "#dc3545",
-                          color: "white",
-                          border: "none",
-                          borderRadius: "6px",
-                          cursor: processingIds.has(achievement.id) ? "not-allowed" : "pointer",
-                          fontSize: "0.9rem",
-                          fontWeight: "bold",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          gap: "0.5rem",
-                          opacity: processingIds.has(achievement.id) ? 0.7 : 1
-                        }}
+                        className="py-2 px-4 bg-red-500 text-white border-none rounded-md cursor-pointer text-[0.9rem] font-bold flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed hover:-translate-y-0.5 hover:shadow-[0_4px_8px_rgba(0,0,0,0.2)] transition-all duration-300 disabled:hover:translate-y-0 disabled:hover:shadow-none"
                       >
                         {processingIds.has(achievement.id) ? (
-                          <FaSpinner className="spinner" />
+                          <FaSpinner className="animate-spin" />
                         ) : (
                           <FaTimesCircle />
                         )}
@@ -428,41 +364,13 @@ export default function AchievementsRequest() {
 
         {/* Certificate Modal */}
         {showCertificate && selectedCertificate && (
-          <div style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: "rgba(0,0,0,0.8)",
-            zIndex: 1000,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "2rem"
-          }}>
-            <div style={{
-              background: "white",
-              borderRadius: "12px",
-              padding: "1.5rem",
-              maxWidth: "90vw",
-              maxHeight: "90vh",
-              overflow: "auto",
-              position: "relative",
-              boxShadow: "0 10px 30px rgba(0,0,0,0.3)"
-            }}>
+          <div className="fixed inset-0 bg-black/80 z-[1000] flex items-center justify-center p-8 max-sm:p-3">
+            <div className="bg-white rounded-xl p-6 max-w-[90vw] max-h-[90vh] overflow-auto relative shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
               {/* Modal Header */}
-              <div style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginBottom: "1rem",
-                borderBottom: "1px solid #e0e0e0",
-                paddingBottom: "1rem"
-              }}>
+              <div className="flex justify-between items-center mb-4 border-b border-gray-200 pb-4">
                 <div>
-                  <h3 style={{ margin: 0, color: "#333" }}>{selectedCertificate.title}</h3>
-                  <p style={{ margin: "0.5rem 0 0 0", color: "#666", fontSize: "0.9rem" }}>
+                  <h3 className="m-0 text-gray-800">{selectedCertificate.title}</h3>
+                  <p className="mt-2 mb-0 text-gray-500 text-[0.9rem]">
                     Student: {selectedCertificate.student}
                   </p>
                 </div>
@@ -471,48 +379,31 @@ export default function AchievementsRequest() {
                     setShowCertificate(false);
                     setSelectedCertificate(null);
                   }}
-                  style={{
-                    background: "#dc3545",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "50%",
-                    width: "40px",
-                    height: "40px",
-                    fontSize: "1.2rem",
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center"
-                  }}
+                  className="bg-red-500 text-white border-none rounded-full w-10 h-10 text-[1.2rem] cursor-pointer flex items-center justify-center"
                 >
                   <FaTimes />
                 </button>
               </div>
 
               {/* Certificate Image */}
-              <div style={{ textAlign: "center" }}>
+              <div className="text-center">
                 <img
                   src={selectedCertificate.url}
                   alt="Achievement Certificate"
-                  style={{
-                    maxWidth: "100%",
-                    maxHeight: "70vh",
-                    borderRadius: "8px",
-                    boxShadow: "0 4px 8px rgba(0,0,0,0.1)"
-                  }}
+                  className="max-w-full max-h-[70vh] rounded-lg shadow-[0_4px_8px_rgba(0,0,0,0.1)]"
                   onError={(e) => {
                     e.target.style.display = 'none';
                     e.target.nextSibling.style.display = 'block';
                   }}
                 />
-                <div style={{ display: "none", padding: "2rem", color: "#666" }}>
-                  <FaExclamationCircle style={{ fontSize: "2rem", marginBottom: "1rem" }} />
+                <div className="hidden p-8 text-gray-500">
+                  <FaExclamationCircle className="text-[2rem] mb-4" />
                   <p>Unable to load certificate image</p>
-                  <a 
-                    href={selectedCertificate.url} 
-                    target="_blank" 
+                  <a
+                    href={selectedCertificate.url}
+                    target="_blank"
                     rel="noopener noreferrer"
-                    style={{ color: "#007bff", textDecoration: "none" }}
+                    className="text-blue-600 no-underline"
                   >
                     📎 Open in new tab
                   </a>
@@ -520,27 +411,12 @@ export default function AchievementsRequest() {
               </div>
 
               {/* Modal Footer */}
-              <div style={{
-                marginTop: "1rem",
-                paddingTop: "1rem",
-                borderTop: "1px solid #e0e0e0",
-                textAlign: "center"
-              }}>
+              <div className="mt-4 pt-4 border-t border-gray-200 text-center">
                 <a
                   href={selectedCertificate.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{
-                    background: "#28a745",
-                    color: "white",
-                    padding: "0.5rem 1rem",
-                    borderRadius: "6px",
-                    textDecoration: "none",
-                    marginRight: "1rem",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "0.5rem"
-                  }}
+                  className="bg-green-500 text-white py-2 px-4 rounded-md no-underline mr-4 inline-flex items-center gap-2"
                 >
                   🔗 Open in New Tab
                 </a>
@@ -549,14 +425,7 @@ export default function AchievementsRequest() {
                     setShowCertificate(false);
                     setSelectedCertificate(null);
                   }}
-                  style={{
-                    background: "#6c757d",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "6px",
-                    padding: "0.5rem 1rem",
-                    cursor: "pointer"
-                  }}
+                  className="bg-gray-500 text-white border-none rounded-md py-2 px-4 cursor-pointer"
                 >
                   Close
                 </button>
@@ -565,45 +434,6 @@ export default function AchievementsRequest() {
           </div>
         )}
       </div>
-
-      <style jsx>{`
-        .spinner {
-          animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        
-        button:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-          transition: all 0.3s ease;
-        }
-        
-        button:disabled:hover {
-          transform: none;
-          box-shadow: none;
-        }
-
-        .achievements-request-wrapper {
-          animation: fadeIn 0.5s ease-in;
-        }
-
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-
-        .achievement-card {
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .achievement-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-      `}</style>
     </div>
   );
 }

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import { FaPlus, FaSearch, FaCheckCircle, FaExclamationCircle, FaFileAlt } from "react-icons/fa";
 import { eventsAPI } from "../services/api";
 import { useAuth } from "../contexts/AuthContext";
+import bgImage from "../assets/bg.jpg";
 
 export default function HackWorkshops() {
   const { user } = useAuth();
@@ -15,7 +17,7 @@ export default function HackWorkshops() {
         try {
           const userEvents = await eventsAPI.getUserEvents(user.email);
           console.log('Raw events from backend:', userEvents);
-          
+
           // Transform backend data to match existing UI structure
           const transformedEvents = userEvents.map(event => {
             console.log('Processing event:', {
@@ -24,22 +26,22 @@ export default function HackWorkshops() {
               fileName: event.fileName,
               status: event.status
             });
-            
+
             return {
               id: event.id,
               title: event.title,
               type: event.type === 'HACKATHON' ? 'Hackathon' : 'Workshop',
               date: event.eventDate,
               description: event.description,
-              file: event.imageUrl ? { 
-                name: event.fileName || 'certificate.jpg', 
+              file: event.imageUrl ? {
+                name: event.fileName || 'certificate.jpg',
                 type: event.fileName ? event.fileName.split('.').pop().toUpperCase() : 'JPEG',
-                url: event.imageUrl 
+                url: event.imageUrl
               } : null,
               status: event.status === 'APPROVED' ? 'Approved' : 'Pending',
             };
           });
-          
+
           console.log('Transformed events:', transformedEvents);
           setEvents(transformedEvents);
         } catch (error) {
@@ -48,7 +50,7 @@ export default function HackWorkshops() {
       }
       setLoading(false);
     };
-    
+
     loadEvents();
   }, [user]);
 
@@ -66,21 +68,21 @@ export default function HackWorkshops() {
 
   const handleAddEvent = async () => {
     if (!user?.email) {
-      alert('Please log in to add events');
+      toast.error('Please log in to add events');
       return;
     }
 
     // Validate required fields
     if (!formData.title.trim()) {
-      alert('Please enter a title');
+      toast.warning('Please enter a title');
       return;
     }
     if (!formData.description.trim()) {
-      alert('Please enter a description');
+      toast.warning('Please enter a description');
       return;
     }
     if (!formData.date) {
-      alert('Please select an event date');
+      toast.warning('Please select an event date');
       return;
     }
 
@@ -104,11 +106,11 @@ export default function HackWorkshops() {
       };
 
       console.log('Sending to backend:', eventData);
-      console.log('Backend URL: http://98.70.26.80:8058/api/events/create');
-      
+      console.log(`Backend URL: ${import.meta.env.VITE_API_URL || ''}/api/events/create`);
+
       const response = await eventsAPI.createEvent(eventData, formData.file);
       console.log('Backend response:', response);
-      
+
       // Reload events to get the updated list
       const userEvents = await eventsAPI.getUserEvents(user.email);
       const transformedEvents = userEvents.map(event => ({
@@ -117,10 +119,10 @@ export default function HackWorkshops() {
         type: event.type === 'HACKATHON' ? 'Hackathon' : 'Workshop',
         date: event.eventDate,
         description: event.description,
-        file: event.imageUrl ? { 
-          name: event.fileName || 'certificate.jpg', 
+        file: event.imageUrl ? {
+          name: event.fileName || 'certificate.jpg',
           type: event.fileName ? event.fileName.split('.').pop().toUpperCase() : 'JPG',
-          url: event.imageUrl 
+          url: event.imageUrl
         } : null,
         status: event.status === 'APPROVED' ? 'Approved' : 'Pending',
       }));
@@ -136,7 +138,7 @@ export default function HackWorkshops() {
         status: "Pending",
       });
 
-      alert('Event added successfully!');
+      toast.success('Event added successfully!');
     } catch (error) {
       console.error('Failed to add event:', error);
       console.error('Error details:', {
@@ -151,7 +153,7 @@ export default function HackWorkshops() {
           hasFile: !!formData.file
         }
       });
-      
+
       let errorMessage = 'Failed to add event. ';
       if (error.response?.data?.message) {
         errorMessage += error.response.data.message;
@@ -164,8 +166,8 @@ export default function HackWorkshops() {
       } else {
         errorMessage += error.message || 'Please try again.';
       }
-      
-      alert(errorMessage);
+
+      toast.error(errorMessage);
     }
   };
 
@@ -177,56 +179,68 @@ export default function HackWorkshops() {
   const displayedEvents = filter === "All" ? filteredEvents : filteredEvents.filter(ev => ev.type === filter);
 
   return (
-    <div className="hackworkshops-wrapper">
-      <header>
-        <div className="search-bar-wrapper">
+    <div
+      className="min-h-screen py-8 px-4 font-sans text-gray-900 bg-cover bg-center bg-fixed max-sm:py-4 max-sm:px-2"
+      style={{ backgroundImage: `url('${bgImage}')` }}
+    >
+      <header className="text-center mb-10">
+        <div className="relative w-full max-w-[700px] mx-auto mb-6 flex items-center gap-4">
           <input
             type="text"
             placeholder="Search hackathons..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="search-bar"
-            disabled={showForm}
-            style={{ 
+            className="flex-1 py-4 px-6 pr-12 rounded-[30px] border-none outline-none text-[1.1rem] text-white placeholder:text-white placeholder:opacity-80"
+            style={{
+              background: "linear-gradient(90deg, #a18cd1, #fbc2eb)",
               opacity: showForm ? 0.5 : 1,
               pointerEvents: showForm ? 'none' : 'auto'
             }}
+            disabled={showForm}
           />
         </div>
       </header>
 
-      <div className="top-controls" style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "1rem", marginTop: "1.5rem" }}>
-        <div className="filters" style={{ display: "flex", gap: "0.7rem" }}>
+      <div className="flex justify-center items-center gap-4 mt-6 mb-8 flex-wrap max-sm:flex-col max-sm:gap-3">
+        <div className="flex gap-3 flex-wrap max-sm:gap-2 max-sm:justify-center">
           {["All", "Hackathon", "Workshop"].map((f) => (
             <button
               key={f}
-              className={`filter-btn ${filter === f ? "active" : ""}`}
+              className={`py-[0.7rem] px-5 font-medium text-[0.9rem] border-none rounded-xl cursor-pointer transition-colors duration-300 max-sm:py-2 max-sm:px-3 max-sm:text-[0.8rem] ${filter === f
+                ? "text-white"
+                : "bg-gray-100 text-gray-900"
+                }`}
+              style={filter === f ? { background: "linear-gradient(90deg, #ff6a00, #ee0979)" } : {}}
               onClick={() => setFilter(f)}
             >
               {f}
             </button>
           ))}
         </div>
-        <button className="add-btn" onClick={() => setShowForm(true)}>
-          <FaPlus style={{ marginRight: 6 }} /> Add hackathons & workshops
+        <button
+          className="py-[0.7rem] px-6 text-white font-semibold text-base border-none rounded-[20px] cursor-pointer flex items-center gap-1.5 max-sm:w-full max-sm:justify-center max-sm:py-3 max-sm:text-[0.9rem]"
+          style={{ background: "linear-gradient(90deg, #ff6a00, #ee0979)" }}
+          onClick={() => setShowForm(true)}
+        >
+          <FaPlus className="mr-1.5" /> Add hackathons & workshops
         </button>
       </div>
 
       {showForm && (
-        <div className="modal-overlay">
-          <div className="modal-form">
-            <h3>Add New Hackathon/Workshop</h3>
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-[1000]">
+          <div className="bg-white p-8 rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.1)] w-[90%] max-w-[500px] flex flex-col gap-4 max-sm:w-[95vw] max-sm:p-5">
+            <h3 className="m-0 mb-4 text-2xl font-bold text-gray-800">Add New Hackathon/Workshop</h3>
             <input
               type="text"
               placeholder="Title"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              style={{ width: "100%", padding: "0.8rem", border: "1px solid #ddd", borderRadius: "8px", fontSize: "1rem" }}
+              className="w-full py-3 px-3 border border-gray-300 rounded-lg text-base"
             />
             <select
               value={formData.type}
               onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-              style={{ width: "100%", padding: "0.8rem", border: "1px solid #ddd", borderRadius: "8px", fontSize: "1rem" }}
+              className="w-full py-3 px-3 border border-gray-300 rounded-lg text-base"
             >
               <option value="Hackathon">Hackathon</option>
               <option value="Workshop">Workshop</option>
@@ -236,21 +250,30 @@ export default function HackWorkshops() {
               placeholder="Date"
               value={formData.date}
               onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+              className="w-full py-3 px-3 border border-gray-300 rounded-lg text-base"
             />
             <textarea
               placeholder="Description"
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              className="w-full py-3 px-3 border border-gray-300 rounded-lg text-base"
             ></textarea>
             <input
               type="file"
               onChange={(e) => setFormData({ ...formData, file: e.target.files[0] })}
+              className="w-full py-3 px-3 border border-gray-300 rounded-lg text-base"
             />
-            <div className="modal-actions">
-              <button onClick={handleAddEvent}>Submit</button>
+            <div className="flex justify-end gap-4">
+              <button
+                onClick={handleAddEvent}
+                className="py-3 px-6 text-white font-semibold text-base border-none rounded-lg cursor-pointer"
+                style={{ background: "linear-gradient(90deg, #ff6a00, #ee0979)" }}
+              >
+                Submit
+              </button>
               <button
                 onClick={() => setShowForm(false)}
-                style={{ padding: "0.8rem 1.5rem", background: "none", color: "#333", fontWeight: 600, fontSize: "1rem", border: "1px solid #ddd", borderRadius: "8px", cursor: "pointer" }}
+                className="py-3 px-6 bg-transparent text-gray-800 font-semibold text-base border border-gray-300 rounded-lg cursor-pointer"
               >
                 Cancel
               </button>
@@ -259,62 +282,45 @@ export default function HackWorkshops() {
         </div>
       )}
 
-      <section className="cards-container">
+      <section className="flex flex-col gap-8">
         {loading ? (
-          <div className="event-card" style={{ textAlign: 'center', padding: '2rem', fontStyle: 'italic' }}>
+          <div className="bg-white rounded-[18px] shadow-[0_6px_24px_rgba(0,0,0,0.13)] p-8 text-center italic">
             Loading your events...
           </div>
         ) : displayedEvents.length === 0 ? (
-          <div className="event-card" style={{ textAlign: 'center', padding: '2rem' }}>
+          <div className="bg-white rounded-[18px] shadow-[0_6px_24px_rgba(0,0,0,0.13)] p-8 text-center">
             No events found. Add your first hackathon or workshop!
           </div>
         ) : (
           displayedEvents.map((event) => (
-            <div key={event.id} className="event-card">
-              <div className={`badge ${event.type.toLowerCase()}`}>{event.type}</div>
-              <div className="event-main">
-                <div className="event-info">
-                  <h3 className="event-title">{event.type}</h3> {/* Hackathon */}
-                  <h4 className="event-subtitle">{event.title}</h4> {/* Hackathon title */}
-                  <span className="date">{event.date}</span>
-                  <p>{event.description}</p>
+            <div key={event.id} className="bg-white rounded-[18px] shadow-[0_6px_24px_rgba(0,0,0,0.13)] py-8 px-6 relative flex flex-col gap-4 max-sm:py-5 max-sm:px-4">
+              <div className="absolute top-5 left-5 py-1.5 px-5 rounded-[14px] font-bold text-base bg-white border-2 border-[#ff6a00] text-[#ff6a00]">
+                {event.type}
+              </div>
+              <div className="flex flex-row items-start gap-8 max-md:flex-col">
+                <div className="flex-1">
+                  <h3 className="text-[#3a3aee] text-[1.1rem] font-bold mt-2 mb-2">{event.type}</h3>
+                  <h4 className="text-[#3a3aee] text-base font-semibold mt-1 mb-2">{event.title}</h4>
+                  <span className="text-[0.95rem] text-gray-500 mb-[0.7rem] block">{event.date}</span>
+                  <p className="text-gray-600 text-base mb-[0.7rem]">{event.description}</p>
                 </div>
-                <div className="file-preview">
+                <div className="w-[150px] h-[150px] bg-gray-100 rounded-xl p-2 flex flex-col items-center shadow-[0_2px_8px_rgba(0,0,0,0.08)] justify-center overflow-hidden max-md:w-full max-md:h-[200px]">
                   {event.file && event.file.url ? (
                     <>
                       {console.log('Rendering image for event:', event.id, 'URL:', event.file.url)}
-                      {/* Force image display with multiple approaches */}
-                      <img 
+                      <img
                         src={event.file.url}
-                        alt="Certificate" 
-                        className="file-image"
+                        alt="Certificate"
+                        className="w-full h-full object-cover rounded-lg cursor-pointer transition-transform duration-200 hover:scale-105 block"
                         referrerPolicy="no-referrer"
                         onClick={() => window.open(event.file.url, '_blank')}
-                        style={{ 
-                          cursor: "pointer",
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "cover",
-                          borderRadius: "8px",
-                          display: "block"
-                        }}
                         title="Click to view full image"
                         onError={(e) => {
                           console.error('IMG tag failed to load:', event.file.url);
-                          console.log('Trying background image approach...');
-                          
-                          // Hide the failed img tag
                           e.target.style.display = 'none';
-                          
-                          // Show the background image div
                           const backgroundDiv = e.target.nextSibling;
                           if (backgroundDiv) {
                             backgroundDiv.style.display = 'block';
-                            console.log('Switched to background image approach');
-                          } else {
-                            // If background div doesn't work, show file icon
-                            const fallback = e.target.nextSibling?.nextSibling;
-                            if (fallback) fallback.style.display = 'flex';
                           }
                         }}
                         onLoad={(e) => {
@@ -322,72 +328,46 @@ export default function HackWorkshops() {
                             url: event.file.url,
                             naturalWidth: e.target.naturalWidth,
                             naturalHeight: e.target.naturalHeight,
-                            displayWidth: e.target.width,
-                            displayHeight: e.target.height
                           });
                         }}
                       />
                       {/* Alternative: Background image approach */}
-                      <div 
-                        style={{ 
-                          display: "none", 
-                          width: "100%",
-                          height: "100%",
-                          backgroundImage: `url(${event.file.url})`,
-                          backgroundSize: "cover",
-                          backgroundPosition: "center",
-                          backgroundRepeat: "no-repeat",
-                          borderRadius: "8px",
-                          cursor: "pointer"
-                        }}
+                      <div
+                        className="hidden w-full h-full bg-cover bg-center bg-no-repeat rounded-lg cursor-pointer"
+                        style={{ backgroundImage: `url(${event.file.url})` }}
                         onClick={() => window.open(event.file.url, '_blank')}
                         title="Click to view full image"
                       ></div>
-                      
+
                       {/* Fallback file icon (initially hidden) */}
-                      <div 
-                        style={{ 
-                          display: "none", 
-                          flexDirection: "column", 
-                          alignItems: "center", 
-                          justifyContent: "center", 
-                          height: "100%",
-                          width: "100%" 
-                        }}
-                      >
-                        <FaFileAlt 
-                          className="file-logo" 
-                          style={{ 
-                            fontSize: "3rem",
-                            color: "#a18cd1",
-                            marginBottom: "0.5rem",
-                            cursor: "pointer"
-                          }} 
+                      <div className="hidden flex-col items-center justify-center h-full w-full">
+                        <FaFileAlt
+                          className="text-[3rem] text-[#a18cd1] mb-2 cursor-pointer"
                           onClick={() => window.open(event.file.url, '_blank')}
                           title="Click to download"
                         />
-                        <span className="file-type" style={{ fontSize: "0.9rem", color: "#666" }}>
+                        <span className="text-[0.9rem] text-gray-500">
                           {event.file.type || 'FILE'}
                         </span>
                       </div>
                     </>
                   ) : (
-                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%" }}>
-                      <FaFileAlt style={{ fontSize: "3rem", color: "#ccc", marginBottom: "0.5rem" }} />
-                      <span className="file-type" style={{ fontSize: "0.9rem", color: "#999" }}>No File</span>
+                    <div className="flex flex-col items-center justify-center h-full">
+                      <FaFileAlt className="text-[3rem] text-gray-300 mb-2" />
+                      <span className="text-[0.9rem] text-gray-400">No File</span>
                     </div>
                   )}
                 </div>
-                
+
                 {/* Status below the JPG box */}
-                <div className="status-box" style={{ textAlign: "center", marginTop: "0.5rem" }}>
+                <div className="text-center mt-2">
                   {event.status === "Approved" ? (
-                    <span className="approved" style={{ color: "#4CAF50", fontWeight: "bold", fontSize: "0.9rem" }}>
-                      <FaCheckCircle style={{ marginRight: "4px" }} /> Approved
+                    <span className="text-green-500 font-bold text-[0.9rem]">
+                      <FaCheckCircle className="inline mr-1" /> Approved
                     </span>
                   ) : (
-                    <span className="pending" style={{ color: "#FF9800", fontWeight: "bold", fontSize: "0.9rem" }}>
-                      <FaExclamationCircle style={{ marginRight: "4px" }} /> Pending
+                    <span className="text-orange-500 font-bold text-[0.9rem]">
+                      <FaExclamationCircle className="inline mr-1" /> Pending
                     </span>
                   )}
                 </div>
@@ -396,238 +376,6 @@ export default function HackWorkshops() {
           ))
         )}
       </section>
-
-      <style>{`
-        .hackworkshops-wrapper {
-          min-height: 100vh;
-          padding: 2rem 1rem;
-          font-family: 'Inter', sans-serif;
-          background: url("/src/assets/bg.jpg") no-repeat center center fixed;
-          background-size: cover;
-          color: #111;
-        }
-        header { text-align: center; margin-bottom: 2.5rem; }
-        .search-bar-wrapper {
-          position: relative;
-          width: 100%;
-          max-width: 700px;
-          margin: 0 auto 1.5rem auto;
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-        }
-        .search-bar {
-          flex: 1;
-          padding: 1rem 3rem 1rem 1.5rem;
-          border-radius: 30px;
-          border: none;
-          background: linear-gradient(90deg,#a18cd1,#fbc2eb);
-          color: #fff;
-          font-size: 1.1rem;
-          outline: none;
-        }
-        .search-bar::placeholder { color: #fff; opacity: 0.8; }
-        .add-btn {
-          padding: 0.7rem 1.5rem;
-          background: linear-gradient(90deg,#ff6a00,#ee0979);
-          color: #fff;
-          font-weight: 600;
-          font-size: 1rem;
-          border: none;
-          border-radius: 20px;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          gap: 0.4rem;
-        }
-        .modal-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: rgba(0, 0, 0, 0.5);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          z-index: 1000;
-        }
-        .modal-form {
-          background: #fff;
-          padding: 2rem;
-          border-radius: 12px;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-          width: 90%;
-          max-width: 500px;
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-        }
-        .modal-form h3 {
-          margin: 0 0 1rem 0;
-          font-size: 1.5rem;
-          font-weight: 700;
-          color: #333;
-        }
-        .modal-form input,
-        .modal-form textarea {
-          width: 100%;
-          padding: 0.8rem;
-          border: 1px solid #ddd;
-          border-radius: 8px;
-          font-size: 1rem;
-        }
-        .modal-actions {
-          display: flex;
-          justify-content: flex-end;
-          gap: 1rem;
-        }
-        .modal-actions button {
-          padding: 0.8rem 1.5rem;
-          background: linear-gradient(90deg,#ff6a00,#ee0979);
-          color: #fff;
-          font-weight: 600;
-          font-size: 1rem;
-          border: none;
-          border-radius: 8px;
-          cursor: pointer;
-        }
-        .top-controls {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 2rem;
-        }
-        .filters {
-          display: flex;
-          gap: 1rem;
-        }
-        .filter-btn {
-          padding: 0.7rem 1.2rem;
-          background: #f3f4f6;
-          color: #111;
-          font-weight: 500;
-          font-size: 0.9rem;
-          border: none;
-          border-radius: 12px;
-          cursor: pointer;
-          transition: background 0.3s;
-        }
-        .filter-btn.active {
-          background: linear-gradient(90deg,#ff6a00,#ee0979);
-          color: #fff;
-        }
-        .cards-container {
-          display: flex;
-          flex-direction: column;
-          gap: 2rem;
-        }
-        .event-card {
-          background: #fff;
-          border-radius: 18px;
-          box-shadow: 0 6px 24px rgba(0,0,0,0.13);
-          padding: 2rem 1.6rem;
-          position: relative;
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-        }
-        .badge {
-          position: absolute;
-          top: 1.2rem;
-          left: 1.2rem;
-          padding: 0.4rem 1.2rem;
-          border-radius: 14px;
-          font-weight: 700;
-          font-size: 1rem;
-          background: #fff;
-          border: 2px solid #ff6a00;
-          color: #ff6a00;
-        }
-        .badge.hackathon { border-color: #ff6a00; color: #ff6a00; }
-        .status-box.below {
-          font-size: 1rem;
-          font-weight: 600;
-          display: flex;
-          align-items: center;
-          justify-content: center; /* Center alignment */
-          gap: 0.3rem;
-          margin-top: 1rem; /* Adjusted spacing */
-        }
-        .approved { color: #10b981; }
-        .pending { color: #ff4b5c; }
-        .event-main {
-          display: flex;
-          flex-direction: row;
-          align-items: flex-start;
-          gap: 2rem;
-        }
-        .event-info {
-          flex: 1;
-        }
-        .event-info h3.event-title {
-          color: #3a3aee;
-          font-size: 1.1rem;
-          font-weight: 700;
-          margin: 0.5rem 0 0.5rem 0;
-        }
-        .event-info h4.event-subtitle {
-          color: #3a3aee;
-          font-size: 1rem;
-          font-weight: 600;
-          margin: 0.3rem 0 0.5rem 0; /* Added spacing */
-        }
-        .date {
-          font-size: 0.95rem;
-          color: #777;
-          margin-bottom: 0.7rem;
-          display: block;
-        }
-        .event-info p {
-          color: #444;
-          font-size: 1rem;
-          margin-bottom: 0.7rem;
-        }
-        .file-preview {
-          width: 150px;
-          height: 150px;
-          background: #f3f3f3;
-          border-radius: 12px;
-          padding: 0.5rem;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-          justify-content: center;
-          overflow: hidden;
-        }
-        .file-image {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          border-radius: 8px;
-          transition: transform 0.2s ease;
-        }
-        .file-image:hover {
-          transform: scale(1.05);
-        }
-        .file-logo {
-          font-size: 2rem;
-          color: #a18cd1;
-          margin-bottom: 0.5rem;
-        }
-        .file-type {
-          font-size: 1.1rem;
-          color: #7b7b7b;
-          font-weight: 700;
-          margin-top: 0.5rem;
-        }
-        .file-placeholder {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-      `}</style>
     </div>
   );
 }
