@@ -31,7 +31,7 @@ export default function FacultySidebar({ open = false, collapsed = false, onClos
     <div
       className={`group/sidebar fixed left-0 top-0 h-screen flex flex-col pt-[80px] pb-[22px] box-border font-sans text-white z-[1199]
         transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]
-        max-[520px]:w-[86vw] max-[520px]:min-w-[86vw] max-[520px]:p-4 max-[520px]:pt-[80px]
+        max-[520px]:w-[86vw] max-[520px]:min-w-[86vw] max-[520px]:p-4 max-[520px]:pt-[56px]
         ${open
           ? "translate-x-0 shadow-[0_20px_60px_rgba(0,0,0,0.35)]"
           : "-translate-x-[102%]"

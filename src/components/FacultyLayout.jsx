@@ -48,7 +48,7 @@ export default function FacultyLayout({ children }) {
         onToggleCollapse={toggleCollapse}
       />
       <main
-        className={`flex-1 p-4 pt-[calc(64px+12px)] overflow-y-auto min-h-screen box-border bg-cover bg-center bg-fixed flex flex-col scrollbar-thin max-md:p-3 max-md:pt-[calc(56px+10px)] max-[480px]:p-2 max-[480px]:pt-[calc(56px+8px)] transition-[margin-left,width] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${sidebarCollapsed
+        className={`flex-1 p-4 pt-[calc(64px+12px)] overflow-y-auto min-h-screen box-border bg-cover bg-center bg-fixed flex flex-col scrollbar-thin max-md:p-3 max-md:pt-[calc(56px+10px)] max-[480px]:p-2 max-[480px]:pt-[calc(48px+8px)] transition-[margin-left,width] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${sidebarCollapsed
           ? "min-[900px]:ml-[60px] min-[900px]:w-[calc(100%-60px)]"
           : "min-[900px]:ml-[250px] min-[900px]:w-[calc(100%-250px)]"
           }`}

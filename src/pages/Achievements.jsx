@@ -224,7 +224,7 @@ export default function Achievements() {
   if (loading) {
     return (
       <div
-        className="min-h-screen py-12 px-8 bg-cover bg-center bg-fixed font-sans flex flex-col items-center"
+        className="min-h-screen py-12 px-8 bg-cover bg-center bg-fixed font-sans flex flex-col items-center max-sm:py-6 max-sm:px-3"
         style={{ backgroundImage: `url('${bgImage}')` }}
       >
         <div className="text-center p-12 bg-white/90 rounded-lg mx-auto max-w-[400px]">
@@ -241,7 +241,7 @@ export default function Achievements() {
   if (error) {
     return (
       <div
-        className="min-h-screen py-12 px-8 bg-cover bg-center bg-fixed font-sans flex flex-col items-center"
+        className="min-h-screen py-12 px-8 bg-cover bg-center bg-fixed font-sans flex flex-col items-center max-sm:py-6 max-sm:px-3"
         style={{ backgroundImage: `url('${bgImage}')` }}
       >
         <div className="text-center p-12 bg-white/90 rounded-lg mx-auto max-w-[600px]">
@@ -295,7 +295,7 @@ export default function Achievements() {
 
   return (
     <div
-      className="min-h-screen py-12 px-8 bg-cover bg-center bg-fixed font-sans flex flex-col items-center"
+      className="min-h-screen py-12 px-8 bg-cover bg-center bg-fixed font-sans flex flex-col items-center max-sm:py-6 max-sm:px-3"
       style={{ backgroundImage: `url('${bgImage}')` }}
     >
       <h1 className="text-2xl font-bold text-black mb-2">Achievements</h1>
@@ -312,12 +312,12 @@ export default function Achievements() {
           style={{ background: "linear-gradient(90deg, #a18cd1, #fbc2eb)" }}
         />
 
-        <div className="flex gap-2.5 flex-wrap items-center">
+        <div className="flex gap-2.5 flex-wrap items-center max-sm:gap-1.5">
           {categories.map((cat) => (
             <button
               key={cat}
               className={`py-2.5 px-3.5 rounded-[14px] border cursor-pointer text-[0.9rem] font-medium transition-all duration-200 ${activeCategory === cat
-                ? "text-white border-transparent"
+                ? "text-white border-transparent max-sm:py-2 max-sm:px-2.5 max-sm:text-[0.8rem]"
                 : "bg-white text-black border-gray-300"
                 }`}
               style={activeCategory === cat ? { background: "linear-gradient(90deg, #ff6a00, #ee0979)" } : {}}
@@ -433,7 +433,7 @@ export default function Achievements() {
           </div>
         ) : (
           filteredAchievements.map((ach) => (
-            <div key={ach.id} className="bg-[#f9f9f9] p-5 rounded-xl flex justify-between items-start shadow-[0_4px_15px_rgba(0,0,0,0.1)] min-h-[140px] max-sm:flex-col max-sm:gap-3">
+            <div key={ach.id} className="bg-[#f9f9f9] p-5 rounded-xl flex justify-between items-start shadow-[0_4px_15px_rgba(0,0,0,0.1)] min-h-[140px] max-sm:flex-col max-sm:gap-3 max-sm:p-4">
               <div className="flex flex-col gap-1.5">
                 <div className="inline-block py-2 px-4 border-2 border-[#ff6a00] rounded-xl text-[#ff6a00] text-[0.9rem] font-semibold bg-transparent cursor-default mb-2">
                   {categoryLabels[ach.category] || ach.category}

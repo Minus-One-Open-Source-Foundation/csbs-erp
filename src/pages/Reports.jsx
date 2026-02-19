@@ -121,15 +121,15 @@ export default function Reports() {
 
   return (
     <div
-      className="min-h-screen p-8 font-sans bg-cover bg-center bg-fixed text-gray-900 max-md:p-4"
+      className="min-h-screen p-8 font-sans bg-cover bg-center bg-fixed text-gray-900 max-md:p-4 max-sm:p-2"
       style={{ backgroundImage: `url('${bgImage}')` }}
     >
       <h2 className="text-center text-[2rem] font-bold mb-8 text-gray-800 max-sm:text-[1.5rem] max-sm:mb-5">Hackathons And Workshops Requests</h2>
 
       {/* Filter Buttons */}
-      <div className="flex flex-row justify-start items-center gap-3 mb-8 mt-3 flex-wrap">
+      <div className="flex flex-row justify-start items-center gap-3 mb-8 mt-3 flex-wrap max-sm:gap-2">
         <button
-          className={`flex items-center py-2 px-5 font-semibold text-base border-none rounded-[10px] cursor-pointer transition-all duration-200 shadow-sm min-w-[120px] tracking-[0.2px] hover:brightness-95 hover:saturate-[1.2] hover:-translate-y-0.5 hover:shadow-md ${filter === 'PENDING'
+          className={`flex items-center py-2 px-5 font-semibold text-base border-none rounded-[10px] cursor-pointer transition-all duration-200 shadow-sm min-w-[120px] tracking-[0.2px] hover:brightness-95 hover:saturate-[1.2] hover:-translate-y-0.5 hover:shadow-md max-sm:py-1.5 max-sm:px-3 max-sm:text-[0.85rem] max-sm:min-w-0 ${filter === 'PENDING'
             ? 'border-2 border-gray-800 text-white brightness-[1.08] saturate-[1.2] shadow-md'
             : ''
             }`}
@@ -139,7 +139,7 @@ export default function Reports() {
           <FaClock className="mr-2" /> Pending
         </button>
         <button
-          className={`flex items-center py-2 px-5 font-semibold text-base border-none rounded-[10px] cursor-pointer transition-all duration-200 shadow-sm min-w-[120px] tracking-[0.2px] hover:brightness-95 hover:saturate-[1.2] hover:-translate-y-0.5 hover:shadow-md ${filter === 'APPROVED'
+          className={`flex items-center py-2 px-5 font-semibold text-base border-none rounded-[10px] cursor-pointer transition-all duration-200 shadow-sm min-w-[120px] tracking-[0.2px] hover:brightness-95 hover:saturate-[1.2] hover:-translate-y-0.5 hover:shadow-md max-sm:py-1.5 max-sm:px-3 max-sm:text-[0.85rem] max-sm:min-w-0 ${filter === 'APPROVED'
             ? 'border-2 border-gray-800 text-white brightness-[1.08] saturate-[1.2] shadow-md'
             : ''
             }`}
@@ -149,7 +149,7 @@ export default function Reports() {
           <FaCheck className="mr-2" /> Approved
         </button>
         <button
-          className={`flex items-center py-2 px-5 font-semibold text-base border-none rounded-[10px] cursor-pointer transition-all duration-200 shadow-sm min-w-[120px] tracking-[0.2px] hover:brightness-95 hover:saturate-[1.2] hover:-translate-y-0.5 hover:shadow-md ${filter === 'REJECTED'
+          className={`flex items-center py-2 px-5 font-semibold text-base border-none rounded-[10px] cursor-pointer transition-all duration-200 shadow-sm min-w-[120px] tracking-[0.2px] hover:brightness-95 hover:saturate-[1.2] hover:-translate-y-0.5 hover:shadow-md max-sm:py-1.5 max-sm:px-3 max-sm:text-[0.85rem] max-sm:min-w-0 ${filter === 'REJECTED'
             ? 'border-2 border-gray-800 text-white brightness-[1.08] saturate-[1.2] shadow-md'
             : ''
             }`}
@@ -170,7 +170,7 @@ export default function Reports() {
             className="bg-white rounded-[20px] shadow-[0_6px_32px_rgba(0,0,0,0.13),0_2px_8px_rgba(0,0,0,0.09)] border-2 border-gray-300 mb-8 mt-2 text-left relative w-full transition-all duration-200 hover:-translate-y-1 pb-12 max-md:pb-3 max-md:min-h-0"
             key={req.id}
           >
-            <div className="flex flex-row items-stretch py-7 px-8 min-h-[180px] max-md:flex-col max-md:p-4">
+            <div className="flex flex-row items-stretch py-7 px-8 min-h-[180px] max-md:flex-col max-md:p-4 max-sm:p-3">
               {/* Request Details */}
               <div className="flex-1 min-w-0 flex flex-col justify-between">
                 <div className="flex items-center justify-between mb-4 max-md:flex-col max-md:items-start max-md:gap-2 max-md:pr-0">

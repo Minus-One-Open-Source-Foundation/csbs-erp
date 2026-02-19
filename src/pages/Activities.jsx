@@ -26,7 +26,7 @@ export default function Activities() {
 
   return (
     <div
-      className="min-h-screen py-12 px-8 bg-cover bg-center bg-fixed font-sans text-gray-800 max-sm:px-4"
+      className="min-h-screen py-12 px-8 bg-cover bg-center bg-fixed font-sans text-gray-800 max-sm:px-3 max-sm:py-6"
       style={{ backgroundImage: `url('${bgImage}')` }}
     >
       <header className="text-center mb-8">

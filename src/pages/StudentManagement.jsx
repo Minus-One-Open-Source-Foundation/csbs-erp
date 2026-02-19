@@ -123,10 +123,10 @@ export default function StudentManagement() {
       {/* Student Grid */}
       {!loading && !error && (
         <div className="max-h-[75vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-slate-300 scrollbar-thumb-rounded-lg hover:scrollbar-thumb-slate-400">
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6 w-full">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-6 w-full max-sm:gap-4">
             {filteredStudents.map((student) => (
               <div
-                className="relative flex justify-start items-start bg-white rounded-xl p-8 shadow-[0_6px_20px_rgba(0,0,0,0.1)] transition-all duration-300 w-full hover:-translate-y-[3px] hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] max-md:flex-col max-md:text-center"
+                className="relative flex justify-start items-start bg-white rounded-xl p-8 shadow-[0_6px_20px_rgba(0,0,0,0.1)] transition-all duration-300 w-full hover:-translate-y-[3px] hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] max-md:flex-col max-md:text-center max-sm:p-5"
                 key={student.email}
               >
                 {/* Delete Button */}
@@ -138,7 +138,7 @@ export default function StudentManagement() {
                 </button>
 
                 {/* Profile Photo */}
-                <div className="flex flex-col items-center justify-center ml-[1cm] mt-[1cm] max-md:ml-0 max-md:mt-0 max-md:mb-4">
+                <div className="flex flex-col items-center justify-center ml-4 mt-4 max-md:ml-0 max-md:mt-0 max-md:mb-4">
                   <div className="w-40 h-40 rounded-full overflow-hidden border-[3px] border-gray-300 shadow-[0_6px_18px_rgba(0,0,0,0.2)] flex items-center justify-center max-md:w-[140px] max-md:h-[140px] group">
                     <img
                       src={student.profileImageUrl || "/src/assets/default-profile.jpg"}
@@ -152,7 +152,7 @@ export default function StudentManagement() {
                 </div>
 
                 {/* Student Info */}
-                <div className="flex-[2] ml-[1.5cm] max-md:ml-0">
+                <div className="flex-[2] ml-6 max-md:ml-0">
                   <h2 className="text-[1.3rem] mb-1.5 relative -top-1">{student.name || "N/A"}</h2>
                   <p className="my-1 text-[0.95rem]">
                     <strong>Date of Birth:</strong> {student.dateOfBirth || "N/A"}

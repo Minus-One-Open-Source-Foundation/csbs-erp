@@ -129,21 +129,21 @@ export default function Internships() {
 
   return (
     <div
-      className="min-h-screen py-8 px-4 font-sans text-gray-900 bg-cover bg-center bg-fixed"
+      className="min-h-screen py-8 px-4 font-sans text-gray-900 bg-cover bg-center bg-fixed max-sm:py-4 max-sm:px-2"
       style={{ backgroundImage: `url('${bgImage}')` }}
     >
       {/* Header */}
-      <header className="text-center mb-10 mt-10">
-        <div className="relative w-full max-w-[700px] mx-auto mb-6 flex items-center gap-4">
+      <header className="text-center mb-10 mt-10 max-sm:mb-6 max-sm:mt-4">
+        <div className="relative w-full max-w-[700px] mx-auto mb-6 flex items-center gap-4 max-sm:flex-col max-sm:gap-3">
           <input
             type="text"
             placeholder="Search internships..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="flex-1 py-4 px-6 pr-12 rounded-[30px] border-none bg-white/70 text-gray-800 text-[1.1rem] outline-none w-[580px]"
+            className="flex-1 py-4 px-6 pr-12 rounded-[30px] border-none bg-white/70 text-gray-800 text-[1.1rem] outline-none w-full max-sm:py-3 max-sm:px-4 max-sm:text-base"
           />
           <button
-            className="py-[0.7rem] px-6 text-white font-semibold text-base border-none rounded-[20px] cursor-pointer flex items-center gap-1.5"
+            className="py-[0.7rem] px-6 text-white font-semibold text-base border-none rounded-[20px] cursor-pointer flex items-center gap-1.5 whitespace-nowrap max-sm:w-full max-sm:justify-center max-sm:py-3"
             style={{ background: "linear-gradient(90deg, #ff6a00, #ee0979)" }}
             onClick={() => setShowForm(true)}
           >
@@ -269,7 +269,7 @@ export default function Internships() {
           {filteredEvents.map((event) => (
             <div
               key={event.id}
-              className="bg-white rounded-[18px] shadow-[0_6px_24px_rgba(0,0,0,0.13)] py-8 px-6 flex flex-col gap-4 relative"
+              className="bg-white rounded-[18px] shadow-[0_6px_24px_rgba(0,0,0,0.13)] py-8 px-6 flex flex-col gap-4 relative max-sm:py-5 max-sm:px-4"
             >
               <div className="absolute top-5 left-5 py-1.5 px-5 rounded-[14px] font-bold text-base bg-white border-2 border-[#ff6a00] text-[#ff6a00]">
                 Internship

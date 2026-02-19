@@ -180,7 +180,7 @@ export default function HackWorkshops() {
 
   return (
     <div
-      className="min-h-screen py-8 px-4 font-sans text-gray-900 bg-cover bg-center bg-fixed"
+      className="min-h-screen py-8 px-4 font-sans text-gray-900 bg-cover bg-center bg-fixed max-sm:py-4 max-sm:px-2"
       style={{ backgroundImage: `url('${bgImage}')` }}
     >
       <header className="text-center mb-10">
@@ -201,12 +201,12 @@ export default function HackWorkshops() {
         </div>
       </header>
 
-      <div className="flex justify-center items-center gap-4 mt-6 mb-8">
-        <div className="flex gap-3">
+      <div className="flex justify-center items-center gap-4 mt-6 mb-8 flex-wrap max-sm:flex-col max-sm:gap-3">
+        <div className="flex gap-3 flex-wrap max-sm:gap-2 max-sm:justify-center">
           {["All", "Hackathon", "Workshop"].map((f) => (
             <button
               key={f}
-              className={`py-[0.7rem] px-5 font-medium text-[0.9rem] border-none rounded-xl cursor-pointer transition-colors duration-300 ${filter === f
+              className={`py-[0.7rem] px-5 font-medium text-[0.9rem] border-none rounded-xl cursor-pointer transition-colors duration-300 max-sm:py-2 max-sm:px-3 max-sm:text-[0.8rem] ${filter === f
                 ? "text-white"
                 : "bg-gray-100 text-gray-900"
                 }`}
@@ -218,7 +218,7 @@ export default function HackWorkshops() {
           ))}
         </div>
         <button
-          className="py-[0.7rem] px-6 text-white font-semibold text-base border-none rounded-[20px] cursor-pointer flex items-center gap-1.5"
+          className="py-[0.7rem] px-6 text-white font-semibold text-base border-none rounded-[20px] cursor-pointer flex items-center gap-1.5 max-sm:w-full max-sm:justify-center max-sm:py-3 max-sm:text-[0.9rem]"
           style={{ background: "linear-gradient(90deg, #ff6a00, #ee0979)" }}
           onClick={() => setShowForm(true)}
         >
@@ -293,7 +293,7 @@ export default function HackWorkshops() {
           </div>
         ) : (
           displayedEvents.map((event) => (
-            <div key={event.id} className="bg-white rounded-[18px] shadow-[0_6px_24px_rgba(0,0,0,0.13)] py-8 px-6 relative flex flex-col gap-4">
+            <div key={event.id} className="bg-white rounded-[18px] shadow-[0_6px_24px_rgba(0,0,0,0.13)] py-8 px-6 relative flex flex-col gap-4 max-sm:py-5 max-sm:px-4">
               <div className="absolute top-5 left-5 py-1.5 px-5 rounded-[14px] font-bold text-base bg-white border-2 border-[#ff6a00] text-[#ff6a00]">
                 {event.type}
               </div>
