@@ -9,24 +9,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # 1️⃣ Checkout Code
     - name: Checkout Repository
       uses: actions/checkout@v4
 
-    # 2️⃣ Login to Docker Hub
     - name: Login to Docker Hub
       run: |
         echo "${{ secrets.DOCKER_PASS }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
         
-    # build frontend image
-    - name: build frontend image
+    - name: Build frontend image
       run: |
-        echo "docker build -t {secrets.DOCKER_USER}/studenthubapplication:frontend-latest ."
-    - name: push docker frontend image 
+        docker build -t ${{ secrets.DOCKER_USER }}/studenthubapplication:frontend-latest .
+
+    - name: Push frontend image
       run: |
-        echo "docker push {secrets.DOCKER_USER}/studenthubapplication:frontend-latest" 
-        
-    # 5️⃣ Deploy to GCP VM
+        docker push ${{ secrets.DOCKER_USER }}/studenthubapplication:frontend-latest
+
     - name: Deploy to GCP VM using Docker Compose
       uses: appleboy/ssh-action@v1
       with:
@@ -35,17 +32,9 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
 
-          echo "🔐 Logging into Docker Hub on VM"
           docker login -u "${{ secrets.DOCKER_USER }}" -p "${{ secrets.DOCKER_PASS }}"
 
-          echo "📥 Pulling latest images"
-          docker pull stellarstacker/studenthubapplication:frontend-latest
+          docker pull ${{ secrets.DOCKER_USER }}/studenthubapplication:frontend-latest
 
-
-          echo "🛑 Stopping old containers"
           docker compose down
-
-          echo "🚀 Starting new containers"
           docker compose up -d
-
-          echo "✅ Deployment finished"
