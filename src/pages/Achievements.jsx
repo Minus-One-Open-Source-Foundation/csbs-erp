@@ -17,8 +17,13 @@ export default function Achievements() {
 
   const [formData, setFormData] = useState({
     title: "",
-    category: "SYMPOSIUM",
+    category: "",
+    achievementType: "SYMPOSIUM",
+    extraType: "SPORTS",
+    otherAchievementType: "",
+    otherExtraType: "",
     description: "",
+    date: "",
     image: null,
   });
 
@@ -144,7 +149,19 @@ export default function Achievements() {
       const submitData = new FormData();
       submitData.append('title', formData.title);
       submitData.append('category', formData.category);
+      // Include the specific achievement type (handle co- and extra-curricular)
+      let finalType = '';
+      if (formData.category === 'CO_CURRICULAR') {
+        finalType = formData.achievementType === 'OTHERS' ? formData.otherAchievementType : formData.achievementType;
+      } else if (formData.category === 'EXTRA_CURRICULAR') {
+        finalType = formData.extraType === 'OTHERS' ? formData.otherExtraType : formData.extraType;
+      } else {
+        finalType = formData.achievementType || formData.extraType || '';
+      }
+      submitData.append('achievementType', finalType);
       submitData.append('description', formData.description);
+      // Include optional date if provided
+      if (formData.date) submitData.append('date', formData.date);
       submitData.append('userEmail', userEmail);
 
       if (formData.image) {
@@ -155,7 +172,9 @@ export default function Achievements() {
       console.log('📤 Submitting achievement data:');
       console.log('- Title:', formData.title);
       console.log('- Category:', formData.category);
+      console.log('- Achievement Type:', finalType);
       console.log('- Description:', formData.description);
+      console.log('- Date:', formData.date);
       console.log('- User Email:', userEmail);
       console.log('- Has Image:', !!formData.image);
 
@@ -168,8 +187,13 @@ export default function Achievements() {
         setShowForm(false);
         setFormData({
           title: "",
-          category: "SYMPOSIUM",
+          category: "",
+          achievementType: "SYMPOSIUM",
+          otherAchievementType: "",
+          extraType: "SPORTS",
+          otherExtraType: "",
           description: "",
+          date: "",
           image: null,
         });
         toast.success('Achievement submitted successfully!');
@@ -203,13 +227,11 @@ export default function Achievements() {
   // Debug: Log filtered results
   console.log(`📊 Filtered ${filteredAchievements.length} achievements for category: ${activeCategory}`);
 
-  const categories = ["All", "SYMPOSIUM", "ACADEMIC", "CERTIFICATIONS", "OTHERS"];
+  const categories = ["All", "CO_CURRICULAR", "EXTRA_CURRICULAR"];
   const categoryLabels = {
     "All": "All",
-    "SYMPOSIUM": "Symposium",
-    "ACADEMIC": "Academic",
-    "CERTIFICATIONS": "Certifications",
-    "OTHERS": "Others"
+    "CO_CURRICULAR": "Co-Curricular",
+    "EXTRA_CURRICULAR": "Extra-Curricular"
   };
 
   const formatDate = (dateString) => {
@@ -299,7 +321,7 @@ export default function Achievements() {
       style={{ backgroundImage: `url('${bgImage}')` }}
     >
       <h1 className="text-2xl font-bold text-black mb-2">Achievements</h1>
-      <p className="text-gray-500 mb-6 text-center">Add and manage your Symposium Achievements, Academic Certifications</p>
+      <p className="text-gray-500 mb-6 text-center">Add and manage your Co-Curricular and Extra-Curricular Achievements</p>
 
       {/* Top Controls */}
       <div className="flex flex-col items-stretch gap-10">
@@ -330,7 +352,10 @@ export default function Achievements() {
           <button
             className="py-3 px-5 text-white font-semibold border-none rounded-[30px] cursor-pointer"
             style={{ background: "linear-gradient(90deg, #ff6a00, #ee0979)" }}
-            onClick={() => setShowForm(true)}
+            onClick={() => {
+              setFormData({ title: "", category: "", achievementType: "SYMPOSIUM", otherAchievementType: "", extraType: "SPORTS", otherExtraType: "", description: "", date: "", image: null });
+              setShowForm(true);
+            }}
           >
             + Add Achievement
           </button>
@@ -341,67 +366,219 @@ export default function Achievements() {
       {showForm && (
         <div
           className="fixed inset-0 bg-black/50 flex justify-center items-center z-[1000]"
-          onClick={() => setShowForm(false)}
+          onClick={() => { setShowForm(false); setFormData({ title: "", category: "", achievementType: "SYMPOSIUM", otherAchievementType: "", extraType: "SPORTS", otherExtraType: "", description: "", date: "", image: null }); }}
         >
           <div
-            className="bg-white p-6 rounded-xl shadow-[0_8px_20px_rgba(0,0,0,0.2)] flex flex-col gap-3 w-[90%] max-w-[500px] max-sm:w-[95%] max-sm:p-4"
+            className="bg-white p-6 rounded-xl shadow-[0_8px_20px_rgba(0,0,0,0.2)] flex flex-col gap-3 w-[90%] max-w-[600px] max-h-[90vh] overflow-y-auto max-sm:w-[95%] max-sm:p-4"
             onClick={(e) => e.stopPropagation()}
           >
             <h2>Add Achievement</h2>
 
-            <input
-              type="text"
-              name="title"
-              placeholder="Achievement Title"
-              value={formData.title}
-              onChange={handleChange}
-              className="p-3 border border-gray-300 rounded-lg text-base"
-            />
-
-            <select name="category" value={formData.category} onChange={handleChange} className="p-3 border border-gray-300 rounded-lg text-base">
-              <option value="SYMPOSIUM">Symposium</option>
-              <option value="ACADEMIC">Academic</option>
-              <option value="CERTIFICATIONS">Certifications</option>
-              <option value="OTHERS">Others</option>
-            </select>
-
-            <textarea
-              name="description"
-              placeholder="Description"
-              value={formData.description}
-              onChange={handleChange}
-              rows={4}
-              className="p-3 border border-gray-300 rounded-lg text-base"
-            />
-
-            <input
-              type="file"
-              name="image"
-              accept="image/*,application/pdf"
-              onChange={handleFileChange}
-              className="p-3 border border-gray-300 rounded-lg text-base"
-            />
-
-            <div className="flex gap-3 justify-end">
-              <button
-                onClick={saveAchievement}
-                disabled={submitting}
-                className="py-2.5 px-5 text-white border-none rounded-lg cursor-pointer font-semibold flex items-center gap-2 disabled:cursor-not-allowed"
-                style={{
-                  background: submitting ? '#ccc' : 'linear-gradient(90deg, #ff6a00, #ee0979)',
-                }}
-              >
-                {submitting && <FaSpinner className="animate-spin" />}
-                {submitting ? 'Submitting...' : 'Submit'}
-              </button>
-              <button
-                className="bg-white text-black border border-gray-300 rounded-lg py-2.5 px-5 cursor-pointer"
-                onClick={() => setShowForm(false)}
-                disabled={submitting}
-              >
-                Cancel
-              </button>
+            <div>
+              <label className="block text-sm text-gray-600 mb-1">Category</label>
+              <select name="category" value={formData.category} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg text-base">
+                <option value="">Select Category</option>
+                <option value="CO_CURRICULAR">Co-Curricular</option>
+                <option value="EXTRA_CURRICULAR">Extra-Curricular</option>
+              </select>
             </div>
+
+            {formData.category === "CO_CURRICULAR" && (
+              <>
+                
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">Event</label>
+                  <select name="achievementType" value={formData.achievementType} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg text-base">
+                  <option value="SYMPOSIUM">Symposium</option>
+                  <option value="INTRA_DEPARTMENT">Intra-Department</option>
+                  <option value="INTER_DEPARTMENT">Inter-Department</option>
+                  <option value="OTHERS">Others</option>
+                  </select>
+                </div>
+
+                {formData.achievementType === "OTHERS" && (
+                  <div>
+                    <label className="block text-sm text-gray-600 mb-1">Event (Other)</label>
+                    <input
+                      type="text"
+                      name="otherAchievementType"
+                      placeholder="Write what (Achievement Type)"
+                      value={formData.otherAchievementType}
+                      onChange={handleChange}
+                      className="w-full p-3 border border-gray-300 rounded-lg text-base"
+                    />
+                  </div>
+                )}
+
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">Achievement Title</label>
+                  <input
+                    type="text"
+                    name="title"
+                    placeholder="Achievement Title"
+                    value={formData.title}
+                    onChange={handleChange}
+                    className="w-full p-3 border border-gray-300 rounded-lg text-base"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">Description</label>
+                  <textarea
+                    name="description"
+                    placeholder="Description"
+                    value={formData.description}
+                    onChange={handleChange}
+                    rows={4}
+                    className="w-full p-3 border border-gray-300 rounded-lg text-base"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-3 p-2 border border-gray-300 rounded-lg bg-gray-50 w-full">
+                    <label
+                      className="bg-white border border-gray-300 px-4 py-2 rounded-md cursor-pointer text-sm font-semibold hover:bg-gray-100 transition-colors shadow-sm whitespace-nowrap"
+                    >
+                      Choose File
+                      <input
+                        type="file"
+                        name="image"
+                        accept="image/*,application/pdf"
+                        onChange={handleFileChange}
+                        className="hidden"
+                      />
+                    </label>
+                    <span className={`text-sm truncate ${formData.image ? 'text-blue-600 font-medium' : 'text-gray-500 italic'}`}>
+                      {formData.image ? formData.image.name : 'No file chosen'}
+                    </span>
+                  </div>
+                  <div className="text-xs text-gray-500 mt-1">Allowed formats: jpg, jpeg, png</div>
+                </div>
+
+                <div className="flex gap-3 justify-end">
+                  <button
+                    onClick={saveAchievement}
+                    disabled={submitting}
+                    className="py-2.5 px-5 text-white border-none rounded-lg cursor-pointer font-semibold flex items-center gap-2 disabled:cursor-not-allowed"
+                    style={{
+                      background: submitting ? '#ccc' : 'linear-gradient(90deg, #ff6a00, #ee0979)',
+                    }}
+                  >
+                    {submitting && <FaSpinner className="animate-spin" />}
+                    {submitting ? 'Submitting...' : 'Submit'}
+                  </button>
+                  <button
+                    className="bg-white text-black border border-gray-300 rounded-lg py-2.5 px-5 cursor-pointer"
+                    onClick={() => { setShowForm(false); setFormData({ title: "", category: "", achievementType: "SYMPOSIUM", otherAchievementType: "", extraType: "SPORTS", otherExtraType: "", description: "", date: "", image: null }); }}
+                    disabled={submitting}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </>
+            )}
+
+            {formData.category === "EXTRA_CURRICULAR" && (
+              <>
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">Event</label>
+                  <select name="extraType" value={formData.extraType} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg text-base">
+                    <option value="SPORTS">Sports</option>
+                    <option value="OTHERS">Others</option>
+                  </select>
+                </div>
+
+                {formData.extraType === 'OTHERS' && (
+                  <div>
+                    <label className="block text-sm text-gray-600 mb-1">Event (Other)</label>
+                    <input
+                      type="text"
+                      name="otherExtraType"
+                      placeholder="Write what (Achievement Type)"
+                      value={formData.otherExtraType}
+                      onChange={handleChange}
+                      className="w-full p-3 border border-gray-300 rounded-lg text-base"
+                    />
+                  </div>
+                )}
+
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">Date</label>
+                  <input
+                    type="date"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleChange}
+                    className="w-full p-3 border border-gray-300 rounded-lg text-base"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">Achievement Title</label>
+                  <input
+                    type="text"
+                    name="title"
+                    placeholder="Achievement Title"
+                    value={formData.title}
+                    onChange={handleChange}
+                    className="w-full p-3 border border-gray-300 rounded-lg text-base"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">Description</label>
+                  <textarea
+                    name="description"
+                    placeholder="Description"
+                    value={formData.description}
+                    onChange={handleChange}
+                    rows={4}
+                    className="w-full p-3 border border-gray-300 rounded-lg text-base"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-3 p-2 border border-gray-300 rounded-lg bg-gray-50 w-full">
+                    <label
+                      className="bg-white border border-gray-300 px-4 py-2 rounded-md cursor-pointer text-sm font-semibold hover:bg-gray-100 transition-colors shadow-sm whitespace-nowrap"
+                    >
+                      Choose File
+                      <input
+                        type="file"
+                        name="image"
+                        accept="image/*,application/pdf"
+                        onChange={handleFileChange}
+                        className="hidden"
+                      />
+                    </label>
+                    <span className={`text-sm truncate ${formData.image ? 'text-blue-600 font-medium' : 'text-gray-500 italic'}`}>
+                      {formData.image ? formData.image.name : 'No file chosen'}
+                    </span>
+                  </div>
+                  <div className="text-xs text-gray-500 mt-1">Allowed formats: jpg, jpeg, png</div>
+                </div>
+
+                <div className="flex gap-3 justify-end">
+                  <button
+                    onClick={saveAchievement}
+                    disabled={submitting}
+                    className="py-2.5 px-5 text-white border-none rounded-lg cursor-pointer font-semibold flex items-center gap-2 disabled:cursor-not-allowed"
+                    style={{
+                      background: submitting ? '#ccc' : 'linear-gradient(90deg, #ff6a00, #ee0979)',
+                    }}
+                  >
+                    {submitting && <FaSpinner className="animate-spin" />}
+                    {submitting ? 'Submitting...' : 'Submit'}
+                  </button>
+                  <button
+                    className="bg-white text-black border border-gray-300 rounded-lg py-2.5 px-5 cursor-pointer"
+                    onClick={() => { setShowForm(false); setFormData({ title: "", category: "", achievementType: "SYMPOSIUM", otherAchievementType: "", extraType: "SPORTS", otherExtraType: "", description: "", date: "", image: null }); }}
+                    disabled={submitting}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}

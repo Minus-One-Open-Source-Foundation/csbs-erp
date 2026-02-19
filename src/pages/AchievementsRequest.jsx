@@ -24,6 +24,8 @@ export default function AchievementsRequest() {
 
   const achievementCategoryLabels = {
     "SYMPOSIUM": "Symposium",
+    "INTRA_DEPARTMENT": "Intra-Department",
+    "INTER_DEPARTMENT": "Inter-Department",
     "ACADEMIC": "Academic",
     "CERTIFICATIONS": "Certifications",
     "OTHERS": "Others"
