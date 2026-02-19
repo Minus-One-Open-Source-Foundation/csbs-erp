@@ -2,7 +2,7 @@ name: Deploy SaraSell Full Stack (Docker Compose) to GCP VM
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "erp/master" ]
 
 jobs:
   deploy:
