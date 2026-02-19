@@ -207,8 +207,8 @@ export default function HackWorkshops() {
             <button
               key={f}
               className={`py-[0.7rem] px-5 font-medium text-[0.9rem] border-none rounded-xl cursor-pointer transition-colors duration-300 ${filter === f
-                  ? "text-white"
-                  : "bg-gray-100 text-gray-900"
+                ? "text-white"
+                : "bg-gray-100 text-gray-900"
                 }`}
               style={filter === f ? { background: "linear-gradient(90deg, #ff6a00, #ee0979)" } : {}}
               onClick={() => setFilter(f)}
@@ -228,7 +228,7 @@ export default function HackWorkshops() {
 
       {showForm && (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-[1000]">
-          <div className="bg-white p-8 rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.1)] w-[90%] max-w-[500px] flex flex-col gap-4">
+          <div className="bg-white p-8 rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.1)] w-[90%] max-w-[500px] flex flex-col gap-4 max-sm:w-[95vw] max-sm:p-5">
             <h3 className="m-0 mb-4 text-2xl font-bold text-gray-800">Add New Hackathon/Workshop</h3>
             <input
               type="text"
@@ -297,14 +297,14 @@ export default function HackWorkshops() {
               <div className="absolute top-5 left-5 py-1.5 px-5 rounded-[14px] font-bold text-base bg-white border-2 border-[#ff6a00] text-[#ff6a00]">
                 {event.type}
               </div>
-              <div className="flex flex-row items-start gap-8">
+              <div className="flex flex-row items-start gap-8 max-md:flex-col">
                 <div className="flex-1">
                   <h3 className="text-[#3a3aee] text-[1.1rem] font-bold mt-2 mb-2">{event.type}</h3>
                   <h4 className="text-[#3a3aee] text-base font-semibold mt-1 mb-2">{event.title}</h4>
                   <span className="text-[0.95rem] text-gray-500 mb-[0.7rem] block">{event.date}</span>
                   <p className="text-gray-600 text-base mb-[0.7rem]">{event.description}</p>
                 </div>
-                <div className="w-[150px] h-[150px] bg-gray-100 rounded-xl p-2 flex flex-col items-center shadow-[0_2px_8px_rgba(0,0,0,0.08)] justify-center overflow-hidden">
+                <div className="w-[150px] h-[150px] bg-gray-100 rounded-xl p-2 flex flex-col items-center shadow-[0_2px_8px_rgba(0,0,0,0.08)] justify-center overflow-hidden max-md:w-full max-md:h-[200px]">
                   {event.file && event.file.url ? (
                     <>
                       {console.log('Rendering image for event:', event.id, 'URL:', event.file.url)}

@@ -48,7 +48,7 @@ export default function GradeManagement() {
   const inputClass = "ml-2 py-2 px-2.5 border border-purple-400/35 rounded-lg min-w-[220px] max-w-[320px] text-base backdrop-blur-[6px] text-white transition-all duration-[250ms] focus:border-purple-700 placeholder:text-white/70";
 
   return (
-    <div className="p-8 font-sans text-center">
+    <div className="p-8 font-sans text-center max-sm:p-4">
       <h1>Grade Management</h1>
       <p className="mb-4 text-gray-600">
         Upload marksheets for each semester. These will reflect in the
@@ -56,7 +56,7 @@ export default function GradeManagement() {
       </p>
 
       {/* Editable student info */}
-      <div className="p-4 rounded-lg mb-6 flex flex-wrap justify-center gap-4 items-center">
+      <div className="p-4 rounded-lg mb-6 flex flex-wrap justify-center gap-4 items-center max-sm:flex-col max-sm:items-stretch">
         <label className="text-[0.95rem] text-black font-semibold">
           Student Name:{" "}
           <input
@@ -105,7 +105,7 @@ export default function GradeManagement() {
       </div>
 
       {/* Semester cards */}
-      <div className="grid grid-cols-4 gap-8 mt-4">
+      <div className="grid grid-cols-4 gap-8 mt-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 max-sm:gap-4">
         {semesters.map((sem) => (
           <div
             key={sem.id}

@@ -154,7 +154,7 @@ export default function Internships() {
 
       {showForm && (
         <div className="fixed top-8 left-0 w-full h-full bg-black/50 flex justify-center items-center z-[1000]">
-          <div className="w-[70%] max-w-[350px] bg-white py-5 px-5 rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.1)] flex flex-col gap-[1.1rem] max-h-[92vh] overflow-y-auto fixed top-[60px] left-1/2 -translate-x-1/2 z-[1100]">
+          <div className="w-[70%] max-w-[350px] bg-white py-5 px-5 rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.1)] flex flex-col gap-[1.1rem] max-h-[92vh] overflow-y-auto fixed top-[60px] left-1/2 -translate-x-1/2 z-[1100] max-sm:w-[95vw] max-sm:max-w-[95vw]">
             <h3 className="m-0 mb-4 text-2xl font-bold text-gray-800">
               Add New Internship
             </h3>
@@ -274,7 +274,7 @@ export default function Internships() {
               <div className="absolute top-5 left-5 py-1.5 px-5 rounded-[14px] font-bold text-base bg-white border-2 border-[#ff6a00] text-[#ff6a00]">
                 Internship
               </div>
-              <div className="flex flex-row items-start gap-8 mt-4">
+              <div className="flex flex-row items-start gap-8 mt-4 max-md:flex-col">
                 <div className="flex-1">
                   <h3 className="text-[#3a3aee] text-[1.1rem] font-bold mt-4 mb-2">
                     {event.title}
@@ -294,7 +294,7 @@ export default function Internships() {
                 </div>
                 <div className="flex flex-col items-center">
                   {/* Document preview box */}
-                  <div className="w-[180px] h-[160px] min-w-[180px] min-h-[160px] border-2 border-dashed border-gray-400 rounded-xl bg-white flex items-center justify-center relative overflow-hidden">
+                  <div className="w-[180px] h-[160px] min-w-[180px] min-h-[160px] border-2 border-dashed border-gray-400 rounded-xl bg-white flex items-center justify-center relative overflow-hidden max-md:w-full max-md:min-w-0 max-md:h-[180px]">
                     {event.certificateUrl ? (
                       <img
                         src={event.certificateUrl}

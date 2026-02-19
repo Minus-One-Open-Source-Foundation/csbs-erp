@@ -210,11 +210,11 @@ export default function AchievementsRequest() {
   }
 
   return (
-    <div className="p-8 min-h-screen bg-white animate-fade-in">
+    <div className="p-8 min-h-screen bg-white animate-fade-in max-sm:p-4">
       <div className="max-w-[1200px] mx-auto">
         {/* Header */}
         <div className="text-center mb-8 text-gray-800">
-          <h1 className="text-[2.5rem] mb-2 flex items-center justify-center gap-4">
+          <h1 className="text-[2.5rem] mb-2 flex items-center justify-center gap-4 max-sm:text-[1.6rem] max-sm:gap-2">
             <FaTrophy className="text-red-400" /> Achievement Requests
           </h1>
           <p className="text-[1.1rem] text-gray-500">
@@ -229,8 +229,8 @@ export default function AchievementsRequest() {
               key={category}
               onClick={() => setFilter(category)}
               className={`py-3 px-6 rounded-[25px] font-bold cursor-pointer transition-all duration-300 relative text-[0.9rem] shadow-sm hover:-translate-y-0.5 hover:shadow-[0_4px_8px_rgba(0,0,0,0.2)] ${filter === category
-                  ? "bg-red-400 text-white border-2 border-red-400"
-                  : "bg-white text-gray-800 border-2 border-gray-200"
+                ? "bg-red-400 text-white border-2 border-red-400"
+                : "bg-white text-gray-800 border-2 border-gray-200"
                 }`}
             >
               {categoryLabels[category]}
@@ -257,11 +257,11 @@ export default function AchievementsRequest() {
               <div
                 key={achievement.id}
                 className={`bg-white rounded-xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.15)] transition-all duration-300 hover:-translate-y-[5px] hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] border-2 ${achievement.status === 'PENDING' ? "border-yellow-400" :
-                    achievement.status === 'APPROVED' ? "border-green-500" :
-                      "border-red-500"
+                  achievement.status === 'APPROVED' ? "border-green-500" :
+                    "border-red-500"
                   }`}
               >
-                <div className="grid grid-cols-[1fr_auto] gap-4 items-start">
+                <div className="grid grid-cols-[1fr_auto] gap-4 items-start max-sm:grid-cols-1">
                   {/* Achievement Details */}
                   <div>
                     <div className="flex items-center gap-4 mb-4">
@@ -269,13 +269,13 @@ export default function AchievementsRequest() {
                         {achievement.title}
                       </h3>
                       <span className={`text-white py-1 px-3 rounded-[15px] text-[0.8rem] font-bold ${achievement.status === 'PENDING' ? "bg-yellow-400" :
-                          achievement.status === 'APPROVED' ? "bg-green-500" : "bg-red-500"
+                        achievement.status === 'APPROVED' ? "bg-green-500" : "bg-red-500"
                         }`}>
                         {achievement.status}
                       </span>
                     </div>
 
-                    <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4 mb-4">
+                    <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4 mb-4 max-[480px]:grid-cols-1">
                       <div className="flex items-center gap-2 text-gray-500">
                         <FaUser />
                         <span><strong>Student:</strong> {achievement.userEmail}</span>
@@ -327,7 +327,7 @@ export default function AchievementsRequest() {
 
                   {/* Action Buttons */}
                   {achievement.status === 'PENDING' && (
-                    <div className="flex gap-2 flex-col">
+                    <div className="flex gap-2 flex-col max-sm:flex-row">
                       <button
                         onClick={() => handleApprove(achievement.id)}
                         disabled={processingIds.has(achievement.id)}
@@ -362,7 +362,7 @@ export default function AchievementsRequest() {
 
         {/* Certificate Modal */}
         {showCertificate && selectedCertificate && (
-          <div className="fixed inset-0 bg-black/80 z-[1000] flex items-center justify-center p-8">
+          <div className="fixed inset-0 bg-black/80 z-[1000] flex items-center justify-center p-8 max-sm:p-3">
             <div className="bg-white rounded-xl p-6 max-w-[90vw] max-h-[90vh] overflow-auto relative shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
               {/* Modal Header */}
               <div className="flex justify-between items-center mb-4 border-b border-gray-200 pb-4">

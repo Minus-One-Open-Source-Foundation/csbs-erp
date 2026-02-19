@@ -124,14 +124,14 @@ export default function Reports() {
       className="min-h-screen p-8 font-sans bg-cover bg-center bg-fixed text-gray-900 max-md:p-4"
       style={{ backgroundImage: `url('${bgImage}')` }}
     >
-      <h2 className="text-center text-[2rem] font-bold mb-8 text-gray-800">Hackathons And Workshops Requests</h2>
+      <h2 className="text-center text-[2rem] font-bold mb-8 text-gray-800 max-sm:text-[1.5rem] max-sm:mb-5">Hackathons And Workshops Requests</h2>
 
       {/* Filter Buttons */}
       <div className="flex flex-row justify-start items-center gap-3 mb-8 mt-3 flex-wrap">
         <button
           className={`flex items-center py-2 px-5 font-semibold text-base border-none rounded-[10px] cursor-pointer transition-all duration-200 shadow-sm min-w-[120px] tracking-[0.2px] hover:brightness-95 hover:saturate-[1.2] hover:-translate-y-0.5 hover:shadow-md ${filter === 'PENDING'
-              ? 'border-2 border-gray-800 text-white brightness-[1.08] saturate-[1.2] shadow-md'
-              : ''
+            ? 'border-2 border-gray-800 text-white brightness-[1.08] saturate-[1.2] shadow-md'
+            : ''
             }`}
           style={{ background: 'linear-gradient(90deg, #ffe29f 0%, #ffa99f 100%)', color: filter === 'PENDING' ? '#fff' : '#b26a00' }}
           onClick={() => setFilter('PENDING')}
@@ -140,8 +140,8 @@ export default function Reports() {
         </button>
         <button
           className={`flex items-center py-2 px-5 font-semibold text-base border-none rounded-[10px] cursor-pointer transition-all duration-200 shadow-sm min-w-[120px] tracking-[0.2px] hover:brightness-95 hover:saturate-[1.2] hover:-translate-y-0.5 hover:shadow-md ${filter === 'APPROVED'
-              ? 'border-2 border-gray-800 text-white brightness-[1.08] saturate-[1.2] shadow-md'
-              : ''
+            ? 'border-2 border-gray-800 text-white brightness-[1.08] saturate-[1.2] shadow-md'
+            : ''
             }`}
           style={{ background: 'linear-gradient(90deg, #a8ff78 0%, #78ffd6 100%)', color: filter === 'APPROVED' ? '#fff' : '#0a7d3b' }}
           onClick={() => setFilter('APPROVED')}
@@ -150,8 +150,8 @@ export default function Reports() {
         </button>
         <button
           className={`flex items-center py-2 px-5 font-semibold text-base border-none rounded-[10px] cursor-pointer transition-all duration-200 shadow-sm min-w-[120px] tracking-[0.2px] hover:brightness-95 hover:saturate-[1.2] hover:-translate-y-0.5 hover:shadow-md ${filter === 'REJECTED'
-              ? 'border-2 border-gray-800 text-white brightness-[1.08] saturate-[1.2] shadow-md'
-              : ''
+            ? 'border-2 border-gray-800 text-white brightness-[1.08] saturate-[1.2] shadow-md'
+            : ''
             }`}
           style={{ background: 'linear-gradient(90deg, #ff5858 0%, #f09819 100%)', color: filter === 'REJECTED' ? '#fff' : '#a80000' }}
           onClick={() => setFilter('REJECTED')}
@@ -286,7 +286,7 @@ export default function Reports() {
               </div>
 
               {/* Document Preview Box */}
-              <div className="w-[240px] h-[200px] bg-gray-50 border-[2.5px] border-dashed border-gray-300 rounded-xl ml-8 flex items-center justify-center overflow-hidden max-md:ml-0 max-md:mt-4 max-md:w-full max-md:max-w-[200px] max-md:mx-auto">
+              <div className="w-[240px] h-[200px] bg-gray-50 border-[2.5px] border-dashed border-gray-300 rounded-xl ml-8 flex items-center justify-center overflow-hidden max-md:ml-0 max-md:mt-4 max-md:w-full max-md:max-w-full max-md:h-[200px] max-md:mx-auto">
                 {req.imageUrl ? (
                   <img
                     src={req.imageUrl}

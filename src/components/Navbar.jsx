@@ -59,12 +59,12 @@ export default function Navbar({ onToggleSidebar, collapsed, onToggleCollapse })
               : "Student Activity Hub"
             : "Student Activity Hub"}
         </Typography>
-        <div className="ml-auto flex items-center gap-4">
+        <div className="ml-auto flex items-center gap-4 max-sm:gap-2">
           {user ? (
             <>
               <Typography
                 variant="body1"
-                className="font-semibold"
+                className="font-semibold max-sm:!hidden"
                 sx={{ color: "#000" }}
               >
                 Welcome, {user.email}

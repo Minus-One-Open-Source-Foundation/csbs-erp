@@ -79,9 +79,9 @@ export default function StudentManagement() {
   };
 
   return (
-    <div className="p-8 font-sans w-full max-w-full m-0">
+    <div className="p-8 font-sans w-full max-w-full m-0 max-sm:p-4">
       <header className="text-center mb-8">
-        <h1 className="text-[2.3rem] font-bold text-slate-800">Student Management</h1>
+        <h1 className="text-[2.3rem] font-bold text-slate-800 max-sm:text-[1.6rem]">Student Management</h1>
         <p className="text-slate-500">Manage student details and profiles</p>
       </header>
 
@@ -123,7 +123,7 @@ export default function StudentManagement() {
       {/* Student Grid */}
       {!loading && !error && (
         <div className="max-h-[75vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-slate-300 scrollbar-thumb-rounded-lg hover:scrollbar-thumb-slate-400">
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(550px,1fr))] gap-6 w-full">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6 w-full">
             {filteredStudents.map((student) => (
               <div
                 className="relative flex justify-start items-start bg-white rounded-xl p-8 shadow-[0_6px_20px_rgba(0,0,0,0.1)] transition-all duration-300 w-full hover:-translate-y-[3px] hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] max-md:flex-col max-md:text-center"
@@ -186,7 +186,7 @@ export default function StudentManagement() {
       {/* Confirmation Popup */}
       {showConfirmPopup && (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-[1000]">
-          <div className="bg-white p-8 rounded-xl shadow-[0_6px_20px_rgba(0,0,0,0.2)] max-w-[400px] w-full text-center">
+          <div className="bg-white p-8 rounded-xl shadow-[0_6px_20px_rgba(0,0,0,0.2)] max-w-[400px] w-full text-center max-sm:max-w-[90vw] max-sm:mx-4 max-sm:p-5">
             <h3 className="mb-4">Confirm Deletion</h3>
             <p className="mb-5">
               Are you sure you want to delete{" "}
@@ -213,7 +213,7 @@ export default function StudentManagement() {
       {/* Reason Popup */}
       {showReasonPopup && (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-[1000]">
-          <div className="bg-white p-8 rounded-xl shadow-[0_6px_20px_rgba(0,0,0,0.2)] max-w-[400px] w-full text-center">
+          <div className="bg-white p-8 rounded-xl shadow-[0_6px_20px_rgba(0,0,0,0.2)] max-w-[400px] w-full text-center max-sm:max-w-[90vw] max-sm:mx-4 max-sm:p-5">
             <h3 className="mb-4">Reason for Deletion</h3>
             <textarea
               rows="4"

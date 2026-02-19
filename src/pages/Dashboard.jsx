@@ -53,7 +53,7 @@ export default function Dashboard() {
       className="min-h-screen w-full h-screen font-sans text-gray-900 bg-cover bg-center bg-fixed flex flex-col items-stretch justify-start"
       style={{ backgroundImage: `url('${bgImage}')` }}
     >
-      <div className="w-full max-w-[1200px] mx-auto px-6 pt-16 pb-4 flex flex-col items-center">
+      <div className="w-full max-w-[1200px] mx-auto px-6 pt-16 pb-4 flex flex-col items-center max-sm:px-3 max-sm:pt-10">
         <h1 className="text-2xl m-0 mb-1 font-bold text-gray-900">
           Welcome, <span className="text-[#001f3f]">{personalInfo.name || "Student"}</span>
         </h1>
@@ -61,7 +61,7 @@ export default function Dashboard() {
 
         {/* Stats Section */}
         <section className="w-full max-w-[920px] mb-6">
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4 max-[520px]:grid-cols-[repeat(auto-fit,minmax(140px,1fr))]">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4 max-[520px]:grid-cols-[repeat(auto-fit,minmax(140px,1fr))] max-[380px]:grid-cols-1">
             {/* Personal Info Card */}
             <div
               className="rounded-xl p-5 text-center shadow-[0_6px_18px_rgba(0,0,0,0.2)] backdrop-blur-[10px] transition-[transform,box-shadow] duration-200 cursor-pointer hover:-translate-y-1.5 hover:shadow-[0_18px_40px_rgba(0,0,0,0.25)]"

@@ -6,7 +6,7 @@ export default function Heading({ text, alignment = "center", style = {} }) {
 
   return (
     <h1
-      className={`${alignClass} text-[2.5rem] font-bold text-black mb-2`}
+      className={`${alignClass} text-[2.5rem] font-bold text-black mb-2 max-md:text-[1.8rem] max-sm:text-[1.4rem]`}
       style={style}
     >
       {text}

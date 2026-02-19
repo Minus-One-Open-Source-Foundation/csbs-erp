@@ -308,7 +308,7 @@ export default function Achievements() {
           placeholder="Search achievements..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full max-w-[700px] py-4 px-5 rounded-[30px] border-none outline-none text-[1.1rem] text-white placeholder:text-white placeholder:opacity-80"
+          className="w-full max-w-[700px] py-4 px-5 rounded-[30px] border-none outline-none text-[1.1rem] text-white placeholder:text-white placeholder:opacity-80 max-sm:max-w-full"
           style={{ background: "linear-gradient(90deg, #a18cd1, #fbc2eb)" }}
         />
 
@@ -317,8 +317,8 @@ export default function Achievements() {
             <button
               key={cat}
               className={`py-2.5 px-3.5 rounded-[14px] border cursor-pointer text-[0.9rem] font-medium transition-all duration-200 ${activeCategory === cat
-                  ? "text-white border-transparent"
-                  : "bg-white text-black border-gray-300"
+                ? "text-white border-transparent"
+                : "bg-white text-black border-gray-300"
                 }`}
               style={activeCategory === cat ? { background: "linear-gradient(90deg, #ff6a00, #ee0979)" } : {}}
               onClick={() => setActiveCategory(cat)}
@@ -344,7 +344,7 @@ export default function Achievements() {
           onClick={() => setShowForm(false)}
         >
           <div
-            className="bg-white p-6 rounded-xl shadow-[0_8px_20px_rgba(0,0,0,0.2)] flex flex-col gap-3 w-[90%] max-w-[500px]"
+            className="bg-white p-6 rounded-xl shadow-[0_8px_20px_rgba(0,0,0,0.2)] flex flex-col gap-3 w-[90%] max-w-[500px] max-sm:w-[95%] max-sm:p-4"
             onClick={(e) => e.stopPropagation()}
           >
             <h2>Add Achievement</h2>
@@ -433,7 +433,7 @@ export default function Achievements() {
           </div>
         ) : (
           filteredAchievements.map((ach) => (
-            <div key={ach.id} className="bg-[#f9f9f9] p-5 rounded-xl flex justify-between items-start shadow-[0_4px_15px_rgba(0,0,0,0.1)] min-h-[140px]">
+            <div key={ach.id} className="bg-[#f9f9f9] p-5 rounded-xl flex justify-between items-start shadow-[0_4px_15px_rgba(0,0,0,0.1)] min-h-[140px] max-sm:flex-col max-sm:gap-3">
               <div className="flex flex-col gap-1.5">
                 <div className="inline-block py-2 px-4 border-2 border-[#ff6a00] rounded-xl text-[#ff6a00] text-[0.9rem] font-semibold bg-transparent cursor-default mb-2">
                   {categoryLabels[ach.category] || ach.category}
@@ -451,7 +451,7 @@ export default function Achievements() {
               {/* Right-side container */}
               <div className="flex flex-col items-center gap-3">
                 <div className={`font-bold text-[0.95rem] ${ach.status === "APPROVED" ? "text-green-500" :
-                    ach.status === "REJECTED" ? "text-red-500" : "text-orange-500"
+                  ach.status === "REJECTED" ? "text-red-500" : "text-orange-500"
                   }`}>
                   {ach.status === "APPROVED" ? (
                     <span>

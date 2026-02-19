@@ -237,8 +237,8 @@ export default function FacultyInternshipsRequests() {
         ) : (
           filteredEvents.map((event) => (
             <div key={event.id} className="mb-6 relative">
-              <div className="bg-white rounded-[18px] shadow-[0_6px_24px_rgba(0,0,0,0.13)] py-8 px-6 flex flex-row gap-8 items-start relative">
-                <span className="absolute top-5 left-5 py-1.5 px-5 rounded-[14px] font-bold text-base bg-white border-2 border-orange-500 text-orange-500">
+              <div className="bg-white rounded-[18px] shadow-[0_6px_24px_rgba(0,0,0,0.13)] py-8 px-6 flex flex-row gap-8 items-start relative max-md:flex-col max-md:gap-4">
+                <span className="absolute top-5 left-5 py-1.5 px-5 rounded-[14px] font-bold text-base bg-white border-2 border-orange-500 text-orange-500 max-sm:static max-sm:mb-2">
                   Internship
                 </span>
                 <div className="flex-1 flex flex-col mt-4">
@@ -307,7 +307,7 @@ export default function FacultyInternshipsRequests() {
 
                   {/* Action Buttons - Only show for PENDING status */}
                   {event.status === "PENDING" && (
-                    <div className="flex gap-4 mt-4">
+                    <div className="flex gap-4 mt-4 max-sm:flex-col max-sm:w-full">
                       <button
                         onClick={() => handleApprove(event.id)}
                         disabled={processingId === event.id}
@@ -337,7 +337,7 @@ export default function FacultyInternshipsRequests() {
                 </div>
 
                 {/* Document preview box */}
-                <div className="w-[180px] h-[160px] min-w-[180px] min-h-[160px] border-2 border-dashed border-gray-400 rounded-xl bg-white flex items-center justify-center overflow-hidden">
+                <div className="w-[180px] h-[160px] min-w-[180px] min-h-[160px] border-2 border-dashed border-gray-400 rounded-xl bg-white flex items-center justify-center overflow-hidden max-md:w-full max-md:min-w-0 max-md:h-[180px]">
                   {event.certificateUrl ? (
                     <img
                       src={event.certificateUrl}

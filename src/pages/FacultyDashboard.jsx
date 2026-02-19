@@ -68,7 +68,7 @@ export default function FacultyDashboard() {
 
   return (
     <div
-      className="min-h-[120vh] overflow-y-auto p-8 font-sans bg-cover bg-center bg-fixed relative"
+      className="min-h-[120vh] overflow-y-auto p-8 font-sans bg-cover bg-center bg-fixed relative max-sm:p-4 max-[480px]:p-3"
       style={{ backgroundImage: `url('${bgImage}')` }}
     >
       {/* Overlay */}
@@ -76,14 +76,14 @@ export default function FacultyDashboard() {
 
       {/* Header */}
       <header className="text-center mb-10">
-        <h1 className="text-[2.2rem] font-bold text-slate-800 mb-2">Faculty Dashboard</h1>
+        <h1 className="text-[2.2rem] font-bold text-slate-800 mb-2 max-sm:text-[1.5rem]">Faculty Dashboard</h1>
         <p className="text-slate-700">
           Signed in as: <span className="font-semibold text-slate-900">faculty@test.com</span>
         </p>
       </header>
 
       {/* Dashboard Navigation */}
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-6 mb-12 max-w-[1000px] mx-auto">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-6 mb-12 max-w-[1000px] mx-auto max-[480px]:grid-cols-1">
         <div
           className="bg-white/70 backdrop-blur-[20px] text-slate-800 p-7 rounded-[18px] text-center transition-all duration-300 shadow-[0_12px_48px_rgba(0,0,0,0.15)] cursor-pointer hover:-translate-y-1.5 hover:scale-[1.02] hover:shadow-[0_16px_60px_rgba(0,0,0,0.25)] max-md:p-5"
           onClick={() => navigate("/faculty/students")}
@@ -110,7 +110,7 @@ export default function FacultyDashboard() {
       {/* Current Placement Drive Section */}
       <h2 className="text-center text-2xl font-semibold mt-8 mb-4 text-slate-800">Current Placement Drive - On Campus</h2>
       <div
-        className="w-[1000px] max-w-full mx-auto mb-10 rounded-[18px] border-[1.5px] border-white/25 py-10 px-10 min-h-[240px] flex items-center justify-center"
+        className="w-[1000px] max-w-full mx-auto mb-10 rounded-[18px] border-[1.5px] border-white/25 py-10 px-10 min-h-[240px] flex items-center justify-center max-sm:py-4 max-sm:px-4 max-sm:min-h-[180px]"
         style={{
           background: "rgba(200, 200, 200, 0.35)",
           backdropFilter: "blur(16px)",
@@ -127,8 +127,8 @@ export default function FacultyDashboard() {
               }}
             >
               {placementCards.slice(carouselIndex, carouselIndex + 1).map((card, idx) => (
-                <div className="bg-white rounded-[14px] shadow-[0_4px_24px_rgba(0,0,0,0.08)] py-10 px-10 flex flex-col items-center w-full max-w-full min-w-0 transition-shadow duration-300" key={idx}>
-                  <img src={card.logo} alt="Company Logo" className="w-[120px] h-[120px] object-contain mb-5 -mt-6" />
+                <div className="bg-white rounded-[14px] shadow-[0_4px_24px_rgba(0,0,0,0.08)] py-10 px-10 flex flex-col items-center w-full max-w-full min-w-0 transition-shadow duration-300 max-sm:py-4 max-sm:px-4" key={idx}>
+                  <img src={card.logo} alt="Company Logo" className="w-[120px] h-[120px] object-contain mb-5 -mt-6 max-sm:w-[80px] max-sm:h-[80px] max-sm:mb-3 max-sm:-mt-2" />
                   <div className="font-bold text-slate-800 text-2xl text-center">{card.company}</div>
                 </div>
               ))}

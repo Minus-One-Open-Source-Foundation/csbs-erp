@@ -41,11 +41,11 @@ export default function Activities() {
           placeholder="Search activity..."
           value={activity}
           onChange={(e) => setActivity(e.target.value)}
-          className="flex-[0.5] min-w-[220px] py-3 px-4 rounded-[14px] border border-gray-300 outline-none text-base shadow-[0_2px_8px_rgba(0,0,0,0.05)] focus:shadow-[0_0_10px_rgba(100,100,255,0.2)]"
+          className="flex-[0.5] min-w-[220px] py-3 px-4 rounded-[14px] border border-gray-300 outline-none text-base shadow-[0_2px_8px_rgba(0,0,0,0.05)] focus:shadow-[0_0_10px_rgba(100,100,255,0.2)] max-sm:min-w-0 max-sm:w-full"
         />
         <div className="w-full flex flex-col items-stretch">
           <div className="flex flex-row gap-[1.2rem] items-center mt-[0.7rem] flex-wrap justify-center">
-            <div className="flex gap-4">
+            <div className="flex gap-4 max-sm:gap-2 max-sm:flex-wrap">
               {["All", "Participation", "Prize Winning"].map((f) => (
                 <button
                   key={f}
@@ -76,7 +76,7 @@ export default function Activities() {
           onClick={() => setShowForm(false)}
         >
           <div
-            className="bg-[#f0f7ff] p-8 rounded-2xl w-full max-w-[400px] flex flex-col gap-4 shadow-[0_12px_30px_rgba(0,0,0,0.2)] animate-fade-in border border-[#c8e1ff]"
+            className="bg-[#f0f7ff] p-8 rounded-2xl w-full max-w-[400px] flex flex-col gap-4 shadow-[0_12px_30px_rgba(0,0,0,0.2)] animate-fade-in border border-[#c8e1ff] max-sm:max-w-[95vw] max-sm:p-5"
             onClick={(e) => e.stopPropagation()}
           >
             <h2 className="m-0 mb-2 text-[1.4rem] text-[#1a3c6e]">Add New Activity</h2>
@@ -132,7 +132,7 @@ export default function Activities() {
       )}
 
       {/* Activities List */}
-      <section className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-6">
+      <section className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-6 max-[480px]:grid-cols-1">
         {activities.length === 0 ? (
           <div className="text-center text-base text-gray-400 col-span-full">No activities added yet.</div>
         ) : (

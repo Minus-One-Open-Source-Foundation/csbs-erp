@@ -432,19 +432,19 @@ export default function StudentProfile() {
 
   return (
     <div
-      className="min-h-screen py-10 px-5 flex flex-col items-center bg-cover bg-center bg-fixed font-sans text-gray-800"
+      className="min-h-screen py-10 px-5 flex flex-col items-center bg-cover bg-center bg-fixed font-sans text-gray-800 max-sm:py-6 max-sm:px-3"
       style={{ backgroundImage: `url('${bgImage}')` }}
     >
-      <h2 className="text-[2.4rem] font-bold mb-8 text-[#090b0d] tracking-wide relative after:content-[''] after:w-[120px] after:h-1 after:bg-[#43cea2] after:block after:mx-auto after:mt-2 after:rounded-sm">
+      <h2 className="text-[2.4rem] font-bold mb-8 text-[#090b0d] tracking-wide relative after:content-[''] after:w-[120px] after:h-1 after:bg-[#43cea2] after:block after:mx-auto after:mt-2 after:rounded-sm max-sm:text-[1.6rem] max-sm:mb-5">
         Student Profile
       </h2>
 
-      <div className="bg-white border border-gray-300 rounded-[20px] p-8 w-full max-w-[1100px] min-h-[60vh] shadow-[0_10px_30px_rgba(0,0,0,0.1)] flex gap-8 animate-fade-in max-md:flex-col">
+      <div className="bg-white border border-gray-300 rounded-[20px] p-8 w-full max-w-[1100px] min-h-[60vh] shadow-[0_10px_30px_rgba(0,0,0,0.1)] flex gap-8 animate-fade-in max-md:flex-col max-sm:p-5 max-sm:gap-5">
         <div className="flex-1 flex flex-col items-center">
           {/* Clickable circle for profile picture */}
           <label
             htmlFor="fileInput"
-            className={`w-[250px] h-[250px] rounded-full overflow-hidden border-2 flex justify-center items-center bg-gray-200 mb-3 relative cursor-pointer hover:opacity-85 ${isEditing ? 'border-[#43cea2] hover:border-[#090b0d] hover:scale-[1.02]' : 'border-gray-300'}`}
+            className={`w-[250px] h-[250px] rounded-full overflow-hidden border-2 flex justify-center items-center bg-gray-200 mb-3 relative cursor-pointer hover:opacity-85 max-sm:w-[150px] max-sm:h-[150px] ${isEditing ? 'border-[#43cea2] hover:border-[#090b0d] hover:scale-[1.02]' : 'border-gray-300'}`}
           >
             {profilePic ? (
               <img src={profilePic} alt="Profile" className="w-full h-full object-cover" />
