@@ -280,15 +280,15 @@ export default function AchievementsRequest() {
                     <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4 mb-4 max-[480px]:grid-cols-1">
                       <div className="flex items-center gap-2 text-gray-500">
                         <FaUser />
-                        <span><strong>Student:</strong> {achievement.userEmail}</span>
+                        <span><strong>Student:</strong> <span className="text-gray-500">{achievement.userEmail}</span></span>
                       </div>
                       <div className="flex items-center gap-2 text-gray-500">
                         <FaTrophy />
-                        <span><strong>Category:</strong> {achievementCategoryLabels[achievement.category] || achievement.category}</span>
+                        <span><strong>Category:</strong> <span className="text-gray-500">{achievementCategoryLabels[achievement.category] || achievement.category}</span></span>
                       </div>
                       <div className="flex items-center gap-2 text-gray-500">
                         <FaCalendar />
-                        <span><strong>Submitted:</strong> {formatDate(achievement.createdAt)}</span>
+                        <span><strong>Submitted:</strong> <span className="text-gray-500">{formatDate(achievement.createdAt)}</span></span>
                       </div>
                     </div>
 
@@ -371,7 +371,7 @@ export default function AchievementsRequest() {
                 <div>
                   <h3 className="m-0 text-gray-800">{selectedCertificate.title}</h3>
                   <p className="mt-2 mb-0 text-gray-500 text-[0.9rem]">
-                    Student: {selectedCertificate.student}
+                    Student: <span className="text-gray-500">{selectedCertificate.student}</span>
                   </p>
                 </div>
                 <button

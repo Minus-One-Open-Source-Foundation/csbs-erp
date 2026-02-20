@@ -238,26 +238,29 @@ export default function FacultyInternshipsRequests() {
         ) : (
           filteredEvents.map((event) => (
             <div key={event.id} className="mb-6 relative">
-              <div className="bg-white rounded-[18px] shadow-[0_6px_24px_rgba(0,0,0,0.13)] py-8 px-6 flex flex-row gap-8 items-start relative max-md:flex-col max-md:gap-4 max-md:px-4 max-md:py-6 max-sm:px-3 max-sm:py-4">
-                <div className="flex-1 flex flex-col max-md:w-full min-w-0">
-                  <p className="text-[1.15rem]"><span className="text-black font-semibold">Email:</span> <span className="text-gray-600">{event.userEmail}</span></p>
-                  <h4 className="text-[1.25rem] font-semibold my-2"><span className="text-black">Title:</span> <span className="text-gray-600">{event.title}</span></h4>
-                  <span className="text-[1.15rem] font-semibold mb-2 block"><span className="text-black">Company:</span> <span className="text-gray-600">{event.companyName}</span></span>
-                  <span className="text-[1.15rem] font-semibold mb-2 block">
-                    <span className="text-black">Duration:</span> <span className="text-gray-600">{formatDate(event.startDate)} - {formatDate(event.endDate)}</span>
+              <div className="bg-white rounded-[18px] shadow-[0_6px_24px_rgba(0,0,0,0.13)] py-8 px-6 flex flex-row gap-8 items-start relative max-md:flex-col max-md:gap-4">
+                <span className="absolute top-5 left-5 py-1.5 px-5 rounded-[14px] font-bold text-base bg-white border-2 border-orange-500 text-orange-500 max-sm:static max-sm:mb-2">
+                  Internship
+                </span>
+                <div className="flex-1 flex flex-col mt-4">
+                  <p><strong>Student:</strong> <span className="text-gray-500">{event.userEmail}</span></p>
+                  <h4 className="text-[#3a3aee] text-[1.1rem] font-semibold my-2">{event.title}</h4>
+                  <span className="text-base text-gray-600 font-semibold mb-2 block"><strong>Company:</strong> <span className="text-gray-500">{event.companyName}</span></span>
+                  <span className="text-[0.95rem] text-gray-500 mb-2 block">
+                    <strong>Duration:</strong> <span className="text-gray-500">{formatDate(event.startDate)} - {formatDate(event.endDate)}</span>
                   </span>
-                  <div className="text-[1.15rem] font-semibold mb-3 text-left">
-                    <span className="text-black">Mode:</span> <span className="text-gray-600">{event.mode || 'REMOTE'}</span>
+                  <div className="text-base text-[#3a3aee] font-semibold mb-3 text-left">
+                    <strong>Mode:</strong> <span className="text-gray-500 font-medium">{event.mode || 'REMOTE'}</span>
                   </div>
                   {event.description && (
-                    <p className="text-gray-600 text-base mb-3 break-words overflow-hidden">
-                      <strong>Description:</strong> {event.description}
+                    <p className="text-gray-600 text-base mb-3">
+                      <strong>Description:</strong> <span className="text-gray-500">{event.description}</span>
                     </p>
                   )}
                   {event.certificateFilename && (
                     <div className="flex items-center gap-2 mb-3">
                       <p className="text-gray-500 text-[0.9rem] m-0">
-                        <strong>Certificate:</strong> {event.certificateFilename}
+                        <strong>Certificate:</strong> <span className="text-gray-500">{event.certificateFilename}</span>
                       </p>
                       {event.certificateUrl && (
                         <button
@@ -271,7 +274,7 @@ export default function FacultyInternshipsRequests() {
                     </div>
                   )}
                   <p className="text-gray-400 text-[0.85rem]">
-                    <strong>Submitted:</strong> {formatDate(event.createdAt)}
+                    <strong>Submitted:</strong> <span className="text-gray-500">{formatDate(event.createdAt)}</span>
                   </p>
 
                   {/* Status Display */}
