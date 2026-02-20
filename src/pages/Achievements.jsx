@@ -131,6 +131,17 @@ export default function Achievements() {
     setFormData({ ...formData, image: e.target.files[0] });
   };
 
+  const handleDescriptionChange = (e) => {
+    const text = e.target.value;
+    const words = text.trim().split(/\s+/).filter(Boolean);
+    if (words.length <= 200) {
+      setFormData({ ...formData, description: text });
+    } else {
+      const limited = words.slice(0, 200).join(' ');
+      setFormData({ ...formData, description: limited });
+    }
+  };
+
   const saveAchievement = async () => {
     try {
       if (!formData.title.trim()) {
@@ -365,14 +376,14 @@ export default function Achievements() {
       {/* Modal Form */}
       {showForm && (
         <div
-          className="fixed inset-0 bg-black/50 flex justify-center items-center z-[1000]"
+          className="fixed inset-0 bg-black/50 flex justify-center items-center z-[2000]"
           onClick={() => { setShowForm(false); setFormData({ title: "", category: "", achievementType: "SYMPOSIUM", otherAchievementType: "", extraType: "SPORTS", otherExtraType: "", description: "", date: "", image: null }); }}
         >
           <div
-            className="bg-white p-6 rounded-xl shadow-[0_8px_20px_rgba(0,0,0,0.2)] flex flex-col gap-3 w-[90%] max-w-[600px] max-h-[90vh] overflow-y-auto max-sm:w-[95%] max-sm:p-4"
+            className="bg-white p-6 rounded-xl shadow-[0_8px_20px_rgba(0,0,0,0.2)] flex flex-col gap-3 w-[90%] max-w-[800px] max-h-[90vh] overflow-y-auto max-sm:w-[95%] max-sm:p-4"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2>Add Achievement</h2>
+            <h2 className="m-0 mb-2 text-2xl font-bold text-gray-800">Add Achievement</h2>
 
             <div>
               <label className="block text-sm text-gray-600 mb-1">Category</label>
@@ -384,9 +395,9 @@ export default function Achievements() {
             </div>
 
             {formData.category === "CO_CURRICULAR" && (
-              <>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 
-                <div>
+                <div className="md:col-span-1">
                   <label className="block text-sm text-gray-600 mb-1">Event</label>
                   <select name="achievementType" value={formData.achievementType} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg text-base">
                   <option value="SYMPOSIUM">Symposium</option>
@@ -397,7 +408,7 @@ export default function Achievements() {
                 </div>
 
                 {formData.achievementType === "OTHERS" && (
-                  <div>
+                  <div className="md:col-span-2">
                     <label className="block text-sm text-gray-600 mb-1">Event (Other)</label>
                     <input
                       type="text"
@@ -410,7 +421,7 @@ export default function Achievements() {
                   </div>
                 )}
 
-                <div>
+                <div className="md:col-span-1">
                   <label className="block text-sm text-gray-600 mb-1">Achievement Title</label>
                   <input
                     type="text"
@@ -422,19 +433,19 @@ export default function Achievements() {
                   />
                 </div>
 
-                <div>
+                <div className="md:col-span-2">
                   <label className="block text-sm text-gray-600 mb-1">Description</label>
                   <textarea
                     name="description"
                     placeholder="Description"
                     value={formData.description}
-                    onChange={handleChange}
+                    onChange={handleDescriptionChange}
                     rows={4}
                     className="w-full p-3 border border-gray-300 rounded-lg text-base"
                   />
                 </div>
 
-                <div className="flex flex-col gap-2">
+                <div className="md:col-span-2 flex flex-col gap-2">
                   <div className="flex items-center gap-3 p-2 border border-gray-300 rounded-lg bg-gray-50 w-full">
                     <label
                       className="bg-white border border-gray-300 px-4 py-2 rounded-md cursor-pointer text-sm font-semibold hover:bg-gray-100 transition-colors shadow-sm whitespace-nowrap"
@@ -455,7 +466,7 @@ export default function Achievements() {
                   <div className="text-xs text-gray-500 mt-1">Allowed formats: jpg, jpeg, png</div>
                 </div>
 
-                <div className="flex gap-3 justify-end">
+                <div className="md:col-span-2 flex gap-3 justify-end">
                   <button
                     onClick={saveAchievement}
                     disabled={submitting}
@@ -475,12 +486,12 @@ export default function Achievements() {
                     Cancel
                   </button>
                 </div>
-              </>
+              </div>
             )}
 
             {formData.category === "EXTRA_CURRICULAR" && (
-              <>
-                <div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="md:col-span-1">
                   <label className="block text-sm text-gray-600 mb-1">Event</label>
                   <select name="extraType" value={formData.extraType} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg text-base">
                     <option value="SPORTS">Sports</option>
@@ -488,8 +499,19 @@ export default function Achievements() {
                   </select>
                 </div>
 
+                <div className="md:col-span-1">
+                  <label className="block text-sm text-gray-600 mb-1">Date</label>
+                  <input
+                    type="date"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleChange}
+                    className="w-full p-3 border border-gray-300 rounded-lg text-base"
+                  />
+                </div>
+
                 {formData.extraType === 'OTHERS' && (
-                  <div>
+                  <div className="md:col-span-2">
                     <label className="block text-sm text-gray-600 mb-1">Event (Other)</label>
                     <input
                       type="text"
@@ -502,17 +524,7 @@ export default function Achievements() {
                   </div>
                 )}
 
-                <div>
-                  <label className="block text-sm text-gray-600 mb-1">Date</label>
-                  <input
-                    type="date"
-                    name="date"
-                    value={formData.date}
-                    onChange={handleChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg text-base"
-                  />
-                </div>
-                <div>
+                <div className="md:col-span-2">
                   <label className="block text-sm text-gray-600 mb-1">Achievement Title</label>
                   <input
                     type="text"
@@ -524,19 +536,19 @@ export default function Achievements() {
                   />
                 </div>
 
-                <div>
+                <div className="md:col-span-2">
                   <label className="block text-sm text-gray-600 mb-1">Description</label>
                   <textarea
                     name="description"
                     placeholder="Description"
                     value={formData.description}
-                    onChange={handleChange}
+                    onChange={handleDescriptionChange}
                     rows={4}
                     className="w-full p-3 border border-gray-300 rounded-lg text-base"
                   />
                 </div>
 
-                <div className="flex flex-col gap-2">
+                <div className="md:col-span-2 flex flex-col gap-2">
                   <div className="flex items-center gap-3 p-2 border border-gray-300 rounded-lg bg-gray-50 w-full">
                     <label
                       className="bg-white border border-gray-300 px-4 py-2 rounded-md cursor-pointer text-sm font-semibold hover:bg-gray-100 transition-colors shadow-sm whitespace-nowrap"
@@ -557,7 +569,7 @@ export default function Achievements() {
                   <div className="text-xs text-gray-500 mt-1">Allowed formats: jpg, jpeg, png</div>
                 </div>
 
-                <div className="flex gap-3 justify-end">
+                <div className="md:col-span-2 flex gap-3 justify-end">
                   <button
                     onClick={saveAchievement}
                     disabled={submitting}
@@ -577,7 +589,7 @@ export default function Achievements() {
                     Cancel
                   </button>
                 </div>
-              </>
+              </div>
             )}
           </div>
         </div>
@@ -615,18 +627,32 @@ export default function Achievements() {
                 <div className="inline-block py-2 px-4 border-2 border-[#ff6a00] rounded-xl text-[#ff6a00] text-[0.9rem] font-semibold bg-transparent cursor-default mb-2">
                   {categoryLabels[ach.category] || ach.category}
                 </div>
-                <strong className="text-[#3a3aee] text-base">{ach.title}</strong>
-                <div className="text-gray-500 text-[0.9rem] font-normal mb-2.5">{formatDate(ach.createdAt)}</div>
-                <div className="text-black text-base">{ach.description}</div>
+
+                <div className="mb-2">
+                  <span className="text-2xl text-black font-semibold mr-2">Title:</span>
+                  <span className="text-base text-gray-600 font-medium">{ach.title}</span>
+                </div>
+
+                <div className="mb-2">
+                  <span className="text-2xl text-black font-semibold mr-2">Date:</span>
+                  <span className="text-base text-gray-600 font-medium">{formatDate(ach.createdAt)}</span>
+                </div>
+
+                <div className="mb-2">
+                  <div className="text-2xl text-black font-semibold">Description:</div>
+                  <div className="text-base text-gray-600 font-medium ml-4">{ach.description}</div>
+                </div>
+
                 {ach.imageFilename && (
-                  <div className="text-[0.9rem] text-gray-500 mt-2">
-                    <strong>File:</strong> {ach.imageFilename}
+                  <div className="mb-2">
+                    <span className="text-2xl text-black font-semibold mr-2">File:</span>
+                    <span className="text-base text-gray-600 font-medium">{ach.imageFilename}</span>
                   </div>
                 )}
               </div>
 
               {/* Right-side container */}
-              <div className="flex flex-col items-center gap-3">
+              <div className="order-first md:order-last mb-4 md:mb-0 flex flex-col items-center gap-3 self-center md:self-auto">
                 <div className={`font-bold text-[0.95rem] ${ach.status === "APPROVED" ? "text-green-500" :
                   ach.status === "REJECTED" ? "text-red-500" : "text-orange-500"
                   }`}>
@@ -645,7 +671,7 @@ export default function Achievements() {
                   )}
                 </div>
 
-                <div className="w-[140px] h-[140px] flex items-center justify-center">
+                <div className="w-[140px] md:w-[140px] h-auto md:h-[140px] mx-auto flex items-center justify-center">
                   {ach.imageUrl ? (
                     <img
                       src={ach.imageUrl}

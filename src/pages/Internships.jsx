@@ -120,12 +120,23 @@ export default function Internships() {
     }
   };
 
+  const handleDescriptionChange = (e) => {
+    const text = e.target.value;
+    const words = text.trim().split(/\s+/).filter(Boolean);
+    if (words.length <= 200) {
+      setFormData({ ...formData, description: text });
+    } else {
+      const limited = words.slice(0, 200).join(' ');
+      setFormData({ ...formData, description: limited });
+    }
+  };
+
   const filteredEvents = events.filter((ev) =>
     ev.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     ev.companyName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const formInputClass = "w-full py-[0.7rem] px-4 rounded-lg border border-gray-300 outline-none text-base";
+  const formInputClass = "w-full p-3 border border-gray-300 rounded-lg text-sm sm:text-base";
 
   return (
     <div
@@ -153,80 +164,113 @@ export default function Internships() {
       </header>
 
       {showForm && (
-        <div className="fixed top-8 left-0 w-full h-full bg-black/50 flex justify-center items-center z-[1000]">
-          <div className="w-[70%] max-w-[350px] bg-white py-5 px-5 rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.1)] flex flex-col gap-[1.1rem] max-h-[92vh] overflow-y-auto fixed top-[60px] left-1/2 -translate-x-1/2 z-[1100] max-sm:w-[95vw] max-sm:max-w-[95vw]">
-            <h3 className="m-0 mb-4 text-2xl font-bold text-gray-800">
-              Add New Internship
-            </h3>
-            <input
-              type="text"
-              placeholder="Title"
-              value={formData.title}
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className={formInputClass}
-            />
-            <input
-              type="text"
-              placeholder="Company Name"
-              value={formData.companyName}
-              onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
-              className={formInputClass}
-            />
-            <select
-              value={formData.mode || ""}
-              onChange={(e) => setFormData({ ...formData, mode: e.target.value })}
-              className={formInputClass}
-            >
-              <option value="" disabled>Select Internship Mode</option>
-              <option value="REMOTE">Remote</option>
-              <option value="ONSITE">On-site</option>
-              <option value="HYBRID">Hybrid</option>
-            </select>
-            <label className="font-medium mb-0.5 ml-2">Start Date</label>
-            <input
-              type="date"
-              placeholder="dd-mm-yyyy"
-              value={formData.startDate}
-              onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-              className={formInputClass}
-            />
-            <label className="font-medium mb-0.5 ml-2">End Date</label>
-            <input
-              type="date"
-              placeholder="dd-mm-yyyy"
-              value={formData.endDate}
-              onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
-              className={formInputClass}
-            />
-            <textarea
-              placeholder="Description"
-              value={formData.description}
-              maxLength={100}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className={`${formInputClass} min-h-[120px] max-h-[120px] resize-none`}
-            />
-            <input
-              type="file"
-              accept="image/*,application/pdf"
-              onChange={(e) => setFormData({ ...formData, certificate: e.target.files[0] })}
-              className="w-full py-3 px-3 border border-gray-300 rounded-lg text-base"
-            />
-            <div className="flex justify-end gap-4">
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-[12000]" onClick={() => setShowForm(false)}>
+          <div className="bg-white p-6 rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.12)] flex flex-col gap-4 w-[90%] max-w-[800px] max-h-[90vh] overflow-y-auto max-sm:w-[95%] max-sm:p-4" onClick={(e) => e.stopPropagation()}>
+            <h3 className="m-0 mb-2 text-2xl font-bold text-gray-800">Add New Internship</h3>
+
+            <div>
+              <label className="block text-sm text-gray-600 mb-1">Title</label>
+              <input
+                type="text"
+                placeholder="Title"
+                value={formData.title}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                className={formInputClass}
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm text-gray-600 mb-1">Company Name</label>
+              <input
+                type="text"
+                placeholder="Company Name"
+                value={formData.companyName}
+                onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
+                className={formInputClass}
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm text-gray-600 mb-1">Internship Mode</label>
+              <select
+                value={formData.mode || ""}
+                onChange={(e) => setFormData({ ...formData, mode: e.target.value })}
+                className={formInputClass}
+              >
+                <option value="" disabled>Select Internship Mode</option>
+                <option value="REMOTE">Remote</option>
+                <option value="ONSITE">On-site</option>
+                <option value="HYBRID">Hybrid</option>
+              </select>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm text-gray-600 mb-1">Start Date</label>
+                <input
+                  type="date"
+                  placeholder="dd-mm-yyyy"
+                  value={formData.startDate}
+                  onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+                  className={formInputClass}
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-600 mb-1">End Date</label>
+                <input
+                  type="date"
+                  placeholder="dd-mm-yyyy"
+                  value={formData.endDate}
+                  onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
+                  className={formInputClass}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm text-gray-600 mb-1">Description</label>
+              <textarea
+                placeholder="Description"
+                value={formData.description}
+                onChange={handleDescriptionChange}
+                className={`${formInputClass} min-h-[120px] max-h-[200px] resize-none`}
+              />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-3 p-2 border border-gray-300 rounded-lg bg-gray-50 w-full">
+                <label className="bg-white border border-gray-300 px-4 py-2 rounded-md cursor-pointer text-sm font-semibold hover:bg-gray-100 transition-colors shadow-sm whitespace-nowrap">
+                  Choose File
+                  <input
+                    type="file"
+                    accept="image/*,application/pdf"
+                    onChange={(e) => setFormData({ ...formData, certificate: e.target.files[0] })}
+                    className="hidden"
+                  />
+                </label>
+                <span className={`text-sm truncate ${formData.certificate ? 'text-blue-600 font-medium' : 'text-gray-500 italic'}`}>
+                  {formData.certificate ? formData.certificate.name : 'No file chosen'}
+                </span>
+              </div>
+              <div className="text-xs text-gray-500 mt-1">Allowed formats: jpg, jpeg, png</div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row justify-end gap-4 mt-2 w-full">
               <button
                 onClick={handleAddInternship}
                 disabled={submitting}
-                className="py-3 px-6 text-white font-semibold text-base border-none rounded-lg flex items-center gap-2 disabled:cursor-not-allowed"
+                className="w-full sm:w-auto py-2.5 px-5 text-white border-none rounded-lg cursor-pointer font-semibold flex items-center gap-2 disabled:cursor-not-allowed justify-center"
                 style={{
-                  background: submitting ? "#ccc" : "linear-gradient(90deg, #ff6a00, #ee0979)",
-                  cursor: submitting ? "not-allowed" : "pointer",
+                  background: submitting ? '#ccc' : 'linear-gradient(90deg, #ff6a00, #ee0979)'
                 }}
               >
                 {submitting && <FaSpinner className="animate-spin" />}
-                {submitting ? "Submitting..." : "Submit"}
+                {submitting ? 'Submitting...' : 'Submit'}
               </button>
               <button
                 onClick={() => setShowForm(false)}
-                className="py-3 px-6 bg-transparent text-gray-800 font-semibold text-base border border-gray-300 rounded-lg cursor-pointer"
+                className="w-full sm:w-auto bg-white text-black border border-gray-300 rounded-lg py-2.5 px-5 cursor-pointer"
+                disabled={submitting}
               >
                 Cancel
               </button>
@@ -271,30 +315,37 @@ export default function Internships() {
               key={event.id}
               className="bg-white rounded-[18px] shadow-[0_6px_24px_rgba(0,0,0,0.13)] py-8 px-6 flex flex-col gap-4 relative max-sm:py-5 max-sm:px-4"
             >
-              <div className="absolute top-5 left-5 py-1.5 px-5 rounded-[14px] font-bold text-base bg-white border-2 border-[#ff6a00] text-[#ff6a00]">
-                Internship
-              </div>
+              
               <div className="flex flex-row items-start gap-8 mt-4 max-md:flex-col">
                 <div className="flex-1">
-                  <h3 className="text-[#3a3aee] text-[1.1rem] font-bold mt-4 mb-2">
-                    {event.title}
-                  </h3>
-                  <span className="text-base text-gray-500 font-semibold mb-2 block">
-                    {event.companyName}
-                  </span>
-                  <span className="text-[0.95rem] text-gray-500 mb-[0.7rem] block">
-                    {new Date(event.startDate).toLocaleDateString()} - {new Date(event.endDate).toLocaleDateString()}
-                  </span>
-                  <div className="text-base text-[#3a3aee] font-semibold mb-[0.7rem] text-left">
-                    Internship mode: <span className="text-gray-800 font-medium">{event.mode || 'REMOTE'}</span>
+                  <div className="mb-2">
+                    <span className="text-base text-black font-semibold mr-3">Title:</span>
+                    <span className="text-base text-gray-600 font-medium leading-tight">{event.title}</span>
                   </div>
-                  <p className="text-gray-600 text-base mb-[0.7rem]">
-                    {event.description}
-                  </p>
+
+                  <div className="mb-2">
+                    <span className="text-base text-black font-semibold mr-3">Company:</span>
+                    <span className="text-base text-gray-600 font-medium leading-relaxed">{event.companyName}</span>
+                  </div>
+
+                  <div className="mb-2">
+                    <span className="text-base text-black font-semibold mr-3">Duration:</span>
+                    <span className="text-base text-gray-600 leading-relaxed">{new Date(event.startDate).toLocaleDateString()} - {new Date(event.endDate).toLocaleDateString()}</span>
+                  </div>
+
+                  <div className="mb-2">
+                    <span className="text-base text-black font-semibold mr-3">Mode:</span>
+                    <span className="text-base text-gray-600 font-medium leading-relaxed">{event.mode || 'REMOTE'}</span>
+                  </div>
+
+                  <div className="mb-2">
+                    <div className="text-base text-black font-semibold">Description:</div>
+                    <div className="text-base text-gray-600 leading-relaxed ml-4">{event.description}</div>
+                  </div>
                 </div>
-                <div className="flex flex-col items-center">
+                <div className="order-first md:order-last mb-4 md:mb-0 flex flex-col items-center self-center md:self-auto">
                   {/* Document preview box */}
-                  <div className="w-[180px] h-[160px] min-w-[180px] min-h-[160px] border-2 border-dashed border-gray-400 rounded-xl bg-white flex items-center justify-center relative overflow-hidden max-md:w-full max-md:min-w-0 max-md:h-[180px]">
+                  <div className="w-[180px] md:w-[180px] h-auto md:h-[160px] min-h-[160px] md:min-h-[160px] mx-auto border-2 border-dashed border-gray-400 rounded-xl bg-white flex items-center justify-center relative overflow-hidden max-md:min-w-0 max-md:h-[180px]">
                     {event.certificateUrl ? (
                       <img
                         src={event.certificateUrl}
