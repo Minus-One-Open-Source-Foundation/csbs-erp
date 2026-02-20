@@ -10,12 +10,13 @@ export default function Activities() {
     title: "",
     date: "",
     description: "",
+    file: null,
   });
 
   const addActivity = () => {
     if (formData.title.trim()) {
       setActivities([{ ...formData, id: Date.now() }, ...activities]);
-      setFormData({ title: "", date: "", description: "" });
+      setFormData({ title: "", date: "", description: "", file: null });
       setShowForm(false);
     }
   };
@@ -30,7 +31,7 @@ export default function Activities() {
       style={{ backgroundImage: `url('${bgImage}')` }}
     >
       <header className="text-center mb-8">
-        <h1 className="text-2xl font-bold text-black mb-2">Co-Curriculars</h1>
+        <h1 className="text-2xl font-bold text-black mb-2">Certifications</h1>
         <p className="text-base text-gray-500">Add and track all your activities</p>
       </header>
 
@@ -46,7 +47,7 @@ export default function Activities() {
         <div className="w-full flex flex-col items-stretch">
           <div className="flex flex-row gap-[1.2rem] items-center mt-[0.7rem] flex-wrap justify-center">
             <div className="flex gap-4 max-sm:gap-2 max-sm:flex-wrap">
-              {["All", "Participation", "Prize Winning"].map((f) => (
+              {["All", "Academic-Courses", "Non-Academics"].map((f) => (
                 <button
                   key={f}
                   className={`py-[13px] px-5 rounded-xl border-none cursor-pointer text-white font-bold text-base shadow-[0_8px_26px_rgba(238,9,121,0.13)] transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_rgba(238,9,121,0.18)] ${selectedFilter === f ? "opacity-100" : "opacity-80"
@@ -72,14 +73,23 @@ export default function Activities() {
       {/* Modal Form */}
       {showForm && (
         <div
-          className="fixed inset-0 bg-black/50 flex justify-center items-center z-[1000]"
+          className="fixed inset-0 bg-black/50 flex justify-center items-start pt-20 z-[1000] max-sm:pt-10"
           onClick={() => setShowForm(false)}
         >
           <div
-            className="bg-[#f0f7ff] p-8 rounded-2xl w-full max-w-[400px] flex flex-col gap-4 shadow-[0_12px_30px_rgba(0,0,0,0.2)] animate-fade-in border border-[#c8e1ff] max-sm:max-w-[95vw] max-sm:p-5"
+            className="bg-[#f0f7ff] pt-8 px-8 pb-8 rounded-2xl w-[450px] flex flex-col gap-4 shadow-[0_12px_30px_rgba(0,0,0,0.2)] animate-fade-in border border-[#c8e1ff] max-sm:max-w-[85vw] max-sm:w-full max-sm:px-5 max-sm:py-6 max-sm:gap-3 overflow-y-auto max-h-[85vh]"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="m-0 mb-2 text-[1.4rem] text-[#1a3c6e]">Add New Activity</h2>
+            <h2 className="m-0 mb-2 text-[1.3rem] max-sm:text-[1.1rem] text-[#1a3c6e]">Add New Activity</h2>
+            <label className="text-sm max-sm:text-xs font-semibold text-[#1a3c6e]">Select Category</label>
+            <select
+              className="py-2.5 px-3 rounded-xl border border-gray-300"
+              onChange={(e) => console.log(e.target.value)}
+            >
+              <option value="academic-courses">Academic-Courses</option>
+              <option value="non-academics">Non-Academics</option>
+            </select>
+            <label className="text-sm max-sm:text-xs font-semibold text-[#1a3c6e]">Title</label>
             <input
               type="text"
               placeholder="Enter Title"
@@ -89,6 +99,7 @@ export default function Activities() {
               }
               className="w-full py-3 px-3 border border-[#aac9f0] rounded-[10px] text-base bg-white"
             />
+            <label className="text-sm font-semibold text-[#1a3c6e]">Date of Completion</label>
             <input
               type="date"
               value={formData.date}
@@ -97,28 +108,47 @@ export default function Activities() {
               }
               className="w-full py-3 px-3 border border-[#aac9f0] rounded-[10px] text-base bg-white"
             />
+            <label className="text-sm max-sm:text-xs font-semibold text-[#1a3c6e]">Description</label>
             <textarea
               placeholder="Enter Description"
               value={formData.description}
               onChange={(e) =>
                 setFormData({ ...formData, description: e.target.value })
               }
-              className="w-full py-3 px-3 border border-[#aac9f0] rounded-[10px] text-base bg-white min-h-[80px] resize-none"
+              className="w-full py-3 px-3 border border-[#aac9f0] rounded-[10px] text-base bg-white min-h-[60px] resize-none"
             />
-            <select
-              className="py-2.5 px-3 rounded-xl border border-gray-300"
-              onChange={(e) => console.log(e.target.value)}
-            >
-              <option value="participation">Participation</option>
-              <option value="prize">Prize Winning</option>
-            </select>
+            <div className="w-full border border-[#aac9f0] rounded-[10px] p-4 bg-white">
+              <label className="flex items-center cursor-pointer">
+                <input
+                  type="file"
+                  accept="image/jpeg, image/png, image/jpg"
+                  className="hidden"
+                  id="fileInput"
+                  onChange={(e) =>
+                    setFormData({ ...formData, file: e.target.files[0] })
+                  }
+                />
+                <button
+                  type="button"
+                  className="px-4 py-2.5 border border-gray-400 rounded-lg text-gray-700 font-semibold cursor-pointer hover:bg-gray-50"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById("fileInput").click();
+                  }}
+                >
+                  Choose File
+                </button>
+                <span className="ml-3 text-gray-500">{formData.file ? formData.file.name : "No file chosen"}</span>
+              </label>
+              <p className="text-sm text-gray-500 mt-2">Allowed formats: jpg, jpeg, png</p>
+            </div>
             <div className="flex justify-end gap-4 mt-2">
               <button
                 onClick={addActivity}
                 className="py-2.5 px-5 border-none rounded-lg font-semibold cursor-pointer text-white"
                 style={{ background: "linear-gradient(90deg, #6a11cb, #2575fc)" }}
               >
-                Save
+                Submit
               </button>
               <button
                 className="py-2.5 px-5 border-none rounded-lg font-semibold cursor-pointer bg-[#e3eaf7] text-gray-800"

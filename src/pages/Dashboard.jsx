@@ -72,14 +72,14 @@ export default function Dashboard() {
               <p className="text-[0.9rem] text-black mt-2 m-0">View and update your personal details.</p>
             </div>
 
-            {/* Co-Curricular Card */}
+            {/* Certifications Card */}
             <div
               className="rounded-xl p-5 text-center shadow-[0_6px_18px_rgba(0,0,0,0.2)] backdrop-blur-[10px] transition-[transform,box-shadow] duration-200 cursor-pointer hover:-translate-y-1.5 hover:shadow-[0_18px_40px_rgba(0,0,0,0.25)]"
               style={{ background: "linear-gradient(145deg, rgba(128, 90, 213, 0.4), rgba(128, 90, 213, 0.2))" }}
               onClick={() => navigate("/activities")}
             >
-              <h3 className="m-0 mb-1 text-[1.3rem] font-bold text-[#001f3f]">Co-Curricular</h3>
-              <p className="text-[0.9rem] text-black mt-2 m-0">Track your co-curricular activities and achievements.</p>
+              <h3 className="m-0 mb-1 text-[1.3rem] font-bold text-[#001f3f]">Certifications</h3>
+              <p className="text-[0.9rem] text-black mt-2 m-0">Track your certifications and achievements.</p>
             </div>
 
             {/* URMS Card */}
