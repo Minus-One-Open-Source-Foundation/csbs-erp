@@ -17,7 +17,8 @@ export default function FacultyInternshipsRequests() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [processingId, setProcessingId] = useState(null);
+  const [approvingId, setApprovingId] = useState(null);
+  const [rejectingId, setRejectingId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [activeFilter, setActiveFilter] = useState("PENDING");
   const [showCertificateViewer, setShowCertificateViewer] = useState(false);
@@ -69,7 +70,7 @@ export default function FacultyInternshipsRequests() {
 
   const handleApprove = async (internshipId) => {
     try {
-      setProcessingId(internshipId);
+      setApprovingId(internshipId);
       await facultyAPI.approveInternship(internshipId);
       await fetchInternshipRequests();
       toast.success('Internship approved successfully!');
@@ -77,13 +78,13 @@ export default function FacultyInternshipsRequests() {
       console.error('Error approving internship:', err);
       toast.error('Failed to approve internship. Please try again.');
     } finally {
-      setProcessingId(null);
+      setApprovingId(null);
     }
   };
 
   const handleReject = async (internshipId) => {
     try {
-      setProcessingId(internshipId);
+      setRejectingId(internshipId);
       await facultyAPI.rejectInternship(internshipId);
       await fetchInternshipRequests();
       toast.success('Internship rejected successfully!');
@@ -91,7 +92,7 @@ export default function FacultyInternshipsRequests() {
       console.error('Error rejecting internship:', err);
       toast.error('Failed to reject internship. Please try again.');
     } finally {
-      setProcessingId(null);
+      setRejectingId(null);
     }
   };
 
@@ -237,22 +238,19 @@ export default function FacultyInternshipsRequests() {
         ) : (
           filteredEvents.map((event) => (
             <div key={event.id} className="mb-6 relative">
-              <div className="bg-white rounded-[18px] shadow-[0_6px_24px_rgba(0,0,0,0.13)] py-8 px-6 flex flex-row gap-8 items-start relative max-md:flex-col max-md:gap-4">
-                <span className="absolute top-5 left-5 py-1.5 px-5 rounded-[14px] font-bold text-base bg-white border-2 border-orange-500 text-orange-500 max-sm:static max-sm:mb-2">
-                  Internship
-                </span>
-                <div className="flex-1 flex flex-col mt-4">
-                  <p><strong>Student:</strong> {event.userEmail}</p>
-                  <h4 className="text-[#3a3aee] text-[1.1rem] font-semibold my-2">{event.title}</h4>
-                  <span className="text-base text-gray-600 font-semibold mb-2 block"><strong>Company:</strong> {event.companyName}</span>
-                  <span className="text-[0.95rem] text-gray-500 mb-2 block">
-                    <strong>Duration:</strong> {formatDate(event.startDate)} - {formatDate(event.endDate)}
+              <div className="bg-white rounded-[18px] shadow-[0_6px_24px_rgba(0,0,0,0.13)] py-8 px-6 flex flex-row gap-8 items-start relative max-md:flex-col max-md:gap-4 max-md:px-4 max-md:py-6 max-sm:px-3 max-sm:py-4">
+                <div className="flex-1 flex flex-col max-md:w-full min-w-0">
+                  <p className="text-[1.15rem]"><span className="text-black font-semibold">Email:</span> <span className="text-gray-600">{event.userEmail}</span></p>
+                  <h4 className="text-[1.25rem] font-semibold my-2"><span className="text-black">Title:</span> <span className="text-gray-600">{event.title}</span></h4>
+                  <span className="text-[1.15rem] font-semibold mb-2 block"><span className="text-black">Company:</span> <span className="text-gray-600">{event.companyName}</span></span>
+                  <span className="text-[1.15rem] font-semibold mb-2 block">
+                    <span className="text-black">Duration:</span> <span className="text-gray-600">{formatDate(event.startDate)} - {formatDate(event.endDate)}</span>
                   </span>
-                  <div className="text-base text-[#3a3aee] font-semibold mb-3 text-left">
-                    <strong>Mode:</strong> <span className="text-gray-800 font-medium">{event.mode || 'REMOTE'}</span>
+                  <div className="text-[1.15rem] font-semibold mb-3 text-left">
+                    <span className="text-black">Mode:</span> <span className="text-gray-600">{event.mode || 'REMOTE'}</span>
                   </div>
                   {event.description && (
-                    <p className="text-gray-600 text-base mb-3">
+                    <p className="text-gray-600 text-base mb-3 break-words overflow-hidden">
                       <strong>Description:</strong> {event.description}
                     </p>
                   )}
@@ -307,13 +305,13 @@ export default function FacultyInternshipsRequests() {
 
                   {/* Action Buttons - Only show for PENDING status */}
                   {event.status === "PENDING" && (
-                    <div className="flex gap-4 mt-4 max-sm:flex-col max-sm:w-full">
+                    <div className="flex gap-4 mt-4 max-sm:flex-col max-sm:w-full max-sm:gap-2">
                       <button
                         onClick={() => handleApprove(event.id)}
-                        disabled={processingId === event.id}
-                        className="flex items-center gap-2 py-3 px-6 bg-green-600 text-white border-none rounded-md font-semibold text-[0.9rem] transition-all duration-200 shadow-sm cursor-pointer hover:-translate-y-px hover:shadow-md hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                        disabled={approvingId === event.id}
+                        className="flex items-center gap-2 py-3 px-4 bg-green-600 text-white border-none rounded-md font-semibold text-[0.9rem] transition-all duration-200 shadow-sm cursor-pointer hover:-translate-y-px hover:shadow-md hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:hover:translate-y-0 max-sm:px-3 max-sm:py-2 max-sm:flex-1 max-sm:text-[0.85rem]"
                       >
-                        {processingId === event.id ? (
+                        {approvingId === event.id ? (
                           <FaSpinner className="animate-spin" />
                         ) : (
                           <FaCheck />
@@ -322,10 +320,10 @@ export default function FacultyInternshipsRequests() {
                       </button>
                       <button
                         onClick={() => handleReject(event.id)}
-                        disabled={processingId === event.id}
-                        className="flex items-center gap-2 py-3 px-6 bg-red-500 text-white border-none rounded-md font-semibold text-[0.9rem] transition-all duration-200 shadow-sm cursor-pointer hover:-translate-y-px hover:shadow-md hover:bg-red-600 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                        disabled={rejectingId === event.id}
+                        className="flex items-center gap-2 py-3 px-4 bg-red-500 text-white border-none rounded-md font-semibold text-[0.9rem] transition-all duration-200 shadow-sm cursor-pointer hover:-translate-y-px hover:shadow-md hover:bg-red-600 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:hover:translate-y-0 max-sm:px-3 max-sm:py-2 max-sm:flex-1 max-sm:text-[0.85rem]"
                       >
-                        {processingId === event.id ? (
+                        {rejectingId === event.id ? (
                           <FaSpinner className="animate-spin" />
                         ) : (
                           <FaTimes />
