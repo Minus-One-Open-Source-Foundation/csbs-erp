@@ -5,7 +5,7 @@ import {
   FaLaptopCode,
   FaBriefcase,
   FaTrophy,
-  FaRunning,
+  FaAward,
   FaUsers,
   FaGraduationCap,
   FaSignOutAlt,
@@ -22,7 +22,7 @@ export default function FacultySidebar({ open = false, collapsed = false, onClos
     { to: "/faculty/reports", label: "Hackathons & Workshops", icon: FaLaptopCode },
     { to: "/faculty/internships-requests", label: "Internships Requests", icon: FaBriefcase },
     { to: "/faculty/achievements-requests", label: "Achievements Requests", icon: FaTrophy },
-    { to: "/faculty/extra-activities", label: "Co-curriculars Requests", icon: FaRunning },
+    { to: "/faculty/certifications-requests", label: "Certifications Requests", icon: FaAward },
     { to: "/faculty/students", label: "Student Management", icon: FaUsers },
     { to: "/faculty/grades", label: "Grade Management", icon: FaGraduationCap },
   ];
