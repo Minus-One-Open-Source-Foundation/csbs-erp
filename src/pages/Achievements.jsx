@@ -131,6 +131,17 @@ export default function Achievements() {
     setFormData({ ...formData, image: e.target.files[0] });
   };
 
+  const handleDescriptionChange = (e) => {
+    const text = e.target.value;
+    const words = text.trim().split(/\s+/).filter(Boolean);
+    if (words.length <= 200) {
+      setFormData({ ...formData, description: text });
+    } else {
+      const limited = words.slice(0, 200).join(' ');
+      setFormData({ ...formData, description: limited });
+    }
+  };
+
   const saveAchievement = async () => {
     try {
       if (!formData.title.trim()) {
@@ -372,7 +383,7 @@ export default function Achievements() {
             className="bg-white p-6 rounded-xl shadow-[0_8px_20px_rgba(0,0,0,0.2)] flex flex-col gap-3 w-[90%] max-w-[800px] max-h-[90vh] overflow-y-auto max-sm:w-[95%] max-sm:p-4"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2>Add Achievement</h2>
+            <h2 className="m-0 mb-2 text-2xl font-bold text-gray-800">Add Achievement</h2>
 
             <div>
               <label className="block text-sm text-gray-600 mb-1">Category</label>
@@ -428,7 +439,7 @@ export default function Achievements() {
                     name="description"
                     placeholder="Description"
                     value={formData.description}
-                    onChange={handleChange}
+                    onChange={handleDescriptionChange}
                     rows={4}
                     className="w-full p-3 border border-gray-300 rounded-lg text-base"
                   />
@@ -531,7 +542,7 @@ export default function Achievements() {
                     name="description"
                     placeholder="Description"
                     value={formData.description}
-                    onChange={handleChange}
+                    onChange={handleDescriptionChange}
                     rows={4}
                     className="w-full p-3 border border-gray-300 rounded-lg text-base"
                   />
@@ -616,18 +627,32 @@ export default function Achievements() {
                 <div className="inline-block py-2 px-4 border-2 border-[#ff6a00] rounded-xl text-[#ff6a00] text-[0.9rem] font-semibold bg-transparent cursor-default mb-2">
                   {categoryLabels[ach.category] || ach.category}
                 </div>
-                <strong className="text-[#3a3aee] text-base">{ach.title}</strong>
-                <div className="text-gray-500 text-[0.9rem] font-normal mb-2.5">{formatDate(ach.createdAt)}</div>
-                <div className="text-black text-base">{ach.description}</div>
+
+                <div className="mb-2">
+                  <span className="text-2xl text-black font-semibold mr-2">Title:</span>
+                  <span className="text-base text-gray-600 font-medium">{ach.title}</span>
+                </div>
+
+                <div className="mb-2">
+                  <span className="text-2xl text-black font-semibold mr-2">Date:</span>
+                  <span className="text-base text-gray-600 font-medium">{formatDate(ach.createdAt)}</span>
+                </div>
+
+                <div className="mb-2">
+                  <div className="text-2xl text-black font-semibold">Description:</div>
+                  <div className="text-base text-gray-600 font-medium ml-4">{ach.description}</div>
+                </div>
+
                 {ach.imageFilename && (
-                  <div className="text-[0.9rem] text-gray-500 mt-2">
-                    <strong>File:</strong> {ach.imageFilename}
+                  <div className="mb-2">
+                    <span className="text-2xl text-black font-semibold mr-2">File:</span>
+                    <span className="text-base text-gray-600 font-medium">{ach.imageFilename}</span>
                   </div>
                 )}
               </div>
 
               {/* Right-side container */}
-              <div className="flex flex-col items-center gap-3">
+              <div className="order-first md:order-last mb-4 md:mb-0 flex flex-col items-center gap-3 self-center md:self-auto">
                 <div className={`font-bold text-[0.95rem] ${ach.status === "APPROVED" ? "text-green-500" :
                   ach.status === "REJECTED" ? "text-red-500" : "text-orange-500"
                   }`}>
@@ -646,7 +671,7 @@ export default function Achievements() {
                   )}
                 </div>
 
-                <div className="w-[140px] h-[140px] flex items-center justify-center">
+                <div className="w-[140px] md:w-[140px] h-auto md:h-[140px] mx-auto flex items-center justify-center">
                   {ach.imageUrl ? (
                     <img
                       src={ach.imageUrl}
