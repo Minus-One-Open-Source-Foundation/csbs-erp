@@ -242,24 +242,24 @@ export default function FacultyInternshipsRequests() {
                   Internship
                 </span>
                 <div className="flex-1 flex flex-col mt-4">
-                  <p><strong>Student:</strong> {event.userEmail}</p>
+                  <p><strong>Student:</strong> <span className="text-gray-500">{event.userEmail}</span></p>
                   <h4 className="text-[#3a3aee] text-[1.1rem] font-semibold my-2">{event.title}</h4>
-                  <span className="text-base text-gray-600 font-semibold mb-2 block"><strong>Company:</strong> {event.companyName}</span>
+                  <span className="text-base text-gray-600 font-semibold mb-2 block"><strong>Company:</strong> <span className="text-gray-500">{event.companyName}</span></span>
                   <span className="text-[0.95rem] text-gray-500 mb-2 block">
-                    <strong>Duration:</strong> {formatDate(event.startDate)} - {formatDate(event.endDate)}
+                    <strong>Duration:</strong> <span className="text-gray-500">{formatDate(event.startDate)} - {formatDate(event.endDate)}</span>
                   </span>
                   <div className="text-base text-[#3a3aee] font-semibold mb-3 text-left">
-                    <strong>Mode:</strong> <span className="text-gray-800 font-medium">{event.mode || 'REMOTE'}</span>
+                    <strong>Mode:</strong> <span className="text-gray-500 font-medium">{event.mode || 'REMOTE'}</span>
                   </div>
                   {event.description && (
                     <p className="text-gray-600 text-base mb-3">
-                      <strong>Description:</strong> {event.description}
+                      <strong>Description:</strong> <span className="text-gray-500">{event.description}</span>
                     </p>
                   )}
                   {event.certificateFilename && (
                     <div className="flex items-center gap-2 mb-3">
                       <p className="text-gray-500 text-[0.9rem] m-0">
-                        <strong>Certificate:</strong> {event.certificateFilename}
+                        <strong>Certificate:</strong> <span className="text-gray-500">{event.certificateFilename}</span>
                       </p>
                       {event.certificateUrl && (
                         <button
@@ -273,7 +273,7 @@ export default function FacultyInternshipsRequests() {
                     </div>
                   )}
                   <p className="text-gray-400 text-[0.85rem]">
-                    <strong>Submitted:</strong> {formatDate(event.createdAt)}
+                    <strong>Submitted:</strong> <span className="text-gray-500">{formatDate(event.createdAt)}</span>
                   </p>
 
                   {/* Status Display */}

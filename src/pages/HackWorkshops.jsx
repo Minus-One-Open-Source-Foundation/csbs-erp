@@ -293,35 +293,28 @@ export default function HackWorkshops() {
           </div>
         ) : (
           displayedEvents.map((event) => (
-            <div key={event.id} className="bg-white rounded-[18px] shadow-[0_6px_24px_rgba(0,0,0,0.13)] py-8 px-6 relative flex flex-col gap-4 max-sm:py-5 max-sm:px-4">
-              <div className="absolute top-5 left-5 py-1.5 px-5 rounded-[14px] font-bold text-base bg-white border-2 border-[#ff6a00] text-[#ff6a00]">
+            <div key={event.id} className="bg-white rounded-[18px] shadow-[0_6px_24px_rgba(0,0,0,0.13)] py-6 px-5 relative flex flex-col md:flex-row gap-4 md:gap-8 md:py-8 md:px-6">
+              <div className="absolute top-4 left-4 py-2 px-6 rounded-full font-extrabold text-lg bg-white border-2 border-[#ff6a00] text-[#ff6a00]">
                 {event.type}
               </div>
-              <div className="flex flex-row items-start gap-8 max-md:flex-col">
-                <div className="flex-1">
-                  <h3 className="text-[#3a3aee] text-[1.1rem] font-bold mt-2 mb-2">{event.type}</h3>
-                  <h4 className="text-[#3a3aee] text-base font-semibold mt-1 mb-2">{event.title}</h4>
-                  <span className="text-[0.95rem] text-gray-500 mb-[0.7rem] block">{event.date}</span>
-                  <p className="text-gray-600 text-base mb-[0.7rem]">{event.description}</p>
-                </div>
-                <div className="w-[150px] h-[150px] bg-gray-100 rounded-xl p-2 flex flex-col items-center shadow-[0_2px_8px_rgba(0,0,0,0.08)] justify-center overflow-hidden max-md:w-full max-md:h-[200px]">
-                  {event.file && event.file.url ? (
-                    <>
-                      {console.log('Rendering image for event:', event.id, 'URL:', event.file.url)}
+              <div className="flex flex-col md:flex-row items-start gap-6 md:gap-8 w-full">
+                <div className="flex-1 flex flex-col">
+                  <h3 className="order-1 text-[#3a3aee] text-[1.05rem] font-semibold mt-2 mb-2">{event.type}</h3>
+                  <h4 className="order-2 text-[#111827] text-2xl font-extrabold mt-1 mb-2 leading-tight">{event.title}</h4>
+
+                  {/* Centered image placed directly under the title on mobile */}
+                  <div className="order-3 w-full max-w-[320px] mx-auto my-4 rounded-xl p-2 bg-gray-100 shadow-[0_2px_8px_rgba(0,0,0,0.08)] overflow-hidden">
+                    {event.file && event.file.url ? (
                       <img
                         src={event.file.url}
-                        alt="Certificate"
-                        className="w-full h-full object-cover rounded-lg cursor-pointer transition-transform duration-200 hover:scale-105 block"
+                        alt="Event Image"
+                        className="w-full h-auto object-contain rounded-lg cursor-pointer transition-transform duration-200 hover:scale-105"
                         referrerPolicy="no-referrer"
                         onClick={() => window.open(event.file.url, '_blank')}
                         title="Click to view full image"
                         onError={(e) => {
                           console.error('IMG tag failed to load:', event.file.url);
                           e.target.style.display = 'none';
-                          const backgroundDiv = e.target.nextSibling;
-                          if (backgroundDiv) {
-                            backgroundDiv.style.display = 'block';
-                          }
                         }}
                         onLoad={(e) => {
                           console.log('Image loaded successfully!', {
@@ -331,36 +324,20 @@ export default function HackWorkshops() {
                           });
                         }}
                       />
-                      {/* Alternative: Background image approach */}
-                      <div
-                        className="hidden w-full h-full bg-cover bg-center bg-no-repeat rounded-lg cursor-pointer"
-                        style={{ backgroundImage: `url(${event.file.url})` }}
-                        onClick={() => window.open(event.file.url, '_blank')}
-                        title="Click to view full image"
-                      ></div>
-
-                      {/* Fallback file icon (initially hidden) */}
-                      <div className="hidden flex-col items-center justify-center h-full w-full">
-                        <FaFileAlt
-                          className="text-[3rem] text-[#a18cd1] mb-2 cursor-pointer"
-                          onClick={() => window.open(event.file.url, '_blank')}
-                          title="Click to download"
-                        />
-                        <span className="text-[0.9rem] text-gray-500">
-                          {event.file.type || 'FILE'}
-                        </span>
+                    ) : (
+                      <div className="flex flex-col items-center justify-center p-6">
+                        <FaFileAlt className="text-[3rem] text-gray-300 mb-2" />
+                        <span className="text-[0.9rem] text-gray-400">No File</span>
                       </div>
-                    </>
-                  ) : (
-                    <div className="flex flex-col items-center justify-center h-full">
-                      <FaFileAlt className="text-[3rem] text-gray-300 mb-2" />
-                      <span className="text-[0.9rem] text-gray-400">No File</span>
-                    </div>
-                  )}
+                    )}
+                  </div>
+
+                  <span className="order-4 text-[1rem] text-gray-500 mb-[0.7rem] block">{event.date}</span>
+                  <p className="order-5 text-gray-500 text-base mb-[0.7rem]">{event.description}</p>
                 </div>
 
-                {/* Status below the JPG box */}
-                <div className="text-center mt-2">
+                {/* Status */}
+                <div className="text-center mt-2 md:mt-0 md:self-start">
                   {event.status === "Approved" ? (
                     <span className="text-green-500 font-bold text-[0.9rem]">
                       <FaCheckCircle className="inline mr-1" /> Approved
