@@ -23,6 +23,7 @@ import StudentManagement from "./pages/StudentManagement";
 import GradeManagement from "./pages/GradeManagement";
 import Reports from "./pages/Reports";
 import FacultyInternshipsRequests from "./pages/FacultyInternshipsRequests";
+import FacultyCertificationsRequests from "./pages/FacultyCertificationsRequests";
 import AchievementsRequest from "./pages/AchievementsRequest";
 
 function App() {
@@ -66,6 +67,7 @@ function App() {
             <Route path="/faculty/grades" element={<GradeManagement />} />
             <Route path="/faculty/reports" element={<Reports />} />
             <Route path="/faculty/internships-requests" element={<FacultyInternshipsRequests />} />
+            <Route path="/faculty/certifications-requests" element={<FacultyCertificationsRequests />} />
             <Route path="/faculty/achievements-requests" element={<AchievementsRequest />} />
             <Route path="*" element={<Navigate to="/faculty" replace />} />
           </Routes>
