@@ -365,11 +365,11 @@ export default function Achievements() {
       {/* Modal Form */}
       {showForm && (
         <div
-          className="fixed inset-0 bg-black/50 flex justify-center items-center z-[1000]"
+          className="fixed inset-0 bg-black/50 flex justify-center items-center z-[2000]"
           onClick={() => { setShowForm(false); setFormData({ title: "", category: "", achievementType: "SYMPOSIUM", otherAchievementType: "", extraType: "SPORTS", otherExtraType: "", description: "", date: "", image: null }); }}
         >
           <div
-            className="bg-white p-6 rounded-xl shadow-[0_8px_20px_rgba(0,0,0,0.2)] flex flex-col gap-3 w-[90%] max-w-[600px] max-h-[90vh] overflow-y-auto max-sm:w-[95%] max-sm:p-4"
+            className="bg-white p-6 rounded-xl shadow-[0_8px_20px_rgba(0,0,0,0.2)] flex flex-col gap-3 w-[90%] max-w-[800px] max-h-[90vh] overflow-y-auto max-sm:w-[95%] max-sm:p-4"
             onClick={(e) => e.stopPropagation()}
           >
             <h2>Add Achievement</h2>
@@ -384,9 +384,9 @@ export default function Achievements() {
             </div>
 
             {formData.category === "CO_CURRICULAR" && (
-              <>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 
-                <div>
+                <div className="md:col-span-1">
                   <label className="block text-sm text-gray-600 mb-1">Event</label>
                   <select name="achievementType" value={formData.achievementType} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg text-base">
                   <option value="SYMPOSIUM">Symposium</option>
@@ -397,7 +397,7 @@ export default function Achievements() {
                 </div>
 
                 {formData.achievementType === "OTHERS" && (
-                  <div>
+                  <div className="md:col-span-2">
                     <label className="block text-sm text-gray-600 mb-1">Event (Other)</label>
                     <input
                       type="text"
@@ -410,7 +410,7 @@ export default function Achievements() {
                   </div>
                 )}
 
-                <div>
+                <div className="md:col-span-1">
                   <label className="block text-sm text-gray-600 mb-1">Achievement Title</label>
                   <input
                     type="text"
@@ -422,7 +422,7 @@ export default function Achievements() {
                   />
                 </div>
 
-                <div>
+                <div className="md:col-span-2">
                   <label className="block text-sm text-gray-600 mb-1">Description</label>
                   <textarea
                     name="description"
@@ -434,7 +434,7 @@ export default function Achievements() {
                   />
                 </div>
 
-                <div className="flex flex-col gap-2">
+                <div className="md:col-span-2 flex flex-col gap-2">
                   <div className="flex items-center gap-3 p-2 border border-gray-300 rounded-lg bg-gray-50 w-full">
                     <label
                       className="bg-white border border-gray-300 px-4 py-2 rounded-md cursor-pointer text-sm font-semibold hover:bg-gray-100 transition-colors shadow-sm whitespace-nowrap"
@@ -455,7 +455,7 @@ export default function Achievements() {
                   <div className="text-xs text-gray-500 mt-1">Allowed formats: jpg, jpeg, png</div>
                 </div>
 
-                <div className="flex gap-3 justify-end">
+                <div className="md:col-span-2 flex gap-3 justify-end">
                   <button
                     onClick={saveAchievement}
                     disabled={submitting}
@@ -475,12 +475,12 @@ export default function Achievements() {
                     Cancel
                   </button>
                 </div>
-              </>
+              </div>
             )}
 
             {formData.category === "EXTRA_CURRICULAR" && (
-              <>
-                <div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="md:col-span-1">
                   <label className="block text-sm text-gray-600 mb-1">Event</label>
                   <select name="extraType" value={formData.extraType} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg text-base">
                     <option value="SPORTS">Sports</option>
@@ -488,8 +488,19 @@ export default function Achievements() {
                   </select>
                 </div>
 
+                <div className="md:col-span-1">
+                  <label className="block text-sm text-gray-600 mb-1">Date</label>
+                  <input
+                    type="date"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleChange}
+                    className="w-full p-3 border border-gray-300 rounded-lg text-base"
+                  />
+                </div>
+
                 {formData.extraType === 'OTHERS' && (
-                  <div>
+                  <div className="md:col-span-2">
                     <label className="block text-sm text-gray-600 mb-1">Event (Other)</label>
                     <input
                       type="text"
@@ -502,17 +513,7 @@ export default function Achievements() {
                   </div>
                 )}
 
-                <div>
-                  <label className="block text-sm text-gray-600 mb-1">Date</label>
-                  <input
-                    type="date"
-                    name="date"
-                    value={formData.date}
-                    onChange={handleChange}
-                    className="w-full p-3 border border-gray-300 rounded-lg text-base"
-                  />
-                </div>
-                <div>
+                <div className="md:col-span-2">
                   <label className="block text-sm text-gray-600 mb-1">Achievement Title</label>
                   <input
                     type="text"
@@ -524,7 +525,7 @@ export default function Achievements() {
                   />
                 </div>
 
-                <div>
+                <div className="md:col-span-2">
                   <label className="block text-sm text-gray-600 mb-1">Description</label>
                   <textarea
                     name="description"
@@ -536,7 +537,7 @@ export default function Achievements() {
                   />
                 </div>
 
-                <div className="flex flex-col gap-2">
+                <div className="md:col-span-2 flex flex-col gap-2">
                   <div className="flex items-center gap-3 p-2 border border-gray-300 rounded-lg bg-gray-50 w-full">
                     <label
                       className="bg-white border border-gray-300 px-4 py-2 rounded-md cursor-pointer text-sm font-semibold hover:bg-gray-100 transition-colors shadow-sm whitespace-nowrap"
@@ -557,7 +558,7 @@ export default function Achievements() {
                   <div className="text-xs text-gray-500 mt-1">Allowed formats: jpg, jpeg, png</div>
                 </div>
 
-                <div className="flex gap-3 justify-end">
+                <div className="md:col-span-2 flex gap-3 justify-end">
                   <button
                     onClick={saveAchievement}
                     disabled={submitting}
@@ -577,7 +578,7 @@ export default function Achievements() {
                     Cancel
                   </button>
                 </div>
-              </>
+              </div>
             )}
           </div>
         </div>
