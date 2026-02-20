@@ -17,7 +17,8 @@ export default function FacultyInternshipsRequests() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [processingId, setProcessingId] = useState(null);
+  const [approvingId, setApprovingId] = useState(null);
+  const [rejectingId, setRejectingId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [activeFilter, setActiveFilter] = useState("PENDING");
   const [showCertificateViewer, setShowCertificateViewer] = useState(false);
@@ -69,7 +70,7 @@ export default function FacultyInternshipsRequests() {
 
   const handleApprove = async (internshipId) => {
     try {
-      setProcessingId(internshipId);
+      setApprovingId(internshipId);
       await facultyAPI.approveInternship(internshipId);
       await fetchInternshipRequests();
       toast.success('Internship approved successfully!');
@@ -77,13 +78,13 @@ export default function FacultyInternshipsRequests() {
       console.error('Error approving internship:', err);
       toast.error('Failed to approve internship. Please try again.');
     } finally {
-      setProcessingId(null);
+      setApprovingId(null);
     }
   };
 
   const handleReject = async (internshipId) => {
     try {
-      setProcessingId(internshipId);
+      setRejectingId(internshipId);
       await facultyAPI.rejectInternship(internshipId);
       await fetchInternshipRequests();
       toast.success('Internship rejected successfully!');
@@ -91,7 +92,7 @@ export default function FacultyInternshipsRequests() {
       console.error('Error rejecting internship:', err);
       toast.error('Failed to reject internship. Please try again.');
     } finally {
-      setProcessingId(null);
+      setRejectingId(null);
     }
   };
 
@@ -307,13 +308,13 @@ export default function FacultyInternshipsRequests() {
 
                   {/* Action Buttons - Only show for PENDING status */}
                   {event.status === "PENDING" && (
-                    <div className="flex gap-4 mt-4 max-sm:flex-col max-sm:w-full">
+                    <div className="flex gap-4 mt-4 max-sm:flex-col max-sm:w-full max-sm:gap-2">
                       <button
                         onClick={() => handleApprove(event.id)}
-                        disabled={processingId === event.id}
-                        className="flex items-center gap-2 py-3 px-6 bg-green-600 text-white border-none rounded-md font-semibold text-[0.9rem] transition-all duration-200 shadow-sm cursor-pointer hover:-translate-y-px hover:shadow-md hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                        disabled={approvingId === event.id}
+                        className="flex items-center gap-2 py-3 px-4 bg-green-600 text-white border-none rounded-md font-semibold text-[0.9rem] transition-all duration-200 shadow-sm cursor-pointer hover:-translate-y-px hover:shadow-md hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:hover:translate-y-0 max-sm:px-3 max-sm:py-2 max-sm:flex-1 max-sm:text-[0.85rem]"
                       >
-                        {processingId === event.id ? (
+                        {approvingId === event.id ? (
                           <FaSpinner className="animate-spin" />
                         ) : (
                           <FaCheck />
@@ -322,10 +323,10 @@ export default function FacultyInternshipsRequests() {
                       </button>
                       <button
                         onClick={() => handleReject(event.id)}
-                        disabled={processingId === event.id}
-                        className="flex items-center gap-2 py-3 px-6 bg-red-500 text-white border-none rounded-md font-semibold text-[0.9rem] transition-all duration-200 shadow-sm cursor-pointer hover:-translate-y-px hover:shadow-md hover:bg-red-600 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                        disabled={rejectingId === event.id}
+                        className="flex items-center gap-2 py-3 px-4 bg-red-500 text-white border-none rounded-md font-semibold text-[0.9rem] transition-all duration-200 shadow-sm cursor-pointer hover:-translate-y-px hover:shadow-md hover:bg-red-600 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:hover:translate-y-0 max-sm:px-3 max-sm:py-2 max-sm:flex-1 max-sm:text-[0.85rem]"
                       >
-                        {processingId === event.id ? (
+                        {rejectingId === event.id ? (
                           <FaSpinner className="animate-spin" />
                         ) : (
                           <FaTimes />
