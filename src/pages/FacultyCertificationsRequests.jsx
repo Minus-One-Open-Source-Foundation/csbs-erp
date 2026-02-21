@@ -23,14 +23,29 @@ export default function FacultyCertificationsRequests() {
   const [activeFilter, setActiveFilter] = useState("PENDING");
   const [showCertificateViewer, setShowCertificateViewer] = useState(false);
   const [viewingCertificate, setViewingCertificate] = useState(null);
+  const [allEvents, setAllEvents] = useState([]);
 
   // Filter options
   const filterOptions = [
     { key: "PENDING", label: "Pending", icon: FaExclamationCircle, color: "#FF9800" },
     { key: "APPROVED", label: "Approved", icon: FaCheckCircle, color: "#4CAF50" },
     { key: "REJECTED", label: "Rejected", icon: FaTimes, color: "#f44336" },
-    { key: "ALL", label: "All", icon: null, color: "#2196F3" }
+    { key: "ALL", label: "All Requests", icon: FaFileAlt, color: "#2196F3" }
   ];
+
+  // Fetch counts on mount
+  useEffect(() => {
+    fetchAllEvents();
+  }, []);
+
+  const fetchAllEvents = async () => {
+    try {
+      const allData = await facultyAPI.getAllInternships();
+      setAllEvents(allData || []);
+    } catch (err) {
+      console.error('Failed to fetch all certifications for counts:', err);
+    }
+  };
 
   // Fetch certification requests on component mount and filter change
   useEffect(() => {
@@ -73,6 +88,7 @@ export default function FacultyCertificationsRequests() {
       setApprovingId(certificationId);
       await facultyAPI.approveInternship(certificationId);
       await fetchCertificationRequests();
+      await fetchAllEvents();
       toast.success('Certification approved successfully!');
     } catch (err) {
       console.error('Error approving certification:', err);
@@ -87,6 +103,7 @@ export default function FacultyCertificationsRequests() {
       setRejectingId(certificationId);
       await facultyAPI.rejectInternship(certificationId);
       await fetchCertificationRequests();
+      await fetchAllEvents();
       toast.success('Certification rejected successfully!');
     } catch (err) {
       console.error('Error rejecting certification:', err);
@@ -94,6 +111,11 @@ export default function FacultyCertificationsRequests() {
     } finally {
       setRejectingId(null);
     }
+  };
+
+  const getStatusCount = (status) => {
+    if (status === 'ALL') return allEvents.length;
+    return allEvents.filter(ev => ev.status === status).length;
   };
 
   const formatDate = (dateString) => {
@@ -168,36 +190,48 @@ export default function FacultyCertificationsRequests() {
     >
       <header className="text-center mb-10 mt-10">
         <div>
-          <h2 className="font-bold text-[2.1rem] text-[#3a3aee] mb-6">Certifications Requests</h2>
+          <h1 className="text-[2.2rem] font-bold text-slate-800 mb-2 max-sm:text-[1.5rem]">Certifications Requests</h1>
 
           {/* Filter Tabs */}
-          <div className="flex justify-center gap-2 mb-6 flex-wrap">
+          <div className="flex justify-center mb-10 gap-4 flex-wrap">
             {filterOptions.map((option) => {
+              const isActive = activeFilter === option.key;
+
+              // Define styles based on category and active state
+              let styles = "bg-white text-gray-500 border-gray-200";
+              let icon = null;
+              let countBg = "bg-blue-600";
               const IconComponent = option.icon;
+
+              if (option.key === "PENDING") {
+                icon = <FaExclamationCircle className={isActive ? "text-[#f59e0b]" : "text-gray-400"} />;
+                countBg = "bg-[#f59e0b]";
+                if (isActive) styles = "bg-[#fff7ed] text-[#e37a08] border-[#fbbf24]";
+              } else if (option.key === "APPROVED") {
+                icon = <FaCheckCircle className={isActive ? "text-[#10b981]" : "text-gray-400"} />;
+                countBg = "bg-[#10b981]";
+                if (isActive) styles = "bg-[#f0fdf4] text-[#15803d] border-[#4ade80]";
+              } else if (option.key === "REJECTED") {
+                icon = <FaTimes className={isActive ? "text-[#ef4444]" : "text-gray-400"} />;
+                countBg = "bg-[#ef4444]";
+                if (isActive) styles = "bg-[#fef2f2] text-[#b91c1c] border-[#f87171]";
+              } else {
+                // ALL
+                icon = <FaFileAlt className={isActive ? "text-blue-500" : "text-gray-400"} />;
+                if (isActive) styles = "bg-[#eff6ff] text-[#1d4ed8] border-[#60a5fa]";
+              }
+
               return (
                 <button
                   key={option.key}
                   onClick={() => setActiveFilter(option.key)}
-                  className="flex items-center gap-2 py-3 px-5 rounded-[25px] text-[0.95rem] cursor-pointer transition-all duration-300"
-                  style={{
-                    border: activeFilter === option.key ? `2px solid ${option.color}` : '2px solid transparent',
-                    background: activeFilter === option.key ? `${option.color}15` : 'rgba(255,255,255,0.8)',
-                    color: activeFilter === option.key ? option.color : '#666',
-                    fontWeight: activeFilter === option.key ? 600 : 500,
-                    boxShadow: activeFilter === option.key ? `0 4px 12px ${option.color}30` : '0 2px 8px rgba(0,0,0,0.1)',
-                    transform: activeFilter === option.key ? 'translateY(-1px)' : 'none'
-                  }}
+                  className={`py-3 px-6 rounded-full font-bold cursor-pointer transition-all duration-300 flex items-center gap-3 text-[1rem] border-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 ${styles}`}
                 >
-                  {IconComponent && <IconComponent className="text-[0.9rem]" />}
+                  {icon}
                   {option.label}
-                  {option.key !== 'ALL' && (
-                    <span
-                      className="rounded-xl py-0.5 px-2 text-[0.75rem] font-semibold min-w-[20px] text-center text-white"
-                      style={{ background: option.color }}
-                    >
-                      {option.key === activeFilter ? events.length : '•'}
-                    </span>
-                  )}
+                  <span className={`w-7 h-7 rounded-full flex items-center justify-center text-[0.85rem] text-white shadow-inner font-black ${countBg}`}>
+                    {getStatusCount(option.key)}
+                  </span>
                 </button>
               );
             })}
@@ -208,7 +242,8 @@ export default function FacultyCertificationsRequests() {
             placeholder="Search certifications..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="flex-1 py-4 pr-12 pl-6 rounded-[30px] border-none bg-white/70 text-gray-800 text-[1.1rem] outline-none w-[580px] max-w-full"
+            className="py-4 pr-12 pl-6 rounded-[30px] border-none shadow-md text-white placeholder:text-white/70 text-[1.1rem] outline-none w-[580px] max-w-full transition-all duration-300 focus:shadow-lg"
+            style={{ background: "linear-gradient(135deg, #30364f, #acbac4)" }}
           />
         </div>
       </header>
@@ -380,7 +415,7 @@ export default function FacultyCertificationsRequests() {
                 className="bg-red-500 text-white border-none rounded-lg p-3 cursor-pointer text-base flex items-center justify-center transition-all duration-200 hover:bg-red-600 hover:scale-105"
                 title="Close"
               >
-                    <FaTimes />
+                <FaTimes />
               </button>
             </div>
 

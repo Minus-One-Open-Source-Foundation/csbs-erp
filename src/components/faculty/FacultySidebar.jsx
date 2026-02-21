@@ -8,7 +8,7 @@ export default function FacultySidebar() {
   return (
     <div
       className="w-[238px] text-white min-h-screen p-[22px] flex flex-col justify-between font-sans max-[520px]:!w-screen max-[520px]:!p-4"
-      style={{ background: "linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%)" }}
+      style={{ background: "linear-gradient(135deg, #30364f, #acbac4)" }}
     >
       <div>
         <h2
@@ -44,7 +44,7 @@ export default function FacultySidebar() {
 
       <button
         className="mb-[60px] border-none py-[13px] px-5 text-white rounded-xl cursor-pointer font-bold text-base shadow-[0_8px_26px_rgba(78,84,200,0.13)] transition-transform duration-150 hover:-translate-y-0.5"
-        style={{ background: "linear-gradient(90deg, #4e54c8, #8f94fb)" }}
+        style={{ background: "linear-gradient(90deg, #eba97a, #f3da51)" }}
         onClick={() => { logout(); navigate("/login"); }}
       >
         Logout

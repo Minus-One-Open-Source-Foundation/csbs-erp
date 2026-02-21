@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FaPlus } from "react-icons/fa";
 import bgImage from "../assets/bg.jpg";
 
 export default function Activities() {
@@ -30,45 +31,51 @@ export default function Activities() {
       className="min-h-screen py-12 px-8 bg-cover bg-center bg-fixed font-sans text-gray-800 max-sm:px-3 max-sm:py-6"
       style={{ backgroundImage: `url('${bgImage}')` }}
     >
-      <header className="text-center mb-8">
-        <h1 className="text-2xl font-bold text-black mb-2">Certifications</h1>
+      <header className="text-center mb-10 mt-10">
+        <h1 className="text-[2.2rem] font-bold text-slate-800 mb-2 max-sm:text-[1.5rem]">Certifications</h1>
         <p className="text-base text-gray-500">Add and track all your activities</p>
       </header>
 
       {/* Search + Filters + Add Button */}
-      <section className="flex gap-4 flex-wrap justify-center mb-8 max-sm:flex-col max-sm:gap-3">
+      <div className="flex justify-center mb-10 w-full">
         <input
           type="text"
           placeholder="Search activity..."
           value={activity}
           onChange={(e) => setActivity(e.target.value)}
-          className="flex-[0.5] min-w-[220px] py-3 px-4 rounded-[14px] border border-gray-300 outline-none text-base shadow-[0_2px_8px_rgba(0,0,0,0.05)] focus:shadow-[0_0_10px_rgba(100,100,255,0.2)] max-sm:min-w-0 max-sm:w-full"
+          className="py-4 pr-12 pl-6 rounded-[30px] border-none shadow-md text-white placeholder:text-white/70 text-[1.1rem] outline-none w-[580px] max-w-full transition-all duration-300 focus:shadow-lg"
+          style={{ background: "linear-gradient(135deg, #30364f, #acbac4)" }}
         />
-        <div className="w-full flex flex-col items-stretch">
-          <div className="flex flex-row gap-[1.2rem] items-center mt-[0.7rem] flex-wrap justify-center">
-            <div className="flex gap-4 max-sm:gap-2 max-sm:flex-wrap">
-              {["All", "Academic-Courses", "Non-Academics"].map((f) => (
+      </div>
+      <div className="w-full flex flex-col items-stretch">
+        <div className="flex flex-row gap-[1.2rem] items-center mt-[0.7rem] flex-wrap justify-center">
+          <div className="flex gap-4 max-sm:gap-2 max-sm:flex-wrap">
+            {["All", "Academic-Courses", "Non-Academics"].map((f) => {
+              const isActive = selectedFilter === f;
+              return (
                 <button
                   key={f}
-                  className={`py-[13px] px-5 rounded-xl border-none cursor-pointer text-white font-bold text-base shadow-[0_8px_26px_rgba(238,9,121,0.13)] transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_rgba(238,9,121,0.18)] ${selectedFilter === f ? "opacity-100" : "opacity-80"
+                  className={`py-[13px] px-5 rounded-full border-none cursor-pointer font-bold text-base transition-all duration-200 hover:-translate-y-0.5 ${isActive
+                    ? "text-white shadow-[0_8px_25px_rgba(235,169,122,0.2)] scale-105"
+                    : "bg-white text-gray-600 border border-gray-200 shadow-sm hover:shadow-md hover:bg-gray-50"
                     }`}
-                  style={{ background: "linear-gradient(90deg, #ff6a00, #ee0979)" }}
+                  style={isActive ? { background: "linear-gradient(135deg, #eba97a, #f3da51)" } : {}}
                   onClick={() => setSelectedFilter(f)}
                 >
                   {f}
                 </button>
-              ))}
-            </div>
-            <button
-              className="py-3 px-6 border-none text-white font-semibold text-base rounded-2xl cursor-pointer shadow-[0_8px_26px_rgba(238,9,121,0.13)] transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_rgba(238,9,121,0.18)]"
-              style={{ background: "linear-gradient(90deg, #ff6a00, #ee0979)" }}
-              onClick={() => setShowForm(true)}
-            >
-              Add Activity
-            </button>
+              );
+            })}
           </div>
+          <button
+            className="py-[13px] px-6 border-none text-white font-bold text-base rounded-full cursor-pointer shadow-[0_8px_25px_rgba(235,169,122,0.2)] transition-all duration-300 flex items-center gap-1.5 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_rgba(235,169,122,0.3)]"
+            style={{ background: "linear-gradient(135deg, #eba97a, #f3da51)" }}
+            onClick={() => setShowForm(true)}
+          >
+            <FaPlus /> Add Activity
+          </button>
         </div>
-      </section>
+      </div>
 
       {/* Modal Form */}
       {showForm && (
@@ -145,8 +152,8 @@ export default function Activities() {
             <div className="flex justify-end gap-4 mt-2">
               <button
                 onClick={addActivity}
-                className="py-2.5 px-5 border-none rounded-lg font-semibold cursor-pointer text-white"
-                style={{ background: "linear-gradient(90deg, #6a11cb, #2575fc)" }}
+                className="py-2.5 px-6 border-none rounded-lg font-bold cursor-pointer text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(235,169,122,0.4)]"
+                style={{ background: "linear-gradient(135deg, #eba97a, #f3da51)" }}
               >
                 Submit
               </button>
@@ -159,7 +166,8 @@ export default function Activities() {
             </div>
           </div>
         </div>
-      )}
+      )
+      }
 
       {/* Activities List */}
       <section className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-6 max-[480px]:grid-cols-1">
@@ -186,6 +194,6 @@ export default function Activities() {
           ))
         )}
       </section>
-    </div>
+    </div >
   );
 }

@@ -85,25 +85,28 @@ export default function FacultyDashboard() {
       {/* Dashboard Navigation */}
       <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-6 mb-12 max-w-[1000px] mx-auto max-[480px]:grid-cols-1">
         <div
-          className="bg-white/70 backdrop-blur-[20px] text-slate-800 p-7 rounded-[18px] text-center transition-all duration-300 shadow-[0_12px_48px_rgba(0,0,0,0.15)] cursor-pointer hover:-translate-y-1.5 hover:scale-[1.02] hover:shadow-[0_16px_60px_rgba(0,0,0,0.25)] max-md:p-5"
+          className="text-white p-7 rounded-[18px] text-center transition-all duration-300 shadow-[0_12px_48px_rgba(0,0,0,0.2)] backdrop-blur-[12px] border border-white/10 cursor-pointer hover:-translate-y-1.5 hover:scale-[1.02] hover:shadow-[0_16px_60px_rgba(0,0,0,0.3)] max-md:p-5"
+          style={{ background: "linear-gradient(135deg, rgba(48, 54, 79, 0.35), rgba(172, 186, 196, 0.15))" }}
           onClick={() => navigate("/faculty/students")}
         >
-          <h3 className="text-[1.3rem] mb-3">Student Management</h3>
-          <p className="text-[0.95rem] text-gray-600">Manage student profiles</p>
+          <h3 className="text-[1.3rem] mb-3 font-bold text-white">Student Management</h3>
+          <p className="text-[0.95rem] text-white/90">Manage student profiles</p>
         </div>
         <div
-          className="bg-white/70 backdrop-blur-[20px] text-slate-800 p-7 rounded-[18px] text-center transition-all duration-300 shadow-[0_12px_48px_rgba(0,0,0,0.15)] cursor-pointer hover:-translate-y-1.5 hover:scale-[1.02] hover:shadow-[0_16px_60px_rgba(0,0,0,0.25)] max-md:p-5"
+          className="text-white p-7 rounded-[18px] text-center transition-all duration-300 shadow-[0_12px_48px_rgba(0,0,0,0.2)] backdrop-blur-[12px] border border-white/10 cursor-pointer hover:-translate-y-1.5 hover:scale-[1.02] hover:shadow-[0_16px_60px_rgba(0,0,0,0.3)] max-md:p-5"
+          style={{ background: "linear-gradient(135deg, rgba(48, 54, 79, 0.35), rgba(172, 186, 196, 0.15))" }}
           onClick={() => navigate("/faculty/grades")}
         >
-          <h3 className="text-[1.3rem] mb-3">Grade Management</h3>
-          <p className="text-[0.95rem] text-gray-600">Review and update student performance</p>
+          <h3 className="text-[1.3rem] mb-3 font-bold text-white">Grade Management</h3>
+          <p className="text-[0.95rem] text-white/90">Review and update student performance</p>
         </div>
         <div
-          className="bg-white/70 backdrop-blur-[20px] text-slate-800 p-7 rounded-[18px] text-center transition-all duration-300 shadow-[0_12px_48px_rgba(0,0,0,0.15)] cursor-pointer hover:-translate-y-1.5 hover:scale-[1.02] hover:shadow-[0_16px_60px_rgba(0,0,0,0.25)] max-md:p-5"
+          className="text-white p-7 rounded-[18px] text-center transition-all duration-300 shadow-[0_12px_48px_rgba(0,0,0,0.2)] backdrop-blur-[12px] border border-white/10 cursor-pointer hover:-translate-y-1.5 hover:scale-[1.02] hover:shadow-[0_16px_60px_rgba(0,0,0,0.3)] max-md:p-5"
+          style={{ background: "linear-gradient(135deg, rgba(48, 54, 79, 0.35), rgba(172, 186, 196, 0.15))" }}
           onClick={() => navigate("/faculty/reports")}
         >
-          <h3 className="text-[1.3rem] mb-3">Hackathons And Workshops Requests</h3>
-          <p className="text-[0.95rem] text-gray-600">Manage all hackathon and workshop requests efficiently.</p>
+          <h3 className="text-[1.3rem] mb-3 font-bold text-white">Hackathons And Workshops Requests</h3>
+          <p className="text-[0.95rem] text-white/90">Manage all hackathon and workshop requests efficiently.</p>
         </div>
       </div>
 

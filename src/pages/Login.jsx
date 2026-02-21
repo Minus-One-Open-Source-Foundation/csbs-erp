@@ -111,8 +111,8 @@ export default function Login() {
 
         <button
           type="submit"
-          className="mt-[0.65rem] border-none py-[0.75rem] sm:py-[0.95rem] rounded-lg sm:rounded-xl text-white font-bold text-sm sm:text-base cursor-pointer shadow-[0_10px_20px_rgba(102,130,251,0.2)] transition-[transform,box-shadow] duration-150 enabled:hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed"
-          style={{ background: "linear-gradient(90deg, #6a82fb, #fc5c7d)" }}
+          className="mt-[0.65rem] border-none py-[0.95rem] rounded-xl text-white font-bold text-base cursor-pointer shadow-[0_10px_20px_rgba(235,169,122,0.4)] transition-[transform,box-shadow] duration-150 enabled:hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed"
+          style={{ background: "linear-gradient(135deg, #eba97a, #f3da51)" }}
           disabled={loading}
         >
           {loading ? "Logging in..." : "Login"}

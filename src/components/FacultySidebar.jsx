@@ -39,7 +39,7 @@ export default function FacultySidebar({ open = false, collapsed = false, onClos
         min-[900px]:translate-x-0 min-[900px]:shadow-none min-[900px]:z-[1000]
         ${collapsed ? "min-[900px]:w-[60px] min-[900px]:min-w-[60px] px-2" : "min-[900px]:w-[250px] min-[900px]:min-w-[250px] px-[22px]"}
       `}
-      style={{ background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" }}
+      style={{ background: "linear-gradient(135deg, #30364f, #acbac4)" }}
     >
       {/* Collapse Toggle Button — only visible on desktop */}
       <button
@@ -116,7 +116,7 @@ export default function FacultySidebar({ open = false, collapsed = false, onClos
         <button
           className={`border-none text-white rounded-xl cursor-pointer font-bold shadow-[0_8px_26px_rgba(238,9,121,0.13)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_rgba(238,9,121,0.18)] flex items-center justify-center gap-2 ${collapsed ? "w-10 h-10 p-0 rounded-xl" : "w-full py-[13px] px-5 text-base"
             }`}
-          style={{ background: "linear-gradient(90deg, #ff6a00, #ee0979)" }}
+          style={{ background: "linear-gradient(90deg, #eba97a, #f3da51)" }}
           onClick={() => {
             logout();
             navigate("/login");

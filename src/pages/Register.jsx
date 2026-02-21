@@ -278,15 +278,14 @@ export default function Register() {
                   onChange={(e) => handleOtpChange(index, e.target.value)}
                   onKeyDown={(e) => handleOtpKeyDown(index, e)}
                   onPaste={index === 0 ? handleOtpPaste : undefined}
-                  className={`w-10 h-12 sm:w-12 sm:h-14 text-center text-lg sm:text-xl font-bold rounded-lg border-2 bg-[rgba(240,244,248,0.95)] text-[#2c3e50] outline-none transition-all duration-200 focus:border-[#6a82fb] focus:shadow-[0_0_0_3px_rgba(106,130,251,0.2)] ${
-                    errors.otp ? "border-[#fc5c7d]" : digit ? "border-[#6a82fb]" : "border-[rgba(200,217,223,0.7)]"
-                  }`}
+                  className={`w-10 h-12 sm:w-12 sm:h-14 text-center text-lg sm:text-xl font-bold rounded-lg border-2 bg-[rgba(240,244,248,0.95)] text-[#2c3e50] outline-none transition-all duration-200 focus:border-[#6a82fb] focus:shadow-[0_0_0_3px_rgba(106,130,251,0.2)] ${errors.otp ? "border-[#fc5c7d]" : digit ? "border-[#6a82fb]" : "border-[rgba(200,217,223,0.7)]"
+                    }`}
                   disabled={loading}
                 />
               ))}
             </div>
             {errors.otp && <div className="text-[#e74c3c] text-[0.8rem] sm:text-[0.86rem] mt-[0.35rem] text-center">{errors.otp}</div>}
-            
+
             <button
               type="button"
               className="mt-2 border-none py-2.5 sm:py-3 rounded-xl text-white font-bold text-sm sm:text-base cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
@@ -319,9 +318,9 @@ export default function Register() {
 
         <button
           type="submit"
-          className="mt-3 border-none py-[0.75rem] sm:py-[0.95rem] rounded-lg sm:rounded-xl text-white font-bold text-sm sm:text-base cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-          style={{ background: "linear-gradient(90deg, #6a82fb, #fc5c7d)" }}
-          disabled={loading || !otpVerified}
+          className="mt-3 border-none py-[0.95rem] rounded-xl text-white font-bold text-base cursor-pointer shadow-[0_10px_20px_rgba(235,169,122,0.4)] transition-[transform,box-shadow] duration-150 enabled:hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed"
+          style={{ background: "linear-gradient(135deg, #eba97a, #f3da51)" }}
+          disabled={loading}
         >
           {loading ? "Registering..." : "Complete Registration"}
         </button>
@@ -337,11 +336,11 @@ export default function Register() {
 
         {feedback && (
           <div
-            className={`mt-[0.6rem] p-[0.5rem] sm:p-[0.6rem] rounded-[10px] text-center font-bold text-sm sm:text-base ${feedback.type === "success"
-                ? "bg-[#d8ffe8] text-[#006b29]"
-                : feedback.type === "info"
-                  ? "bg-[#dbe7ff] text-[#0446c7]"
-                  : "bg-[#fff2f3] text-[#b00020]"
+            className={`mt-[0.6rem] p-[0.6rem] rounded-[10px] text-center font-bold ${feedback.type === "success"
+              ? "bg-[#d8ffe8] text-[#006b29]"
+              : feedback.type === "info"
+                ? "bg-[#dbe7ff] text-[#0446c7]"
+                : "bg-[#fff2f3] text-[#b00020]"
               }`}
           >
             {feedback.text}

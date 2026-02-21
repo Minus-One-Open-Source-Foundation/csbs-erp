@@ -331,46 +331,51 @@ export default function Achievements() {
       className="min-h-screen py-12 px-8 bg-cover bg-center bg-fixed font-sans flex flex-col items-center max-sm:py-6 max-sm:px-3"
       style={{ backgroundImage: `url('${bgImage}')` }}
     >
-      <h1 className="text-2xl font-bold text-black mb-2">Achievements</h1>
-      <p className="text-gray-500 mb-6 text-center">Add and manage your Co-Curricular and Extra-Curricular Achievements</p>
+      <header className="text-center mb-10 mt-10">
+        <h1 className="text-[2.2rem] font-bold text-slate-800 mb-2 max-sm:text-[1.5rem]">Achievements</h1>
+        <p className="text-gray-500 text-center">Add and manage your Co-Curricular and Extra-Curricular Achievements</p>
+      </header>
 
       {/* Top Controls */}
-      <div className="flex flex-col items-stretch gap-10">
+      <div className="flex justify-center mb-10 w-full">
         <input
           type="text"
           placeholder="Search achievements..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full max-w-[700px] py-4 px-5 rounded-[30px] border-none outline-none text-[1.1rem] text-white placeholder:text-white placeholder:opacity-80 max-sm:max-w-full"
-          style={{ background: "linear-gradient(90deg, #a18cd1, #fbc2eb)" }}
+          className="py-4 pr-12 pl-6 rounded-[30px] border-none shadow-md text-white placeholder:text-white/70 text-[1.1rem] outline-none w-[580px] max-w-full transition-all duration-300 focus:shadow-lg"
+          style={{ background: "linear-gradient(135deg, #30364f, #acbac4)" }}
         />
+      </div>
 
-        <div className="flex gap-2.5 flex-wrap items-center max-sm:gap-1.5">
-          {categories.map((cat) => (
+      <div className="flex gap-2.5 flex-wrap items-center max-sm:gap-1.5">
+        {categories.map((cat) => {
+          const isActive = activeCategory === cat;
+          return (
             <button
               key={cat}
-              className={`py-2.5 px-3.5 rounded-[14px] border cursor-pointer text-[0.9rem] font-medium transition-all duration-200 ${activeCategory === cat
-                ? "text-white border-transparent max-sm:py-2 max-sm:px-2.5 max-sm:text-[0.8rem]"
-                : "bg-white text-black border-gray-300"
+              className={`py-2.5 px-5 rounded-[14px] border-none cursor-pointer text-[0.95rem] font-bold transition-all duration-200 hover:-translate-y-0.5 ${isActive
+                ? "text-white shadow-[0_4px_12px_rgba(235,169,122,0.3)]"
+                : "bg-white text-gray-600 border border-gray-200 shadow-sm hover:bg-gray-50"
                 }`}
-              style={activeCategory === cat ? { background: "linear-gradient(90deg, #ff6a00, #ee0979)" } : {}}
+              style={isActive ? { background: "linear-gradient(135deg, #eba97a, #f3da51)" } : {}}
               onClick={() => setActiveCategory(cat)}
             >
               {categoryLabels[cat]}
             </button>
-          ))}
+          );
+        })}
 
-          <button
-            className="py-3 px-5 text-white font-semibold border-none rounded-[30px] cursor-pointer"
-            style={{ background: "linear-gradient(90deg, #ff6a00, #ee0979)" }}
-            onClick={() => {
-              setFormData({ title: "", category: "", achievementType: "SYMPOSIUM", otherAchievementType: "", extraType: "SPORTS", otherExtraType: "", description: "", date: "", image: null });
-              setShowForm(true);
-            }}
-          >
-            + Add Achievement
-          </button>
-        </div>
+        <button
+          className="py-3 px-6 text-white font-bold border-none rounded-[30px] cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(235,169,122,0.4)]"
+          style={{ background: "linear-gradient(135deg, #eba97a, #f3da51)" }}
+          onClick={() => {
+            setFormData({ title: "", category: "", achievementType: "SYMPOSIUM", otherAchievementType: "", extraType: "SPORTS", otherExtraType: "", description: "", date: "", image: null });
+            setShowForm(true);
+          }}
+        >
+          + Add Achievement
+        </button>
       </div>
 
       {/* Modal Form */}
@@ -396,14 +401,14 @@ export default function Achievements() {
 
             {formData.category === "CO_CURRICULAR" && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                
+
                 <div className="md:col-span-1">
                   <label className="block text-sm text-gray-600 mb-1">Event</label>
                   <select name="achievementType" value={formData.achievementType} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg text-base">
-                  <option value="SYMPOSIUM">Symposium</option>
-                  <option value="INTRA_DEPARTMENT">Intra-Department</option>
-                  <option value="INTER_DEPARTMENT">Inter-Department</option>
-                  <option value="OTHERS">Others</option>
+                    <option value="SYMPOSIUM">Symposium</option>
+                    <option value="INTRA_DEPARTMENT">Intra-Department</option>
+                    <option value="INTER_DEPARTMENT">Inter-Department</option>
+                    <option value="OTHERS">Others</option>
                   </select>
                 </div>
 
@@ -593,7 +598,8 @@ export default function Achievements() {
             )}
           </div>
         </div>
-      )}
+      )
+      }
 
       {/* Achievements List */}
       <div className="w-full max-w-[1900px] flex flex-col gap-5 mt-5">
@@ -691,6 +697,6 @@ export default function Achievements() {
           ))
         )}
       </div>
-    </div>
+    </div >
   );
 }

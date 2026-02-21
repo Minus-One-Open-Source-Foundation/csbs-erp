@@ -54,7 +54,7 @@ export default function Dashboard() {
       style={{ backgroundImage: `url('${bgImage}')` }}
     >
       <div className="w-full max-w-[1200px] mx-auto px-6 pt-16 pb-4 flex flex-col items-center max-sm:px-3 max-sm:pt-6">
-        <h1 className="text-2xl m-0 mb-1 font-bold text-gray-900 max-sm:text-xl">
+        <h1 className="text-[2.2rem] font-bold text-slate-800 mb-2 max-sm:text-[1.5rem]">
           Welcome, <span className="text-[#001f3f]">{personalInfo.name || "Student"}</span>
         </h1>
         <p className="text-base m-0 mb-6 text-black/70">Student Dashboard</p>
@@ -65,57 +65,57 @@ export default function Dashboard() {
             {/* Personal Info Card */}
             <div
               className="rounded-xl p-5 text-center shadow-[0_6px_18px_rgba(0,0,0,0.2)] backdrop-blur-[10px] transition-[transform,box-shadow] duration-200 cursor-pointer hover:-translate-y-1.5 hover:shadow-[0_18px_40px_rgba(0,0,0,0.25)] max-sm:p-4"
-              style={{ background: "linear-gradient(145deg, rgba(128, 90, 213, 0.4), rgba(128, 90, 213, 0.2))" }}
+              style={{ background: "linear-gradient(135deg, rgba(48, 54, 79, 0.35), rgba(172, 186, 196, 0.15))" }}
               onClick={() => navigate("/personal-info")}
             >
-              <h3 className="m-0 mb-1 text-[1.3rem] font-bold text-[#001f3f]">Personal Info</h3>
+              <h3 className="m-0 mb-1 text-[1.3rem] font-bold text-white">Personal Info</h3>
               <p className="text-[0.9rem] text-black mt-2 m-0">View and update your personal details.</p>
             </div>
 
             {/* Certifications Card */}
             <div
               className="rounded-xl p-5 text-center shadow-[0_6px_18px_rgba(0,0,0,0.2)] backdrop-blur-[10px] transition-[transform,box-shadow] duration-200 cursor-pointer hover:-translate-y-1.5 hover:shadow-[0_18px_40px_rgba(0,0,0,0.25)]"
-              style={{ background: "linear-gradient(145deg, rgba(128, 90, 213, 0.4), rgba(128, 90, 213, 0.2))" }}
+              style={{ background: "linear-gradient(135deg, rgba(48, 54, 79, 0.35), rgba(172, 186, 196, 0.15))" }}
               onClick={() => navigate("/activities")}
             >
-              <h3 className="m-0 mb-1 text-[1.3rem] font-bold text-[#001f3f]">Certifications</h3>
+              <h3 className="m-0 mb-1 text-[1.3rem] font-bold text-white">Certifications</h3>
               <p className="text-[0.9rem] text-black mt-2 m-0">Track your certifications and achievements.</p>
             </div>
 
             {/* URMS Card */}
             <div
               className="rounded-xl p-5 text-center shadow-[0_6px_18px_rgba(0,0,0,0.2)] backdrop-blur-[10px] transition-[transform,box-shadow] duration-200 cursor-pointer hover:-translate-y-1.5 hover:shadow-[0_18px_40px_rgba(0,0,0,0.25)]"
-              style={{ background: "linear-gradient(145deg, rgba(128, 90, 213, 0.4), rgba(128, 90, 213, 0.2))" }}
+              style={{ background: "linear-gradient(135deg, rgba(48, 54, 79, 0.35), rgba(172, 186, 196, 0.15))" }}
               onClick={() => navigate("/urms")}
             >
-              <h3 className="m-0 mb-1 text-[1.3rem] font-bold text-[#001f3f]">URMS</h3>
+              <h3 className="m-0 mb-1 text-[1.3rem] font-bold text-white">URMS</h3>
               <p className="text-[0.9rem] text-black mt-2 m-0">Manage your role-based resumes for different companies.</p>
             </div>
 
             <div
               className="rounded-xl p-5 text-center shadow-[0_6px_18px_rgba(0,0,0,0.2)] backdrop-blur-[10px] transition-[transform,box-shadow] duration-200 cursor-pointer hover:-translate-y-1.5 hover:shadow-[0_18px_40px_rgba(0,0,0,0.25)]"
-              style={{ background: "linear-gradient(145deg, rgba(128, 90, 213, 0.4), rgba(128, 90, 213, 0.2))" }}
+              style={{ background: "linear-gradient(135deg, rgba(48, 54, 79, 0.35), rgba(172, 186, 196, 0.15))" }}
               onClick={() => navigate("/hackathons-workshops")}
             >
-              <h3 className="m-0 mb-1 text-[1.3rem] font-bold text-[#001f3f]">Hackathons & Workshops</h3>
+              <h3 className="m-0 mb-1 text-[1.3rem] font-bold text-white">Hackathons & Workshops</h3>
               <p className="text-[0.9rem] text-black mt-2 m-0">Explore your participation in hackathons and workshops.</p>
             </div>
 
             <div
               className="rounded-xl p-5 text-center shadow-[0_6px_18px_rgba(0,0,0,0.2)] backdrop-blur-[10px] transition-[transform,box-shadow] duration-200 cursor-pointer hover:-translate-y-1.5 hover:shadow-[0_18px_40px_rgba(0,0,0,0.25)]"
-              style={{ background: "linear-gradient(145deg, rgba(128, 90, 213, 0.4), rgba(128, 90, 213, 0.2))" }}
+              style={{ background: "linear-gradient(135deg, rgba(48, 54, 79, 0.35), rgba(172, 186, 196, 0.15))" }}
               onClick={() => navigate("/internships")}
             >
-              <h3 className="m-0 mb-1 text-[1.3rem] font-bold text-[#001f3f]">Internships</h3>
+              <h3 className="m-0 mb-1 text-[1.3rem] font-bold text-white">Internships</h3>
               <p className="text-[0.9rem] text-black mt-2 m-0">Manage and track your internship experiences.</p>
             </div>
 
             <div
               className="rounded-xl p-5 text-center shadow-[0_6px_18px_rgba(0,0,0,0.2)] backdrop-blur-[10px] transition-[transform,box-shadow] duration-200 cursor-pointer hover:-translate-y-1.5 hover:shadow-[0_18px_40px_rgba(0,0,0,0.25)]"
-              style={{ background: "linear-gradient(145deg, rgba(128, 90, 213, 0.4), rgba(128, 90, 213, 0.2))" }}
+              style={{ background: "linear-gradient(135deg, rgba(48, 54, 79, 0.35), rgba(172, 186, 196, 0.15))" }}
               onClick={() => navigate("/achievements")}
             >
-              <h3 className="m-0 mb-1 text-[1.3rem] font-bold text-[#001f3f]">Approved Achievements</h3>
+              <h3 className="m-0 mb-1 text-[1.3rem] font-bold text-white">Approved Achievements</h3>
               <p className="text-[0.9rem] text-black mt-2 m-0">Review your approved achievements and milestones.</p>
             </div>
           </div>

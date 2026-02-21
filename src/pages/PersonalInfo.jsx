@@ -435,11 +435,14 @@ export default function StudentProfile() {
       className="min-h-screen py-10 px-5 flex flex-col items-center bg-cover bg-center bg-fixed font-sans text-gray-800 max-sm:py-6 max-sm:px-3"
       style={{ backgroundImage: `url('${bgImage}')` }}
     >
-      <h2 className="text-[2.4rem] font-bold mb-8 text-[#090b0d] tracking-wide relative after:content-[''] after:w-[120px] after:h-1 after:bg-[#43cea2] after:block after:mx-auto after:mt-2 after:rounded-sm max-sm:text-[1.6rem] max-sm:mb-5">
+      <h1 className="text-[2.2rem] font-bold text-slate-800 mb-8 max-sm:text-[1.5rem] max-sm:mb-5">
         Student Profile
-      </h2>
+      </h1>
 
-      <div className="bg-white border border-gray-300 rounded-[20px] p-8 w-full max-w-[1100px] min-h-[60vh] shadow-[0_10px_30px_rgba(0,0,0,0.1)] flex gap-8 animate-fade-in max-md:flex-col max-sm:p-5 max-sm:gap-5">
+      <div
+        className="backdrop-blur-[12px] border border-white/20 rounded-[20px] p-8 w-full max-w-[1100px] min-h-[60vh] shadow-[0_10px_40px_rgba(0,0,0,0.15)] flex gap-8 animate-fade-in max-md:flex-col max-sm:p-5 max-sm:gap-5"
+        style={{ background: "linear-gradient(135deg, rgba(48, 54, 79, 0.35), rgba(172, 186, 196, 0.15))" }}
+      >
         <div className="flex-1 flex flex-col items-center">
           {/* Clickable circle for profile picture */}
           <label
@@ -470,8 +473,8 @@ export default function StudentProfile() {
 
           {/* Edit Profile Button */}
           <button
-            className="mt-3 py-2.5 px-5 border-none rounded-xl text-white font-semibold cursor-pointer transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(238,9,121,0.2)]"
-            style={{ background: "linear-gradient(90deg, #ff6a00, #ee0979)" }}
+            className="mt-3 py-2.5 px-5 border-none rounded-xl text-white font-semibold cursor-pointer transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(235,169,122,0.4)]"
+            style={{ background: "linear-gradient(135deg, #eba97a, #f3da51)" }}
             onClick={toggleEditMode}
           >
             {isEditing ? 'Cancel Edit' : 'Edit Profile'}
@@ -480,7 +483,7 @@ export default function StudentProfile() {
 
         <div className="flex-[2] flex flex-col">
           <div className="mb-5 flex flex-col">
-            <label className="mb-1.5 font-semibold text-[0.95rem] text-gray-800">Full Name</label>
+            <label className="mb-1.5 font-semibold text-[0.95rem] text-white">Full Name</label>
             <input
               placeholder="Enter full name"
               name="name"
@@ -493,7 +496,7 @@ export default function StudentProfile() {
 
           <div className="flex gap-6 max-md:flex-col">
             <div className="flex-1 mb-5 flex flex-col">
-              <label className="mb-1.5 font-semibold text-[0.95rem] text-gray-800">Date of Birth</label>
+              <label className="mb-1.5 font-semibold text-[0.95rem] text-white">Date of Birth</label>
               <input
                 type="date"
                 name="dob"
@@ -504,7 +507,7 @@ export default function StudentProfile() {
               />
             </div>
             <div className="flex-1 mb-5 flex flex-col">
-              <label className="mb-1.5 font-semibold text-[0.95rem] text-gray-800">Register Number</label>
+              <label className="mb-1.5 font-semibold text-[0.95rem] text-white">Register Number</label>
               <div className="relative">
                 <input
                   placeholder="Enter register number"
@@ -514,7 +517,7 @@ export default function StudentProfile() {
                   className={`${readonlyInputClass} w-full p-4 rounded-[10px] text-base text-left transition-all duration-[250ms] cursor-not-allowed !bg-[#f5f5f5] !text-gray-500`}
                   readOnly={true}
                 />
-                <small className="block mt-1 text-gray-400 text-[0.8rem]">
+                <small className="block mt-1 text-black font-medium text-[0.8rem] italic">
                   Register number cannot be modified
                 </small>
               </div>
@@ -523,7 +526,7 @@ export default function StudentProfile() {
 
           <div className="flex gap-6 max-md:flex-col">
             <div className="flex-1 mb-5 flex flex-col">
-              <label className="mb-1.5 font-semibold text-[0.95rem] text-gray-800">Phone Number</label>
+              <label className="mb-1.5 font-semibold text-[0.95rem] text-white">Phone Number</label>
               <input
                 placeholder="Enter phone number (10 digits, no spaces)"
                 name="phone"
@@ -535,7 +538,7 @@ export default function StudentProfile() {
               />
             </div>
             <div className="flex-1 mb-5 flex flex-col">
-              <label className="mb-1.5 font-semibold text-[0.95rem] text-gray-800">Email</label>
+              <label className="mb-1.5 font-semibold text-[0.95rem] text-white">Email</label>
               <div className="relative">
                 <input
                   type="email"
@@ -546,7 +549,7 @@ export default function StudentProfile() {
                   className={`${readonlyInputClass} w-full p-4 rounded-[10px] text-base text-left transition-all duration-[250ms] cursor-not-allowed !bg-[#f5f5f5] !text-gray-500`}
                   readOnly={true}
                 />
-                <small className="block mt-1 text-gray-500 text-[0.8rem] italic">
+                <small className="block mt-1 text-black font-medium text-[0.8rem] italic">
                   Email can only be changed through "Transfer Account" below
                 </small>
               </div>
@@ -554,7 +557,7 @@ export default function StudentProfile() {
           </div>
 
           <div className="mb-5 flex flex-col">
-            <label className="mb-1.5 font-semibold text-[0.95rem] text-gray-800">Department</label>
+            <label className="mb-1.5 font-semibold text-[0.95rem] text-white">Department</label>
             <input
               placeholder="Enter department"
               name="department"
@@ -568,7 +571,7 @@ export default function StudentProfile() {
           {isEditing && (
             <button
               className="mt-6 self-end py-4 px-8 border-none rounded-[14px] text-white font-bold text-[17px] cursor-pointer shadow-[0_10px_30px_rgba(238,9,121,0.2)] transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-[0_12px_34px_rgba(238,9,121,0.3)] disabled:opacity-60 disabled:cursor-not-allowed max-md:w-full max-md:self-center"
-              style={{ background: "linear-gradient(90deg, #ff6a00, #ee0979)" }}
+              style={{ background: "linear-gradient(135deg, #eba97a, #f3da51)" }}
               onClick={handleSave}
               disabled={saving}
             >
@@ -578,8 +581,8 @@ export default function StudentProfile() {
 
           {/* Transfer Account Button */}
           <div className="mt-6">
-            <h3>Transfer Account</h3>
-            <p className="text-gray-500 text-[0.9rem] mb-4 italic">
+            <h3 className="text-white">Transfer Account</h3>
+            <p className="text-black font-medium text-[0.9rem] mb-4 italic">
               Transfer your Account if you are going to be graduated soon. All your data will be transferred to the new non HEI domain email.
             </p>
             <form
@@ -636,21 +639,21 @@ export default function StudentProfile() {
               }}
             >
               <div className="mb-4">
-                <label htmlFor="destinationEmail" className="block mb-2">Destination Email:</label>
+                <label htmlFor="destinationEmail" className="block mb-2 text-white font-semibold">Destination Email:</label>
                 <input
                   type="email"
                   id="destinationEmail"
                   name="destinationEmail"
                   placeholder="Enter destination email"
                   required
-                  className="w-full py-3 px-3 rounded-lg border border-gray-300 text-base"
+                  className="w-full py-3 px-3 rounded-lg border-[2.5px] border-white/40 bg-white/10 backdrop-blur-[6px] text-white placeholder:text-white/60 text-base outline-none focus:border-white/60 transition-all duration-300"
                 />
               </div>
               <button
                 type="submit"
                 disabled={saving}
-                className="w-full py-3 px-6 rounded-lg text-white font-semibold text-base border-none disabled:bg-gray-300 disabled:cursor-not-allowed"
-                style={{ background: saving ? '#ccc' : "linear-gradient(90deg, #ff6a00, #ee0979)", cursor: saving ? 'not-allowed' : 'pointer' }}
+                className="w-full py-3 px-6 rounded-lg text-white font-bold text-base border-none transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(235,169,122,0.4)] disabled:opacity-60 disabled:cursor-not-allowed"
+                style={{ background: saving ? '#ccc' : "linear-gradient(135deg, #eba97a, #f3da51)", cursor: saving ? 'not-allowed' : 'pointer' }}
               >
                 {saving ? 'Transferring...' : 'Confirm Transfer'}
               </button>

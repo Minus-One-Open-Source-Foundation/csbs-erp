@@ -45,15 +45,17 @@ export default function GradeManagement() {
     );
   };
 
-  const inputClass = "ml-2 py-2 px-2.5 border border-purple-400/35 rounded-lg min-w-[220px] max-w-[320px] text-base backdrop-blur-[6px] text-white transition-all duration-[250ms] focus:border-purple-700 placeholder:text-white/70";
+  const inputClass = "ml-2 py-2 px-2.5 border-none rounded-lg min-w-[220px] max-w-[320px] text-base backdrop-blur-[6px] text-white transition-all duration-[250ms] placeholder:text-white/70 shadow-md";
 
   return (
     <div className="p-8 font-sans text-center max-sm:p-4">
-      <h1>Grade Management</h1>
-      <p className="mb-4 text-gray-600">
-        Upload marksheets for each semester. These will reflect in the
-        student's Academic Records page.
-      </p>
+      <header className="text-center mb-10 mt-10">
+        <h1 className="text-[2.2rem] font-bold text-slate-800 mb-2 max-sm:text-[1.5rem]">Grade Management</h1>
+        <p className="text-gray-600">
+          Upload marksheets for each semester. These will reflect in the
+          student's Academic Records page.
+        </p>
+      </header>
 
       {/* Editable student info */}
       <div className="p-4 rounded-lg mb-6 flex flex-wrap justify-center gap-4 items-center max-sm:flex-col max-sm:items-stretch">
@@ -66,7 +68,7 @@ export default function GradeManagement() {
               setStudentInfo({ ...studentInfo, name: e.target.value })
             }
             className={inputClass}
-            style={{ background: "rgba(118, 75, 162, 0.45)" }}
+            style={{ background: "linear-gradient(135deg, rgba(48, 54, 79, 0.4), rgba(172, 186, 196, 0.4))" }}
           />
         </label>
         <label className="text-[0.95rem] text-black font-semibold">
@@ -78,7 +80,7 @@ export default function GradeManagement() {
               setStudentInfo({ ...studentInfo, registerNo: e.target.value })
             }
             className={inputClass}
-            style={{ background: "rgba(118, 75, 162, 0.45)" }}
+            style={{ background: "linear-gradient(135deg, rgba(48, 54, 79, 0.4), rgba(172, 186, 196, 0.4))" }}
           />
         </label>
         <label className="text-[0.95rem] text-black font-semibold">
@@ -92,13 +94,13 @@ export default function GradeManagement() {
             }
             ref={deptInputRef}
             className={`${inputClass} min-w-[120px] max-w-full transition-[width] duration-200`}
-            style={{ background: "rgba(118, 75, 162, 0.45)" }}
+            style={{ background: "linear-gradient(135deg, rgba(48, 54, 79, 0.4), rgba(172, 186, 196, 0.4))" }}
           />
         </label>
 
         <button
-          className="border-none rounded-md py-2.5 px-5 cursor-pointer text-white text-base font-semibold transition-all duration-300 hover:-translate-y-[3px] hover:shadow-[0_6px_20px_rgba(102,126,234,0.3)]"
-          style={{ background: "linear-gradient(90deg, #ff6a00, #ee0979)" }}
+          className="border-none rounded-md py-2.5 px-8 cursor-pointer text-white text-base font-bold transition-all duration-300 hover:-translate-y-[3px] hover:shadow-[0_6px_20px_rgba(235,169,122,0.4)]"
+          style={{ background: "linear-gradient(135deg, #eba97a, #f3da51)" }}
         >
           Search
         </button>
@@ -109,12 +111,13 @@ export default function GradeManagement() {
         {semesters.map((sem) => (
           <div
             key={sem.id}
-            className="bg-white rounded-xl shadow-[0_2px_6px_#764ba2] p-8 text-center min-h-[180px] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_8px_20px_#667eea]"
+            className="backdrop-blur-[10px] border border-white/10 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.1)] p-8 text-center min-h-[180px] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_12px_40px_rgba(0,0,0,0.2)]"
+            style={{ background: "linear-gradient(135deg, rgba(48, 54, 79, 0.4), rgba(172, 186, 196, 0.2))" }}
           >
             <h3 className="mb-4 text-[#3a3aee]">{sem.name}</h3>
             <label
               className="inline-block py-2 px-4 cursor-pointer rounded-md text-white font-semibold text-[0.9rem] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(102,126,234,0.3)]"
-              style={{ background: "linear-gradient(90deg, #667eea, #764ba2)" }}
+              style={{ background: "linear-gradient(135deg, #30364f, #acbac4)" }}
             >
               Choose File
               <input
@@ -134,8 +137,8 @@ export default function GradeManagement() {
       </div>
 
       <button
-        className="mt-8 py-3 px-8 border-none rounded-lg text-white text-base cursor-pointer transition-all duration-300 hover:-translate-y-[3px] hover:shadow-[0_6px_20px_rgba(238,9,121,0.3)]"
-        style={{ background: "linear-gradient(90deg, #ff6a00, #ee0979)" }}
+        className="mt-8 py-3 px-10 border-none rounded-lg text-white text-base font-bold cursor-pointer transition-all duration-300 hover:-translate-y-[3px] hover:shadow-[0_6px_20px_rgba(235,169,122,0.4)]"
+        style={{ background: "linear-gradient(135deg, #eba97a, #f3da51)" }}
         onClick={handleSave}
       >
         Save Changes

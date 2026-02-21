@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { FaTrophy, FaCheckCircle, FaTimesCircle, FaSpinner, FaUser, FaCalendar, FaFileAlt, FaImage, FaTimes, FaExclamationCircle } from "react-icons/fa";
 import { achievementAPI } from "../services/api";
+import bgImage from "../assets/bg.jpg";
 
 export default function AchievementsRequest() {
   console.log('🎯 AchievementsRequest component initialized');
@@ -13,6 +14,7 @@ export default function AchievementsRequest() {
   const [processingIds, setProcessingIds] = useState(new Set());
   const [showCertificate, setShowCertificate] = useState(false);
   const [selectedCertificate, setSelectedCertificate] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const categories = ["ALL", "PENDING", "APPROVED", "REJECTED"];
   const categoryLabels = {
@@ -180,10 +182,12 @@ export default function AchievementsRequest() {
     }
   };
 
-  // Filter achievements based on status
+  // Filter achievements based on status and search term
   const filteredAchievements = achievements.filter(achievement => {
-    if (filter === "ALL") return true;
-    return achievement.status === filter;
+    const matchesStatus = filter === "ALL" || achievement.status === filter;
+    const matchesSearch = achievement.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      achievement.userEmail.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesStatus && matchesSearch;
   });
 
   // Get count for each status
@@ -209,7 +213,10 @@ export default function AchievementsRequest() {
 
   if (loading) {
     return (
-      <div className="p-8 min-h-screen bg-white animate-fade-in">
+      <div
+        className="min-h-screen py-8 px-4 font-sans bg-cover bg-center bg-fixed animate-fade-in"
+        style={{ backgroundImage: `url('${bgImage}')` }}
+      >
         <div className="text-center p-12 bg-gray-50 rounded-lg mx-auto my-8 max-w-[400px] border border-gray-200">
           <FaSpinner className="animate-spin text-[2rem] text-blue-600 mx-auto" />
           <p className="text-[1.1rem] text-gray-600 mt-4 mb-2">Loading achievement requests...</p>
@@ -223,7 +230,10 @@ export default function AchievementsRequest() {
 
   if (error) {
     return (
-      <div className="p-8 min-h-screen bg-white animate-fade-in">
+      <div
+        className="min-h-screen py-8 px-4 font-sans bg-cover bg-center bg-fixed animate-fade-in"
+        style={{ backgroundImage: `url('${bgImage}')` }}
+      >
         <div className="text-center p-12 bg-gray-50 rounded-lg mx-auto my-8 max-w-[500px] border border-gray-200">
           <h2 className="text-red-600 mb-4">⚠️ Error Loading Requests</h2>
           <p className="text-red-600 text-[1.1rem] mb-4">{error}</p>
@@ -267,14 +277,17 @@ export default function AchievementsRequest() {
   }
 
   return (
-    <div className="p-8 min-h-screen bg-white animate-fade-in max-sm:p-4">
+    <div
+      className="min-h-screen py-8 px-4 font-sans bg-cover bg-center bg-fixed animate-fade-in"
+      style={{ backgroundImage: `url('${bgImage}')` }}
+    >
       <div className="max-w-[1200px] mx-auto">
         {/* Header */}
-        <div className="text-center mb-10">
-          <h1 className="text-[2.25rem] font-bold text-[#4c4cf4] mb-2 tracking-tight max-sm:text-[1.8rem]">
+        <header className="text-center mb-10 mt-10">
+          <h1 className="text-[2.2rem] font-bold text-slate-800 mb-2 max-sm:text-[1.5rem]">
             Achievement Requests
           </h1>
-        </div>
+        </header>
 
         {/* Filter Tabs */}
         <div className="flex justify-center mb-10 gap-4 flex-wrap">
@@ -318,6 +331,18 @@ export default function AchievementsRequest() {
               </button>
             );
           })}
+        </div>
+
+        {/* Search Bar */}
+        <div className="flex justify-center mb-10">
+          <input
+            type="text"
+            placeholder="Search achievements..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="py-4 pr-12 pl-6 rounded-[30px] border-none shadow-md text-white placeholder:text-white/70 text-[1.1rem] outline-none w-[580px] max-w-full transition-all duration-300 focus:shadow-lg"
+            style={{ background: "linear-gradient(135deg, #30364f, #acbac4)" }}
+          />
         </div>
 
         {/* Achievement Requests List */}

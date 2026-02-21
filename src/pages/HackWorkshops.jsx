@@ -184,16 +184,19 @@ export default function HackWorkshops() {
       style={{ backgroundImage: `url('${bgImage}')` }}
     >
       <header className="text-center mb-10">
-        <div className="relative w-full max-w-[700px] mx-auto mb-6 flex items-center gap-4">
+        <h1 className="text-[2.2rem] font-bold text-slate-800 mb-2 max-sm:text-[1.5rem]">
+          Hackathons & Workshops
+        </h1>
+        <div className="flex justify-center mb-6 w-full">
           <input
             type="text"
             placeholder="Search hackathons..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="flex-1 py-4 px-6 pr-12 rounded-[30px] border-none outline-none text-[1.1rem] text-white placeholder:text-white placeholder:opacity-80"
+            className="py-4 pr-12 pl-6 rounded-[30px] border-none shadow-md text-white placeholder:text-white/70 text-[1.1rem] outline-none w-[580px] max-w-full transition-all duration-300 focus:shadow-lg"
             style={{
-              background: "linear-gradient(90deg, #a18cd1, #fbc2eb)",
-              opacity: showForm ? 0.5 : 1,
+              background: "linear-gradient(135deg, #30364f, #acbac4)",
+              opacity: showForm ? 0.3 : 1,
               pointerEvents: showForm ? 'none' : 'auto'
             }}
             disabled={showForm}
@@ -210,7 +213,7 @@ export default function HackWorkshops() {
                 ? "text-white"
                 : "bg-gray-100 text-gray-900"
                 }`}
-              style={filter === f ? { background: "linear-gradient(90deg, #ff6a00, #ee0979)" } : {}}
+              style={filter === f ? { background: "linear-gradient(135deg, #eba97a, #f3da51)" } : {}}
               onClick={() => setFilter(f)}
             >
               {f}
@@ -218,8 +221,8 @@ export default function HackWorkshops() {
           ))}
         </div>
         <button
-          className="py-[0.7rem] px-6 text-white font-semibold text-base border-none rounded-[20px] cursor-pointer flex items-center gap-1.5 max-sm:w-full max-sm:justify-center max-sm:py-3 max-sm:text-[0.9rem]"
-          style={{ background: "linear-gradient(90deg, #ff6a00, #ee0979)" }}
+          className="py-[0.7rem] px-6 text-white font-bold text-base border-none rounded-[20px] cursor-pointer flex items-center gap-1.5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(235,169,122,0.4)] max-sm:w-full max-sm:justify-center max-sm:py-3 max-sm:text-[0.9rem]"
+          style={{ background: "linear-gradient(135deg, #eba97a, #f3da51)" }}
           onClick={() => setShowForm(true)}
         >
           <FaPlus className="mr-1.5" /> Add hackathons & workshops
@@ -230,50 +233,84 @@ export default function HackWorkshops() {
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-[1000]">
           <div className="bg-white p-8 rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.1)] w-[90%] max-w-[500px] flex flex-col gap-4 max-sm:w-[95vw] max-sm:p-5">
             <h3 className="m-0 mb-4 text-2xl font-bold text-gray-800">Add New Hackathon/Workshop</h3>
-            <input
-              type="text"
-              placeholder="Title"
-              value={formData.title}
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full py-3 px-3 border border-gray-300 rounded-lg text-base"
-            />
-            <select
-              value={formData.type}
-              onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-              className="w-full py-3 px-3 border border-gray-300 rounded-lg text-base"
-            >
-              <option value="Hackathon">Hackathon</option>
-              <option value="Workshop">Workshop</option>
-            </select>
-            <input
-              type="date"
-              placeholder="Date"
-              value={formData.date}
-              onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-              className="w-full py-3 px-3 border border-gray-300 rounded-lg text-base"
-            />
-            <textarea
-              placeholder="Description"
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="w-full py-3 px-3 border border-gray-300 rounded-lg text-base"
-            ></textarea>
-            <input
-              type="file"
-              onChange={(e) => setFormData({ ...formData, file: e.target.files[0] })}
-              className="w-full py-3 px-3 border border-gray-300 rounded-lg text-base"
-            />
-            <div className="flex justify-end gap-4">
+            <div className="flex flex-col gap-4">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">Title</label>
+                <input
+                  type="text"
+                  placeholder="Title"
+                  value={formData.title}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  className="w-full py-3 px-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:border-orange-400 transition-colors"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">Category</label>
+                <select
+                  value={formData.type}
+                  onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                  className="w-full py-3 px-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:border-orange-400 transition-colors"
+                >
+                  <option value="Hackathon">Hackathon</option>
+                  <option value="Workshop">Workshop</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">Date</label>
+                <input
+                  type="date"
+                  placeholder="Date"
+                  value={formData.date}
+                  onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                  className="w-full py-3 px-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:border-orange-400 transition-colors"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">Description</label>
+                <textarea
+                  placeholder="Description"
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  className="w-full py-3 px-3 border border-gray-300 rounded-lg text-base min-h-[100px] focus:outline-none focus:border-orange-400 transition-colors"
+                ></textarea>
+              </div>
+
+              <div>
+                <div className="flex items-center gap-3 p-3 border border-gray-300 rounded-lg bg-white">
+                  <label htmlFor="hack-file" className="bg-gray-100 hover:bg-gray-200 text-gray-800 text-sm font-semibold py-1.5 px-3 rounded border border-gray-400 cursor-pointer transition-colors">
+                    Choose File
+                  </label>
+                  <span className="text-gray-500 text-sm truncate">
+                    {formData.file ? formData.file.name : "No file chosen"}
+                  </span>
+                  <input
+                    id="hack-file"
+                    type="file"
+                    onChange={(e) => setFormData({ ...formData, file: e.target.files[0] })}
+                    className="hidden"
+                    accept=".jpg,.jpeg,.png"
+                  />
+                </div>
+                <small className="block mt-1 text-gray-500 text-xs">
+                  Allowed formats: jpg, jpeg, png
+                </small>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-3 mt-4">
               <button
                 onClick={handleAddEvent}
-                className="py-3 px-6 text-white font-semibold text-base border-none rounded-lg cursor-pointer"
-                style={{ background: "linear-gradient(90deg, #ff6a00, #ee0979)" }}
+                className="py-3 px-8 text-white font-bold text-base border-none rounded-lg cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(235,169,122,0.4)]"
+                style={{ background: "linear-gradient(135deg, #eba97a, #f3da51)" }}
               >
                 Submit
               </button>
               <button
                 onClick={() => setShowForm(false)}
-                className="py-3 px-6 bg-transparent text-gray-800 font-semibold text-base border border-gray-300 rounded-lg cursor-pointer"
+                className="py-3 px-8 bg-transparent text-gray-700 font-semibold text-base border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
               >
                 Cancel
               </button>
@@ -293,60 +330,67 @@ export default function HackWorkshops() {
           </div>
         ) : (
           displayedEvents.map((event) => (
-            <div key={event.id} className="bg-white rounded-[18px] shadow-[0_6px_24px_rgba(0,0,0,0.13)] py-6 px-5 relative flex flex-col md:flex-row gap-4 md:gap-8 md:py-8 md:px-6">
-              <div className="absolute top-4 left-4 py-2 px-6 rounded-full font-extrabold text-lg bg-white border-2 border-[#ff6a00] text-[#ff6a00]">
-                {event.type}
-              </div>
-              <div className="flex flex-col md:flex-row items-start gap-6 md:gap-8 w-full">
-                <div className="flex-1 flex flex-col">
-                  <h3 className="order-1 text-[#3a3aee] text-[1.05rem] font-semibold mt-2 mb-2">{event.type}</h3>
-                  <h4 className="order-2 text-[#111827] text-2xl font-extrabold mt-1 mb-2 leading-tight">{event.title}</h4>
+            <div
+              key={event.id}
+              className="bg-white rounded-[18px] shadow-[0_6px_24px_rgba(0,0,0,0.13)] py-8 px-6 flex flex-col gap-4 relative max-sm:py-5 max-sm:px-4"
+            >
+              <div className="flex flex-row items-start gap-8 mt-4 max-md:flex-col">
+                <div className="flex-1">
+                  <div className="mb-2">
+                    <span className="text-base text-black font-semibold mr-3">Title:</span>
+                    <span className="text-base text-gray-600 font-medium leading-tight">{event.title}</span>
+                  </div>
 
-                  {/* Centered image placed directly under the title on mobile */}
-                  <div className="order-3 w-full max-w-[320px] mx-auto my-4 rounded-xl p-2 bg-gray-100 shadow-[0_2px_8px_rgba(0,0,0,0.08)] overflow-hidden">
+                  <div className="mb-2">
+                    <span className="text-base text-black font-semibold mr-3">Category:</span>
+                    <span className="text-base text-gray-600 font-medium">{event.type}</span>
+                  </div>
+
+                  <div className="mb-2">
+                    <span className="text-base text-black font-semibold mr-3">Date:</span>
+                    <span className="text-base text-gray-600">{event.date}</span>
+                  </div>
+
+                  <div className="mb-2">
+                    <div className="text-base text-black font-semibold">Description:</div>
+                    <div className="text-base text-gray-600 leading-relaxed ml-4">{event.description}</div>
+                  </div>
+                </div>
+
+                <div className="order-first md:order-last mb-4 md:mb-0 flex flex-col items-center self-center md:self-auto">
+                  {/* Image preview box */}
+                  <div className="w-[180px] md:w-[240px] h-auto md:h-[180px] min-h-[160px] md:min-h-[180px] mx-auto border-2 border-dashed border-gray-400 rounded-xl bg-white flex items-center justify-center relative overflow-hidden max-md:min-w-0 max-md:h-[200px]">
                     {event.file && event.file.url ? (
                       <img
                         src={event.file.url}
-                        alt="Event Image"
-                        className="w-full h-auto object-contain rounded-lg cursor-pointer transition-transform duration-200 hover:scale-105"
-                        referrerPolicy="no-referrer"
+                        alt="Event"
+                        className="w-full h-full object-cover cursor-pointer transition-transform duration-200 hover:scale-105"
                         onClick={() => window.open(event.file.url, '_blank')}
                         title="Click to view full image"
-                        onError={(e) => {
-                          console.error('IMG tag failed to load:', event.file.url);
-                          e.target.style.display = 'none';
-                        }}
-                        onLoad={(e) => {
-                          console.log('Image loaded successfully!', {
-                            url: event.file.url,
-                            naturalWidth: e.target.naturalWidth,
-                            naturalHeight: e.target.naturalHeight,
-                          });
-                        }}
                       />
                     ) : (
-                      <div className="flex flex-col items-center justify-center p-6">
-                        <FaFileAlt className="text-[3rem] text-gray-300 mb-2" />
-                        <span className="text-[0.9rem] text-gray-400">No File</span>
+                      <div className="text-center text-gray-500 text-[0.9rem]">
+                        <FaFileAlt className="text-[3rem] mb-2 mx-auto text-gray-300" />
+                        <br />No Image
                       </div>
                     )}
                   </div>
-
-                  <span className="order-4 text-[1rem] text-gray-500 mb-[0.7rem] block">{event.date}</span>
-                  <p className="order-5 text-gray-500 text-base mb-[0.7rem]">{event.description}</p>
-                </div>
-
-                {/* Status */}
-                <div className="text-center mt-2 md:mt-0 md:self-start">
-                  {event.status === "Approved" ? (
-                    <span className="text-green-500 font-bold text-[0.9rem]">
-                      <FaCheckCircle className="inline mr-1" /> Approved
-                    </span>
-                  ) : (
-                    <span className="text-orange-500 font-bold text-[0.9rem]">
-                      <FaExclamationCircle className="inline mr-1" /> Pending
-                    </span>
-                  )}
+                  {/* Status below the box */}
+                  <div className="mt-[0.7rem] text-center">
+                    {event.status === "Approved" ? (
+                      <span className="text-green-500 font-bold text-[0.95rem] inline-flex items-center gap-1.5 bg-green-50 rounded-lg py-1.5 px-3.5 border-[1.5px] border-green-500">
+                        <FaCheckCircle className="mr-1" /> Approved
+                      </span>
+                    ) : event.status === "Rejected" ? (
+                      <span className="text-red-500 font-bold text-[0.95rem] inline-flex items-center gap-1.5 bg-red-50 rounded-lg py-1.5 px-3.5 border-[1.5px] border-red-500">
+                        <FaExclamationCircle className="mr-1" /> Rejected
+                      </span>
+                    ) : (
+                      <span className="text-orange-500 font-bold text-[0.95rem] inline-flex items-center gap-1.5 bg-amber-50 rounded-lg py-1.5 px-3.5 border-[1.5px] border-orange-500">
+                        <FaExclamationCircle className="mr-1" /> Pending
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

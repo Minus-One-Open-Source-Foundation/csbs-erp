@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { FaClock, FaCheck, FaTimes, FaSpinner, FaSearch } from "react-icons/fa";
+import { FaClock, FaCheck, FaTimes, FaSpinner, FaSearch, FaFileAlt, FaExclamationCircle, FaCheckCircle } from "react-icons/fa";
 import { facultyAPI } from "../services/api";
 import bgImage from "../assets/bg.jpg";
 
@@ -145,48 +145,54 @@ export default function Reports() {
     return allEvents.filter(req => req.status === status).length;
   };
 
-  const getStatusButtons = () => {
-    const categories = [
-      { id: 'PENDING', label: 'Pending', icon: <FaClock />, color: '#ff9800', bgColor: '#fff3e0', bgSelected: '#fff8e1' },
-      { id: 'APPROVED', label: 'Approved', icon: <FaCheck />, color: '#4caf50', bgColor: '#e8f5e9', bgSelected: '#e8f5e9' },
-      { id: 'REJECTED', label: 'Rejected', icon: <FaTimes />, color: '#f44336', bgColor: '#ffebee', bgSelected: '#ffebee' }
-    ];
+  const categories = ["ALL", "PENDING", "APPROVED", "REJECTED"];
+  const categoryLabels = {
+    "ALL": "All Requests",
+    "PENDING": "Pending",
+    "APPROVED": "Approved",
+    "REJECTED": "Rejected"
+  };
 
+  const getStatusButtons = () => {
     return (
-      <div className="flex flex-row justify-center items-center gap-4 mb-10 flex-wrap max-md:gap-3 max-sm:gap-2">
-        {categories.map((cat) => {
-          const isActive = filter === cat.id;
-          const count = getStatusCount(cat.id);
+      <div className="flex justify-center mb-10 gap-4 flex-wrap">
+        {categories.map((category) => {
+          const isActive = filter === category;
+
+          // Define styles based on category and active state
+          let styles = "bg-white text-gray-500 border-gray-200";
+          let icon = null;
+          let countBg = "bg-blue-600";
+
+          if (category === "PENDING") {
+            icon = <FaExclamationCircle className={isActive ? "text-[#f59e0b]" : "text-gray-400"} />;
+            countBg = "bg-[#f59e0b]";
+            if (isActive) styles = "bg-[#fff7ed] text-[#e37a08] border-[#fbbf24]";
+          } else if (category === "APPROVED") {
+            icon = <FaCheckCircle className={isActive ? "text-[#10b981]" : "text-gray-400"} />;
+            countBg = "bg-[#10b981]";
+            if (isActive) styles = "bg-[#f0fdf4] text-[#15803d] border-[#4ade80]";
+          } else if (category === "REJECTED") {
+            icon = <FaTimes className={isActive ? "text-[#ef4444]" : "text-gray-400"} />;
+            countBg = "bg-[#ef4444]";
+            if (isActive) styles = "bg-[#fef2f2] text-[#b91c1c] border-[#f87171]";
+          } else {
+            // ALL
+            icon = <FaFileAlt className={isActive ? "text-blue-500" : "text-gray-400"} />;
+            if (isActive) styles = "bg-[#eff6ff] text-[#1d4ed8] border-[#60a5fa]";
+          }
 
           return (
             <button
-              key={cat.id}
-              onClick={() => setFilter(cat.id)}
-              className={`flex items-center gap-2.5 py-2.5 px-6 rounded-full font-bold text-[0.95rem] transition-all duration-300 border-2 cursor-pointer shadow-sm relative hover:-translate-y-0.5 hover:shadow-md
-                ${isActive
-                  ? `shadow-md border-[${cat.color}]`
-                  : 'bg-white border-gray-100 text-gray-500 grayscale-[0.6] opacity-90'
-                }`}
-              style={{
-                borderColor: isActive ? cat.color : '#f1f5f9',
-                backgroundColor: isActive ? cat.bgSelected : '#fff',
-                color: isActive ? cat.color : '#64748b',
-              }}
+              key={category}
+              onClick={() => setFilter(category)}
+              className={`py-3 px-6 rounded-full font-bold cursor-pointer transition-all duration-300 flex items-center gap-3 text-[1rem] border-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 ${styles}`}
             >
-              <span className="flex items-center text-[1rem]">
-                {cat.id === 'PENDING' ? <FaClock style={{ color: isActive ? '#ff9800' : '#94a3b8' }} /> :
-                  cat.id === 'APPROVED' ? <FaCheck style={{ color: isActive ? '#4caf50' : '#94a3b8' }} /> :
-                    cat.id === 'REJECTED' ? <FaTimes style={{ color: isActive ? '#ef4444' : '#94a3b8' }} /> : null}
+              {icon}
+              {categoryLabels[category]}
+              <span className={`w-7 h-7 rounded-full flex items-center justify-center text-[0.85rem] text-white shadow-inner font-black ${countBg}`}>
+                {getStatusCount(category)}
               </span>
-              <span>{cat.label}</span>
-              {cat.id !== 'ALL' && (
-                <span
-                  className="flex items-center justify-center min-w-[22px] h-[22px] rounded-full text-white text-[0.75rem] font-black px-1.5 ml-1"
-                  style={{ backgroundColor: isActive ? cat.color : (cat.id === 'PENDING' ? '#ff9800' : cat.id === 'APPROVED' ? '#4caf50' : '#ef4444') }}
-                >
-                  {count}
-                </span>
-              )}
             </button>
           );
         })}
@@ -199,12 +205,26 @@ export default function Reports() {
       className="min-h-screen p-8 font-sans bg-cover bg-center bg-fixed text-gray-900 max-md:p-4 max-sm:p-2"
       style={{ backgroundImage: `url('${bgImage}')` }}
     >
-      <h2 className="text-center text-[2.5rem] font-extrabold mb-10 text-gray-800 tracking-tight max-sm:text-[1.8rem] max-sm:mb-6">
-        Hackathons And Workshops Requests
-      </h2>
+      <header className="text-center mb-10 mt-10">
+        <h1 className="text-[2.2rem] font-bold text-slate-800 mb-2 max-sm:text-[1.5rem]">
+          Hackathons And Workshops Requests
+        </h1>
+      </header>
 
       {/* Filter Buttons Section */}
       {getStatusButtons()}
+
+      {/* Search Bar */}
+      <div className="flex justify-center mb-10">
+        <input
+          type="text"
+          placeholder="Search hackathons and workshops..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="py-4 pr-12 pl-6 rounded-[30px] border-none shadow-md text-white placeholder:text-white/70 text-[1.1rem] outline-none w-[580px] max-w-full transition-all duration-300 focus:shadow-lg"
+          style={{ background: "linear-gradient(135deg, #30364f, #acbac4)" }}
+        />
+      </div>
 
       {filteredRequests.length === 0 ? (
         <div className="text-center p-8 bg-white/90 rounded-lg">

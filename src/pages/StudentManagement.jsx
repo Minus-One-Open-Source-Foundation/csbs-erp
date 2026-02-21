@@ -79,24 +79,22 @@ export default function StudentManagement() {
   };
 
   return (
-    <div className="p-4 sm:p-6 md:p-8 lg:p-10 font-sans w-full max-w-full m-0">
-      <header className="text-center mb-6 sm:mb-8">
-        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-slate-800">Student Management</h1>
-        <p className="text-xs sm:text-sm md:text-base text-slate-500 mt-1 sm:mt-2">Manage student details and profiles</p>
+    <div className="w-full font-sans text-gray-900 animate-fade-in">
+      <header className="text-center mb-10 mt-10">
+        <h1 className="text-[2.2rem] font-bold text-slate-800 mb-2 max-sm:text-[1.5rem]">Student Management</h1>
+        <p className="text-sm text-slate-500 mt-2">Manage student details and profiles</p>
       </header>
 
       {/* Search Bar */}
-      <div className="flex justify-center mb-4 sm:mb-6">
-        <div className="relative w-full sm:w-[95%] md:w-[90%] lg:w-[85%]">
-          <FaSearch className="absolute top-1/2 left-3 sm:left-4 -translate-y-1/2 text-gray-400 text-sm sm:text-base" />
-          <input
-            type="text"
-            placeholder="Search by name or register number..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full py-2 sm:py-3 md:py-4 pr-4 sm:pr-6 pl-9 sm:pl-12 rounded-lg sm:rounded-xl border border-gray-300 text-xs sm:text-sm md:text-base shadow-[0_4px_12px_rgba(0,0,0,0.05)] outline-none transition-all duration-300 focus:border-blue-500 focus:shadow-[0_4px_12px_rgba(59,130,246,0.3)]"
-          />
-        </div>
+      <div className="flex justify-center mb-10">
+        <input
+          type="text"
+          placeholder="Search by name or register number..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="py-4 pr-12 pl-6 rounded-[30px] border-none shadow-md text-white placeholder:text-white/70 text-[1.1rem] outline-none w-[580px] max-w-full transition-all duration-300 focus:shadow-lg"
+          style={{ background: "linear-gradient(135deg, #30364f, #acbac4)" }}
+        />
       </div>
 
       {/* Loading State */}
@@ -122,7 +120,7 @@ export default function StudentManagement() {
 
       {/* Student Grid */}
       {!loading && !error && (
-        <div className="max-h-[calc(100vh-300px)] sm:max-h-[75vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-slate-300 scrollbar-thumb-rounded-lg hover:scrollbar-thumb-slate-400">
+        <div className="w-full">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-5 lg:gap-6 w-full">
             {filteredStudents.map((student) => (
               <div

@@ -11,7 +11,7 @@ export default function Navbar({ onToggleSidebar, collapsed, onToggleCollapse })
       position="fixed"
       sx={{
         zIndex: (theme) => theme.zIndex.drawer + 1,
-        background: "linear-gradient(135deg,#667eea 0%,#764ba2 100%)",
+        background: "linear-gradient(135deg, #30364f, #acbac4)",
         boxShadow: 3,
       }}
     >
@@ -93,7 +93,7 @@ export default function Navbar({ onToggleSidebar, collapsed, onToggleCollapse })
               <Button
                 onClick={logout}
                 sx={{
-                  background: "linear-gradient(90deg,#ff6a00,#ee0979)",
+                  background: "linear-gradient(90deg, #eba97a, #f3da51)",
                   color: "#fff",
                   borderRadius: "12px",
                   px: { xs: 1.5, sm: 2, md: 2.5 },
@@ -106,7 +106,7 @@ export default function Navbar({ onToggleSidebar, collapsed, onToggleCollapse })
                   "&:hover": {
                     transform: "translateY(-2px)",
                     boxShadow: "0 10px 30px rgba(238,9,121,0.18)",
-                    background: "linear-gradient(90deg,#ff6a00,#ee0979)",
+                    background: "linear-gradient(90deg, #eba97a, #f3da51)",
                   },
                 }}
               >

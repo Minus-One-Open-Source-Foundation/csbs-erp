@@ -255,8 +255,8 @@ export default function URMS() {
   return (
     <div className="p-8 max-w-[1200px] mx-auto font-sans max-md:p-4">
       {/* Header */}
-      <header className="text-center mb-8">
-        <h1 className="text-[2.5rem] font-bold text-slate-800 mb-2 max-md:text-[2rem]">Unified Resume Management System</h1>
+      <header className="text-center mb-8 mt-10">
+        <h1 className="text-[2.2rem] font-bold text-slate-800 mb-2 max-sm:text-[1.5rem]">Unified Resume Management System</h1>
         <p className="text-slate-500 text-[1.1rem]">Upload, preview, and manage your resumes for different roles</p>
       </header>
 
@@ -264,8 +264,8 @@ export default function URMS() {
       {!loading && !error && resumes.length > 0 && (
         <div className="mb-8">
           <div
-            className="rounded-xl p-8 text-white shadow-[0_4px_20px_rgba(0,0,0,0.1)]"
-            style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
+            className="rounded-xl p-8 text-white shadow-[0_8px_32px_rgba(0,0,0,0.15)]"
+            style={{ background: 'linear-gradient(135deg, #30364f, #acbac4)' }}
           >
             <h3 className="m-0 mb-6 text-2xl font-semibold">Resume Portfolio</h3>
             <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-8">
@@ -285,8 +285,8 @@ export default function URMS() {
       {/* Upload Button */}
       <div className="flex justify-center mb-8">
         <button
-          className="text-white border-none py-4 px-8 rounded-[10px] text-base font-semibold cursor-pointer flex items-center gap-2 transition-transform duration-200 hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed"
-          style={{ background: 'linear-gradient(90deg, #667eea 0%, #764ba2 100%)' }}
+          className="text-white border-none py-4 px-8 rounded-[10px] text-base font-bold cursor-pointer flex items-center gap-2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(235,169,122,0.4)] disabled:opacity-60 disabled:cursor-not-allowed"
+          style={{ background: 'linear-gradient(135deg, #eba97a, #f3da51)' }}
           onClick={() => setShowUploadForm(true)}
           disabled={uploading}
         >
@@ -304,7 +304,7 @@ export default function URMS() {
             {/* Upload Header */}
             <div
               className="text-white p-8 text-center rounded-t-2xl max-md:p-6"
-              style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
+              style={{ background: 'linear-gradient(135deg, #30364f, #acbac4)' }}
             >
               <h3 className="m-0 mb-2 text-[1.75rem] font-bold max-md:text-2xl">Upload New Resume</h3>
               <p className="m-0 opacity-90 text-base">Add a role-specific resume to your portfolio</p>
@@ -315,7 +315,7 @@ export default function URMS() {
               <div className="flex items-start gap-4 mb-8">
                 <div
                   className="w-9 h-9 rounded-full text-white flex items-center justify-center font-bold text-base shrink-0 mt-1"
-                  style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
+                  style={{ background: 'linear-gradient(135deg, #30364f, #acbac4)' }}
                 >
                   1
                 </div>
@@ -399,7 +399,7 @@ export default function URMS() {
               <div className="flex items-start gap-4 mb-8">
                 <div
                   className="w-9 h-9 rounded-full text-white flex items-center justify-center font-bold text-base shrink-0 mt-1"
-                  style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
+                  style={{ background: 'linear-gradient(135deg, #30364f, #acbac4)' }}
                 >
                   2
                 </div>
@@ -478,8 +478,8 @@ export default function URMS() {
                 <button
                   type="submit"
                   disabled={uploading || !uploadForm.file || !uploadForm.role}
-                  className="py-3.5 px-8 rounded-[10px] font-semibold text-base cursor-pointer transition-all duration-200 flex items-center gap-2 border-none text-white shadow-[0_4px_14px_rgba(102,126,234,0.3)] hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(102,126,234,0.4)] disabled:opacity-60 disabled:cursor-not-allowed disabled:translate-y-0 disabled:shadow-none max-md:w-full max-md:justify-center"
-                  style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
+                  className="py-3.5 px-8 rounded-[10px] font-bold text-base cursor-pointer transition-all duration-300 flex items-center gap-2 border-none text-white shadow-[0_4px_14px_rgba(235,169,122,0.25)] hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(235,169,122,0.4)] disabled:opacity-60 disabled:cursor-not-allowed disabled:translate-y-0 disabled:shadow-none max-md:w-full max-md:justify-center"
+                  style={{ background: 'linear-gradient(135deg, #eba97a, #f3da51)' }}
                 >
                   {uploading ? (
                     <>

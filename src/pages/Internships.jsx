@@ -145,26 +145,31 @@ export default function Internships() {
     >
       {/* Header */}
       <header className="text-center mb-10 mt-10 max-sm:mb-6 max-sm:mt-4">
-        <div className="relative w-full max-w-[700px] mx-auto mb-6 flex items-center gap-4 max-sm:flex-col max-sm:gap-3">
+        <h1 className="text-[2.2rem] font-bold text-slate-800 mb-2 max-sm:text-[1.5rem]">
+          Internships
+        </h1>
+        <div className="flex justify-center mb-6">
           <input
             type="text"
             placeholder="Search internships..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="flex-1 py-4 px-6 pr-12 rounded-[30px] border-none bg-white/70 text-gray-800 text-[1.1rem] outline-none w-full max-sm:py-3 max-sm:px-4 max-sm:text-base"
+            className="py-4 pr-12 pl-6 rounded-[30px] border-none shadow-md text-white placeholder:text-white/70 text-[1.1rem] outline-none w-[580px] max-w-full transition-all duration-300 focus:shadow-lg"
+            style={{ background: "linear-gradient(135deg, #30364f, #acbac4)" }}
           />
-          <button
-            className="py-[0.7rem] px-6 text-white font-semibold text-base border-none rounded-[20px] cursor-pointer flex items-center gap-1.5 whitespace-nowrap max-sm:w-full max-sm:justify-center max-sm:py-3"
-            style={{ background: "linear-gradient(90deg, #ff6a00, #ee0979)" }}
-            onClick={() => setShowForm(true)}
-          >
-            <FaPlus className="mr-1.5" /> Add internships
-          </button>
         </div>
+        <button
+          className="py-[0.7rem] px-6 text-white font-bold text-base border-none rounded-[20px] cursor-pointer flex items-center gap-1.5 whitespace-nowrap transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(235,169,122,0.4)] max-sm:w-full max-sm:justify-center max-sm:py-3"
+          style={{ background: "linear-gradient(135deg, #eba97a, #f3da51)" }}
+          onClick={() => setShowForm(true)}
+        >
+          <FaPlus className="mr-1.5" /> Add internships
+        </button>
       </header>
 
       {showForm && (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-[12000]" onClick={() => setShowForm(false)}>
+
           <div className="bg-white p-6 rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.12)] flex flex-col gap-4 w-[90%] max-w-[800px] max-h-[90vh] overflow-y-auto max-sm:w-[95%] max-sm:p-4" onClick={(e) => e.stopPropagation()}>
             <h3 className="m-0 mb-2 text-2xl font-bold text-gray-800">Add New Internship</h3>
 
@@ -259,9 +264,9 @@ export default function Internships() {
               <button
                 onClick={handleAddInternship}
                 disabled={submitting}
-                className="w-full sm:w-auto py-2.5 px-5 text-white border-none rounded-lg cursor-pointer font-semibold flex items-center gap-2 disabled:cursor-not-allowed justify-center"
+                className="w-full sm:w-auto py-2.5 px-5 text-white border-none rounded-lg cursor-pointer font-bold flex items-center gap-2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(235,169,122,0.4)] disabled:cursor-not-allowed justify-center"
                 style={{
-                  background: submitting ? '#ccc' : 'linear-gradient(90deg, #ff6a00, #ee0979)'
+                  background: submitting ? '#ccc' : "linear-gradient(135deg, #eba97a, #f3da51)"
                 }}
               >
                 {submitting && <FaSpinner className="animate-spin" />}
@@ -277,110 +282,119 @@ export default function Internships() {
             </div>
           </div>
         </div>
-      )}
+      )
+      }
 
       {/* Loading State */}
-      {loading && (
-        <div className="text-center p-12">
-          <FaSpinner className="animate-spin text-[2rem] text-blue-600 mx-auto" />
-          <p>Loading your internships...</p>
-        </div>
-      )}
+      {
+        loading && (
+          <div className="text-center p-12">
+            <FaSpinner className="animate-spin text-[2rem] text-blue-600 mx-auto" />
+            <p>Loading your internships...</p>
+          </div>
+        )
+      }
 
       {/* Error State */}
-      {error && (
-        <div className="text-center p-12 bg-white/90 rounded-lg mx-auto my-8 max-w-[500px]">
-          <p className="text-red-600 text-[1.1rem] mb-4">{error}</p>
-          <button
-            onClick={fetchUserInternships}
-            className="py-2 px-4 bg-blue-600 text-white border-none rounded cursor-pointer"
-          >
-            Retry
-          </button>
-        </div>
-      )}
+      {
+        error && (
+          <div className="text-center p-12 bg-white/90 rounded-lg mx-auto my-8 max-w-[500px]">
+            <p className="text-red-600 text-[1.1rem] mb-4">{error}</p>
+            <button
+              onClick={fetchUserInternships}
+              className="py-2 px-4 bg-blue-600 text-white border-none rounded cursor-pointer"
+            >
+              Retry
+            </button>
+          </div>
+        )
+      }
 
       {/* No Internships State */}
-      {!loading && !error && filteredEvents.length === 0 && (
-        <div className="text-center p-12 bg-white/90 rounded-lg mx-auto my-8 max-w-[500px]">
-          <p>No internships found. Click "Add internships" to create your first internship entry.</p>
-        </div>
-      )}
+      {
+        !loading && !error && filteredEvents.length === 0 && (
+          <div className="text-center p-12 bg-white/90 rounded-lg mx-auto my-8 max-w-[500px]">
+            <p>No internships found. Click "Add internships" to create your first internship entry.</p>
+          </div>
+        )
+      }
 
       {/* Cards */}
-      {!loading && !error && filteredEvents.length > 0 && (
-        <section className="flex flex-col gap-8">
-          {filteredEvents.map((event) => (
-            <div
-              key={event.id}
-              className="bg-white rounded-[18px] shadow-[0_6px_24px_rgba(0,0,0,0.13)] py-8 px-6 flex flex-col gap-4 relative max-sm:py-5 max-sm:px-4"
-            >
-              
-              <div className="flex flex-row items-start gap-8 mt-4 max-md:flex-col">
-                <div className="flex-1">
-                  <div className="mb-2">
-                    <span className="text-base text-black font-semibold mr-3">Title:</span>
-                    <span className="text-base text-gray-600 font-medium leading-tight">{event.title}</span>
-                  </div>
+      {
+        !loading && !error && filteredEvents.length > 0 && (
+          <section className="flex flex-col gap-8">
+            {filteredEvents.map((event) => (
+              <div
+                key={event.id}
+                className="bg-white rounded-[18px] shadow-[0_6px_24px_rgba(0,0,0,0.13)] py-8 px-6 flex flex-col gap-4 relative max-sm:py-5 max-sm:px-4"
+              >
 
-                  <div className="mb-2">
-                    <span className="text-base text-black font-semibold mr-3">Company:</span>
-                    <span className="text-base text-gray-600 font-medium leading-relaxed">{event.companyName}</span>
-                  </div>
+                <div className="flex flex-row items-start gap-8 mt-4 max-md:flex-col">
+                  <div className="flex-1">
+                    <div className="mb-2">
+                      <span className="text-base text-black font-semibold mr-3">Title:</span>
+                      <span className="text-base text-gray-600 font-medium leading-tight">{event.title}</span>
+                    </div>
 
-                  <div className="mb-2">
-                    <span className="text-base text-black font-semibold mr-3">Duration:</span>
-                    <span className="text-base text-gray-600 leading-relaxed">{new Date(event.startDate).toLocaleDateString()} - {new Date(event.endDate).toLocaleDateString()}</span>
-                  </div>
+                    <div className="mb-2">
+                      <span className="text-base text-black font-semibold mr-3">Company:</span>
+                      <span className="text-base text-gray-600 font-medium leading-relaxed">{event.companyName}</span>
+                    </div>
 
-                  <div className="mb-2">
-                    <span className="text-base text-black font-semibold mr-3">Mode:</span>
-                    <span className="text-base text-gray-600 font-medium leading-relaxed">{event.mode || 'REMOTE'}</span>
-                  </div>
+                    <div className="mb-2">
+                      <span className="text-base text-black font-semibold mr-3">Duration:</span>
+                      <span className="text-base text-gray-600 leading-relaxed">{new Date(event.startDate).toLocaleDateString()} - {new Date(event.endDate).toLocaleDateString()}</span>
+                    </div>
 
-                  <div className="mb-2">
-                    <div className="text-base text-black font-semibold">Description:</div>
-                    <div className="text-base text-gray-600 leading-relaxed ml-4">{event.description}</div>
+                    <div className="mb-2">
+                      <span className="text-base text-black font-semibold mr-3">Mode:</span>
+                      <span className="text-base text-gray-600 font-medium leading-relaxed">{event.mode || 'REMOTE'}</span>
+                    </div>
+
+                    <div className="mb-2">
+                      <div className="text-base text-black font-semibold">Description:</div>
+                      <div className="text-base text-gray-600 leading-relaxed ml-4">{event.description}</div>
+                    </div>
                   </div>
-                </div>
-                <div className="order-first md:order-last mb-4 md:mb-0 flex flex-col items-center self-center md:self-auto">
-                  {/* Document preview box */}
-                  <div className="w-[180px] md:w-[180px] h-auto md:h-[160px] min-h-[160px] md:min-h-[160px] mx-auto border-2 border-dashed border-gray-400 rounded-xl bg-white flex items-center justify-center relative overflow-hidden max-md:min-w-0 max-md:h-[180px]">
-                    {event.certificateUrl ? (
-                      <img
-                        src={event.certificateUrl}
-                        alt="Certificate"
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="text-center text-gray-500 text-[0.9rem]">
-                        <FaFileAlt className="text-[2rem] mb-2 mx-auto" />
-                        <br />No certificate
-                      </div>
-                    )}
-                  </div>
-                  {/* Status below the rectangle box */}
-                  <div className="mt-[0.7rem] text-center">
-                    {event.status === "APPROVED" ? (
-                      <span className="text-green-500 font-bold text-[0.95rem] inline-flex items-center gap-1.5 bg-green-50 rounded-lg py-1.5 px-3.5 border-[1.5px] border-green-500">
-                        <FaCheckCircle className="mr-1" /> Approved
-                      </span>
-                    ) : event.status === "REJECTED" ? (
-                      <span className="text-red-500 font-bold text-[0.95rem] inline-flex items-center gap-1.5 bg-red-50 rounded-lg py-1.5 px-3.5 border-[1.5px] border-red-500">
-                        <FaExclamationCircle className="mr-1" /> Rejected
-                      </span>
-                    ) : (
-                      <span className="text-orange-500 font-bold text-[0.95rem] inline-flex items-center gap-1.5 bg-amber-50 rounded-lg py-1.5 px-3.5 border-[1.5px] border-orange-500">
-                        <FaExclamationCircle className="mr-1" /> Pending
-                      </span>
-                    )}
+                  <div className="order-first md:order-last mb-4 md:mb-0 flex flex-col items-center self-center md:self-auto">
+                    {/* Document preview box */}
+                    <div className="w-[180px] md:w-[180px] h-auto md:h-[160px] min-h-[160px] md:min-h-[160px] mx-auto border-2 border-dashed border-gray-400 rounded-xl bg-white flex items-center justify-center relative overflow-hidden max-md:min-w-0 max-md:h-[180px]">
+                      {event.certificateUrl ? (
+                        <img
+                          src={event.certificateUrl}
+                          alt="Certificate"
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="text-center text-gray-500 text-[0.9rem]">
+                          <FaFileAlt className="text-[2rem] mb-2 mx-auto" />
+                          <br />No certificate
+                        </div>
+                      )}
+                    </div>
+                    {/* Status below the rectangle box */}
+                    <div className="mt-[0.7rem] text-center">
+                      {event.status === "APPROVED" ? (
+                        <span className="text-green-500 font-bold text-[0.95rem] inline-flex items-center gap-1.5 bg-green-50 rounded-lg py-1.5 px-3.5 border-[1.5px] border-green-500">
+                          <FaCheckCircle className="mr-1" /> Approved
+                        </span>
+                      ) : event.status === "REJECTED" ? (
+                        <span className="text-red-500 font-bold text-[0.95rem] inline-flex items-center gap-1.5 bg-red-50 rounded-lg py-1.5 px-3.5 border-[1.5px] border-red-500">
+                          <FaExclamationCircle className="mr-1" /> Rejected
+                        </span>
+                      ) : (
+                        <span className="text-orange-500 font-bold text-[0.95rem] inline-flex items-center gap-1.5 bg-amber-50 rounded-lg py-1.5 px-3.5 border-[1.5px] border-orange-500">
+                          <FaExclamationCircle className="mr-1" /> Pending
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </section>
-      )}
-    </div>
+            ))}
+          </section>
+        )
+      }
+    </div >
   );
 }
