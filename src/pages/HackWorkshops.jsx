@@ -300,10 +300,11 @@ export default function HackWorkshops() {
               <div className="flex flex-col md:flex-row items-start gap-6 md:gap-8 w-full">
                 <div className="flex-1 flex flex-col">
                   <h3 className="order-1 text-[#3a3aee] text-[1.05rem] font-semibold mt-2 mb-2">{event.type}</h3>
+                  <h3 className="order-2 text-[1.3rem] font-semibold text-gray-800 mb-3 pb-2 border-b-2 border-gray-300">Title:</h3>
                   <h4 className="order-2 text-[#111827] text-2xl font-extrabold mt-1 mb-2 leading-tight">{event.title}</h4>
 
                   {/* Centered image placed directly under the title on mobile */}
-                  <div className="order-3 w-full max-w-[320px] mx-auto my-4 rounded-xl p-2 bg-gray-100 shadow-[0_2px_8px_rgba(0,0,0,0.08)] overflow-hidden">
+                  <div className="order-3 w-full max-w-[420px] h-[300px] mx-auto my-4 rounded-xl p-2 bg-gray-100 shadow-[0_2px_8px_rgba(0,0,0,0.08)] overflow-hidden">
                     {event.file && event.file.url ? (
                       <img
                         src={event.file.url}
@@ -332,7 +333,9 @@ export default function HackWorkshops() {
                     )}
                   </div>
 
+                  <h4 className="order-4 text-[1.1rem] font-semibold text-gray-800 mb-2 mt-3">Date of completion:</h4>
                   <span className="order-4 text-[1rem] text-gray-500 mb-[0.7rem] block">{event.date}</span>
+                  <h4 className="order-5 text-[1.1rem] font-semibold text-gray-800 mb-2 mt-3">Description:</h4>
                   <p className="order-5 text-gray-500 text-base mb-[0.7rem]">{event.description}</p>
                 </div>
 
