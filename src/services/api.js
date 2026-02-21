@@ -132,6 +132,24 @@ export const authAPI = {
       // Network error
       throw new Error('Network error - please check your connection');
     }
+  },
+
+  // Verify OTP for registration - POST /api/auth with email and otp params
+  verifyOtp: async (email, otp) => {
+    try {
+      const response = await api.post('/auth', null, {
+        params: { email, otp }
+      });
+      console.log('OTP verification response:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('OTP verification error:', error);
+      if (error.response) {
+        const errorMessage = error.response.data?.message || 'OTP verification failed';
+        throw new Error(errorMessage);
+      }
+      throw new Error('Network error - please check your connection');
+    }
   }
 };
 
