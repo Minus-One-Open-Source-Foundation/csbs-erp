@@ -5,7 +5,7 @@ import {
   FaUser,
   FaLaptopCode,
   FaBriefcase,
-  FaRunning,
+  FaAward,
   FaTrophy,
   FaFileAlt,
   FaSignOutAlt,
@@ -22,7 +22,7 @@ export default function Sidebar({ open = false, collapsed = false, onClose, onTo
     { to: "/personal-info", label: "Personal Info", icon: FaUser },
     { to: "/hackathons-workshops", label: "Hackathons & Workshops", icon: FaLaptopCode },
     { to: "/internships", label: "Internships", icon: FaBriefcase },
-    { to: "/activities", label: "Co-Curricular", icon: FaRunning },
+    { to: "/activities", label: "Certifications", icon: FaAward },
     { to: "/achievements", label: "Achievements", icon: FaTrophy },
     { to: "/urms", label: "URMS", icon: FaFileAlt },
   ];

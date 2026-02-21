@@ -13,7 +13,7 @@ import {
 import { facultyAPI } from "../services/api";
 import bgImage from "../assets/bg.jpg";
 
-export default function FacultyInternshipsRequests() {
+export default function FacultyCertificationsRequests() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -32,65 +32,65 @@ export default function FacultyInternshipsRequests() {
     { key: "ALL", label: "All", icon: null, color: "#2196F3" }
   ];
 
-  // Fetch internship requests on component mount and filter change
+  // Fetch certification requests on component mount and filter change
   useEffect(() => {
-    fetchInternshipRequests();
+    fetchCertificationRequests();
   }, [activeFilter]);
 
-  const fetchInternshipRequests = async () => {
+  const fetchCertificationRequests = async () => {
     try {
       setLoading(true);
-      let internships;
+      let certifications;
 
       switch (activeFilter) {
         case "PENDING":
-          internships = await facultyAPI.getPendingInternships();
+          certifications = await facultyAPI.getPendingInternships();
           break;
         case "ALL":
-          internships = await facultyAPI.getAllInternships();
+          certifications = await facultyAPI.getAllInternships();
           break;
         case "APPROVED":
         case "REJECTED":
-          const allInternships = await facultyAPI.getAllInternships();
-          internships = allInternships.filter(internship => internship.status === activeFilter);
+          const allCertifications = await facultyAPI.getAllInternships();
+          certifications = allCertifications.filter(certification => certification.status === activeFilter);
           break;
         default:
-          internships = await facultyAPI.getPendingInternships();
+          certifications = await facultyAPI.getPendingInternships();
       }
 
-      setEvents(internships);
+      setEvents(certifications);
       setError(null);
     } catch (err) {
-      console.error('Error fetching internship requests:', err);
-      setError('Failed to load internship requests. Please try again.');
+      console.error('Error fetching certification requests:', err);
+      setError('Failed to load certification requests. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleApprove = async (internshipId) => {
+  const handleApprove = async (certificationId) => {
     try {
-      setApprovingId(internshipId);
-      await facultyAPI.approveInternship(internshipId);
-      await fetchInternshipRequests();
-      toast.success('Internship approved successfully!');
+      setApprovingId(certificationId);
+      await facultyAPI.approveInternship(certificationId);
+      await fetchCertificationRequests();
+      toast.success('Certification approved successfully!');
     } catch (err) {
-      console.error('Error approving internship:', err);
-      toast.error('Failed to approve internship. Please try again.');
+      console.error('Error approving certification:', err);
+      toast.error('Failed to approve certification. Please try again.');
     } finally {
       setApprovingId(null);
     }
   };
 
-  const handleReject = async (internshipId) => {
+  const handleReject = async (certificationId) => {
     try {
-      setRejectingId(internshipId);
-      await facultyAPI.rejectInternship(internshipId);
-      await fetchInternshipRequests();
-      toast.success('Internship rejected successfully!');
+      setRejectingId(certificationId);
+      await facultyAPI.rejectInternship(certificationId);
+      await fetchCertificationRequests();
+      toast.success('Certification rejected successfully!');
     } catch (err) {
-      console.error('Error rejecting internship:', err);
-      toast.error('Failed to reject internship. Please try again.');
+      console.error('Error rejecting certification:', err);
+      toast.error('Failed to reject certification. Please try again.');
     } finally {
       setRejectingId(null);
     }
@@ -136,7 +136,7 @@ export default function FacultyInternshipsRequests() {
       >
         <div className="text-center p-12">
           <FaSpinner className="animate-spin text-[2rem] text-blue-600 mx-auto" />
-          <p>Loading internship requests...</p>
+          <p>Loading certification requests...</p>
         </div>
       </div>
     );
@@ -151,7 +151,7 @@ export default function FacultyInternshipsRequests() {
         <div className="text-center p-12 bg-white/90 rounded-lg mx-auto my-8 max-w-[500px]">
           <p className="text-red-500 text-[1.1rem] mb-4">{error}</p>
           <button
-            onClick={fetchInternshipRequests}
+            onClick={fetchCertificationRequests}
             className="py-2 px-4 bg-blue-600 text-white border-none rounded cursor-pointer"
           >
             Retry
@@ -168,7 +168,7 @@ export default function FacultyInternshipsRequests() {
     >
       <header className="text-center mb-10 mt-10">
         <div>
-          <h2 className="font-bold text-[2.1rem] text-[#3a3aee] mb-6">Internship Requests</h2>
+          <h2 className="font-bold text-[2.1rem] text-[#3a3aee] mb-6">Certifications Requests</h2>
 
           {/* Filter Tabs */}
           <div className="flex justify-center gap-2 mb-6 flex-wrap">
@@ -205,7 +205,7 @@ export default function FacultyInternshipsRequests() {
 
           <input
             type="text"
-            placeholder="Search internships..."
+            placeholder="Search certifications..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="flex-1 py-4 pr-12 pl-6 rounded-[30px] border-none bg-white/70 text-gray-800 text-[1.1rem] outline-none w-[580px] max-w-full"
@@ -219,7 +219,7 @@ export default function FacultyInternshipsRequests() {
             {searchTerm ? (
               <div>
                 <p className="text-[1.1rem] text-gray-500 mb-2">
-                  No internship requests found matching "{searchTerm}"
+                  No certification requests found matching "{searchTerm}"
                 </p>
                 <button
                   onClick={() => setSearchTerm("")}
@@ -230,7 +230,7 @@ export default function FacultyInternshipsRequests() {
               </div>
             ) : (
               <p className="text-[1.1rem] text-gray-500">
-                No {activeFilter.toLowerCase()} internship requests found.
+                No {activeFilter.toLowerCase()} certification requests found.
                 {activeFilter === 'PENDING' && ' Great! All requests have been reviewed.'}
               </p>
             )}
@@ -257,7 +257,7 @@ export default function FacultyInternshipsRequests() {
                   {event.certificateFilename && (
                     <div className="flex items-center gap-2 mb-3">
                       <p className="text-gray-500 text-[0.9rem] m-0">
-                        <strong>Certificate:</strong> {event.certificateFilename}
+                        <strong>Certificate File Name:</strong> {event.certificateFilename}
                       </p>
                       {event.certificateUrl && (
                         <button
@@ -380,7 +380,7 @@ export default function FacultyInternshipsRequests() {
                 className="bg-red-500 text-white border-none rounded-lg p-3 cursor-pointer text-base flex items-center justify-center transition-all duration-200 hover:bg-red-600 hover:scale-105"
                 title="Close"
               >
-                <FaTimes />
+                    <FaTimes />
               </button>
             </div>
 

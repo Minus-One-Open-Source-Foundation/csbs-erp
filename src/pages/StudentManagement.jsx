@@ -79,41 +79,41 @@ export default function StudentManagement() {
   };
 
   return (
-    <div className="p-8 font-sans w-full max-w-full m-0 max-sm:p-4">
-      <header className="text-center mb-8">
-        <h1 className="text-[2.3rem] font-bold text-slate-800 max-sm:text-[1.6rem]">Student Management</h1>
-        <p className="text-slate-500">Manage student details and profiles</p>
+    <div className="p-4 sm:p-6 md:p-8 lg:p-10 font-sans w-full max-w-full m-0">
+      <header className="text-center mb-6 sm:mb-8">
+        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-slate-800">Student Management</h1>
+        <p className="text-xs sm:text-sm md:text-base text-slate-500 mt-1 sm:mt-2">Manage student details and profiles</p>
       </header>
 
       {/* Search Bar */}
-      <div className="flex justify-center mb-6">
-        <div className="relative w-[90%]">
-          <FaSearch className="absolute top-1/2 left-4 -translate-y-1/2 text-gray-400 text-[1.1rem]" />
+      <div className="flex justify-center mb-4 sm:mb-6">
+        <div className="relative w-full sm:w-[95%] md:w-[90%] lg:w-[85%]">
+          <FaSearch className="absolute top-1/2 left-3 sm:left-4 -translate-y-1/2 text-gray-400 text-sm sm:text-base" />
           <input
             type="text"
             placeholder="Search by name or register number..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full py-4 pr-6 pl-12 rounded-xl border border-gray-300 text-[1.05rem] shadow-[0_4px_12px_rgba(0,0,0,0.05)] outline-none transition-all duration-300 focus:border-blue-500 focus:shadow-[0_4px_12px_rgba(59,130,246,0.3)]"
+            className="w-full py-2 sm:py-3 md:py-4 pr-4 sm:pr-6 pl-9 sm:pl-12 rounded-lg sm:rounded-xl border border-gray-300 text-xs sm:text-sm md:text-base shadow-[0_4px_12px_rgba(0,0,0,0.05)] outline-none transition-all duration-300 focus:border-blue-500 focus:shadow-[0_4px_12px_rgba(59,130,246,0.3)]"
           />
         </div>
       </div>
 
       {/* Loading State */}
       {loading && (
-        <div className="flex flex-col items-center justify-center p-12 text-center">
-          <div className="w-10 h-10 border-4 border-gray-200 border-l-blue-500 rounded-full animate-spin mb-4"></div>
-          <p>Loading students...</p>
+        <div className="flex flex-col items-center justify-center p-8 sm:p-12 text-center">
+          <div className="w-8 sm:w-10 h-8 sm:h-10 border-4 border-gray-200 border-l-blue-500 rounded-full animate-spin mb-3 sm:mb-4"></div>
+          <p className="text-sm sm:text-base">Loading students...</p>
         </div>
       )}
 
       {/* Error State */}
       {error && (
-        <div className="flex flex-col items-center justify-center p-12 text-center">
-          <p className="text-red-600 mb-4 text-[1.1rem]">{error}</p>
+        <div className="flex flex-col items-center justify-center p-8 sm:p-12 text-center">
+          <p className="text-red-600 mb-4 text-sm sm:text-base md:text-lg">{error}</p>
           <button
             onClick={loadAllProfiles}
-            className="bg-blue-500 text-white border-none py-3 px-6 rounded-lg cursor-pointer text-base font-semibold transition-colors duration-200 hover:bg-blue-600"
+            className="bg-blue-500 text-white border-none py-2 sm:py-3 px-4 sm:px-6 rounded-lg cursor-pointer text-xs sm:text-sm md:text-base font-semibold transition-colors duration-200 hover:bg-blue-600"
           >
             Retry
           </button>
@@ -122,24 +122,24 @@ export default function StudentManagement() {
 
       {/* Student Grid */}
       {!loading && !error && (
-        <div className="max-h-[75vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-slate-300 scrollbar-thumb-rounded-lg hover:scrollbar-thumb-slate-400">
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-6 w-full max-sm:gap-4">
+        <div className="max-h-[calc(100vh-300px)] sm:max-h-[75vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-slate-300 scrollbar-thumb-rounded-lg hover:scrollbar-thumb-slate-400">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-5 lg:gap-6 w-full">
             {filteredStudents.map((student) => (
               <div
-                className="relative flex justify-start items-start bg-white rounded-xl p-8 shadow-[0_6px_20px_rgba(0,0,0,0.1)] transition-all duration-300 w-full hover:-translate-y-[3px] hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] max-md:flex-col max-md:text-center max-sm:p-5"
+                className="relative flex flex-col items-center text-center bg-white rounded-lg sm:rounded-xl p-4 sm:p-5 md:p-6 lg:p-8 shadow-[0_4px_12px_rgba(0,0,0,0.08)] sm:shadow-[0_6px_20px_rgba(0,0,0,0.1)] transition-all duration-300 w-full hover:-translate-y-1 sm:hover:-translate-y-[3px] hover:shadow-[0_6px_16px_rgba(0,0,0,0.12)] sm:hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)]"
                 key={student.email}
               >
                 {/* Delete Button */}
                 <button
-                  className="absolute top-2.5 right-2.5 w-[1cm] h-[1cm] flex items-center justify-center border-none rounded bg-red-400 text-white cursor-pointer text-base hover:bg-red-600"
+                  className="absolute top-2 right-2 sm:top-2.5 sm:right-2.5 w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center border-none rounded bg-red-400 text-white cursor-pointer text-xs sm:text-sm hover:bg-red-600 transition-colors"
                   onClick={() => handleDeleteClick(student)}
                 >
                   <FaTrash />
                 </button>
 
                 {/* Profile Photo */}
-                <div className="flex flex-col items-center justify-center ml-4 mt-4 max-md:ml-0 max-md:mt-0 max-md:mb-4">
-                  <div className="w-40 h-40 rounded-full overflow-hidden border-[3px] border-gray-300 shadow-[0_6px_18px_rgba(0,0,0,0.2)] flex items-center justify-center max-md:w-[140px] max-md:h-[140px] group">
+                <div className="flex flex-col items-center justify-center mb-3 sm:mb-4">
+                  <div className="w-24 h-24 sm:w-32 md:w-36 lg:w-40 sm:h-32 md:h-36 lg:h-40 rounded-full overflow-hidden border-2 sm:border-[3px] border-gray-300 shadow-[0_4px_12px_rgba(0,0,0,0.15)] sm:shadow-[0_6px_18px_rgba(0,0,0,0.2)] flex items-center justify-center group">
                     <img
                       src={student.profileImageUrl || "/src/assets/default-profile.jpg"}
                       alt={student.name || "Student"}
@@ -152,32 +152,34 @@ export default function StudentManagement() {
                 </div>
 
                 {/* Student Info */}
-                <div className="flex-[2] ml-6 max-md:ml-0">
-                  <h2 className="text-[1.3rem] mb-1.5 relative -top-1">{student.name || "N/A"}</h2>
-                  <p className="my-1 text-[0.95rem]">
-                    <strong>Date of Birth:</strong> {student.dateOfBirth || "N/A"}
+                <div className="w-full flex-[2]">
+                  <h2 className="text-lg sm:text-xl md:text-2xl lg:text-[1.3rem] mb-1 sm:mb-2 font-semibold text-slate-800">{student.name || "N/A"}</h2>
+                  <div className="flex justify-center mb-3 sm:mb-4">
+                    <span className="inline-block py-0.5 sm:py-1 px-2 sm:px-2.5 rounded-lg sm:rounded-[10px] text-xs sm:text-[0.8rem] font-semibold bg-green-100 text-green-700">
+                      Active
+                    </span>
+                  </div>
+                  <p className="my-0.5 sm:my-1 text-xs sm:text-sm md:text-[0.95rem] text-slate-700">
+                    <strong className="text-slate-900">Date of Birth:</strong> {student.dateOfBirth || "N/A"}
                   </p>
-                  <p className="my-1 text-[0.95rem]">
-                    <strong>Register No:</strong> {student.registerNumber || "N/A"}
+                  <p className="my-0.5 sm:my-1 text-xs sm:text-sm md:text-[0.95rem] text-slate-700">
+                    <strong className="text-slate-900">Register No:</strong> {student.registerNumber || "N/A"}
                   </p>
-                  <p className="my-1 text-[0.95rem]">
-                    <strong>Department:</strong> {student.department || "N/A"}
+                  <p className="my-0.5 sm:my-1 text-xs sm:text-sm md:text-[0.95rem] text-slate-700">
+                    <strong className="text-slate-900">Department:</strong> {student.department || "N/A"}
                   </p>
-                  <p className="my-1 text-[0.95rem]">
-                    <strong>Email:</strong> {student.email}
+                  <p className="my-0.5 sm:my-1 text-xs sm:text-sm md:text-[0.95rem] text-slate-700 break-all">
+                    <strong className="text-slate-900">Email:</strong> {student.email}
                   </p>
-                  <p className="my-1 text-[0.95rem]">
-                    <strong>Phone:</strong> {student.phoneNumber || "N/A"}
+                  <p className="my-0.5 sm:my-1 text-xs sm:text-sm md:text-[0.95rem] text-slate-700">
+                    <strong className="text-slate-900">Phone:</strong> {student.phoneNumber || "N/A"}
                   </p>
-                  <span className="inline-block mt-1.5 py-1 px-2.5 rounded-[10px] text-[0.8rem] font-semibold bg-green-100 text-green-700">
-                    Active
-                  </span>
                 </div>
               </div>
             ))}
 
             {filteredStudents.length === 0 && !loading && !error && (
-              <p className="text-center text-base text-gray-500">No students found</p>
+              <p className="col-span-full text-center text-sm sm:text-base text-gray-500 py-8">No students found</p>
             )}
           </div>
         </div>
@@ -185,23 +187,23 @@ export default function StudentManagement() {
 
       {/* Confirmation Popup */}
       {showConfirmPopup && (
-        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-[1000]">
-          <div className="bg-white p-8 rounded-xl shadow-[0_6px_20px_rgba(0,0,0,0.2)] max-w-[400px] w-full text-center max-sm:max-w-[90vw] max-sm:mx-4 max-sm:p-5">
-            <h3 className="mb-4">Confirm Deletion</h3>
-            <p className="mb-5">
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-[1000] p-4">
+          <div className="bg-white p-4 sm:p-6 md:p-8 rounded-lg sm:rounded-xl shadow-[0_6px_20px_rgba(0,0,0,0.2)] w-full max-w-xs sm:max-w-sm">
+            <h3 className="mb-3 sm:mb-4 text-base sm:text-lg font-semibold text-slate-800">Confirm Deletion</h3>
+            <p className="mb-4 sm:mb-5 text-xs sm:text-sm text-slate-700">
               Are you sure you want to delete{" "}
               <strong>{studentToDelete?.name}</strong>?
             </p>
-            <div className="flex justify-between">
+            <div className="flex gap-2 sm:gap-3 justify-between">
               <button
                 onClick={() => setShowConfirmPopup(false)}
-                className="flex-1 mx-1 py-2.5 border-none rounded-lg text-[0.95rem] cursor-pointer font-semibold bg-gray-200 text-gray-700"
+                className="flex-1 py-2 sm:py-2.5 border-none rounded-lg text-xs sm:text-sm cursor-pointer font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={confirmDelete}
-                className="flex-1 mx-1 py-2.5 border-none rounded-lg text-[0.95rem] cursor-pointer font-semibold bg-red-500 text-white"
+                className="flex-1 py-2 sm:py-2.5 border-none rounded-lg text-xs sm:text-sm cursor-pointer font-semibold bg-red-500 text-white hover:bg-red-600 transition-colors"
               >
                 Confirm Delete
               </button>
@@ -212,26 +214,26 @@ export default function StudentManagement() {
 
       {/* Reason Popup */}
       {showReasonPopup && (
-        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-[1000]">
-          <div className="bg-white p-8 rounded-xl shadow-[0_6px_20px_rgba(0,0,0,0.2)] max-w-[400px] w-full text-center max-sm:max-w-[90vw] max-sm:mx-4 max-sm:p-5">
-            <h3 className="mb-4">Reason for Deletion</h3>
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-[1000] p-4">
+          <div className="bg-white p-4 sm:p-6 md:p-8 rounded-lg sm:rounded-xl shadow-[0_6px_20px_rgba(0,0,0,0.2)] w-full max-w-xs sm:max-w-sm">
+            <h3 className="mb-3 sm:mb-4 text-base sm:text-lg font-semibold text-slate-800">Reason for Deletion</h3>
             <textarea
               rows="4"
               placeholder="Enter reason..."
               value={deleteReason}
               onChange={(e) => setDeleteReason(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg p-3 resize-none text-[0.95rem] mb-4"
+              className="w-full border border-gray-300 rounded-lg p-2 sm:p-3 resize-none text-xs sm:text-sm mb-3 sm:mb-4 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
             />
-            <div className="flex justify-between">
+            <div className="flex gap-2 sm:gap-3 justify-between">
               <button
                 onClick={() => setShowReasonPopup(false)}
-                className="flex-1 mx-1 py-2.5 border-none rounded-lg text-[0.95rem] cursor-pointer font-semibold bg-gray-200 text-gray-700"
+                className="flex-1 py-2 sm:py-2.5 border-none rounded-lg text-xs sm:text-sm cursor-pointer font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={submitReason}
-                className="flex-1 mx-1 py-2.5 border-none rounded-lg text-[0.95rem] cursor-pointer font-semibold bg-red-500 text-white"
+                className="flex-1 py-2 sm:py-2.5 border-none rounded-lg text-xs sm:text-sm cursor-pointer font-semibold bg-red-500 text-white hover:bg-red-600 transition-colors"
               >
                 Submit
               </button>

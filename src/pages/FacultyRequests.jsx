@@ -203,17 +203,17 @@ const FacultyRequests = () => {
 
                     <div className="bg-slate-50 p-3 rounded-lg text-[0.85rem] flex flex-col gap-1.5">
                       <div>
-                        <strong className="text-slate-600">Student:</strong> {event.userEmail}
+                        <strong className="text-slate-600">Student:</strong> <span className="text-gray-500">{event.userEmail}</span>
                       </div>
                       <div>
-                        <strong className="text-slate-600">Event Date:</strong> {formatDate(event.eventDate)}
+                        <strong className="text-slate-600">Event Date:</strong> <span className="text-gray-500">{formatDate(event.eventDate)}</span>
                       </div>
                       <div>
-                        <strong className="text-slate-600">Submitted:</strong> {formatDate(event.createdAt)}
+                        <strong className="text-slate-600">Submitted:</strong> <span className="text-gray-500">{formatDate(event.createdAt)}</span>
                       </div>
                       {event.fileName && (
                         <div>
-                          <strong className="text-slate-600">File:</strong> {event.fileName}
+                          <strong className="text-slate-600">File:</strong> <span className="text-gray-500">{event.fileName}</span>
                         </div>
                       )}
                     </div>
