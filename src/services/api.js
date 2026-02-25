@@ -134,10 +134,10 @@ export const authAPI = {
     }
   },
 
-  // Verify OTP for registration - POST /api/auth with email and otp params
+  // Verify OTP for registration - POST /api/auth/verify-otp with email and otp params
   verifyOtp: async (email, otp) => {
     try {
-      const response = await api.post('/auth', null, {
+      const response = await api.post('/auth/verify-otp', null, {
         params: { email, otp }
       });
       console.log('OTP verification response:', response.data);
@@ -146,6 +146,24 @@ export const authAPI = {
       console.error('OTP verification error:', error);
       if (error.response) {
         const errorMessage = error.response.data?.message || 'OTP verification failed';
+        throw new Error(errorMessage);
+      }
+      throw new Error('Network error - please check your connection');
+    }
+  },
+
+  // Resend OTP - POST /api/auth/resend-otp with email param
+  resendOtp: async (email) => {
+    try {
+      const response = await api.post('/auth/resend-otp', null, {
+        params: { email }
+      });
+      console.log('Resend OTP response:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Resend OTP error:', error);
+      if (error.response) {
+        const errorMessage = error.response.data?.message || 'Failed to resend OTP';
         throw new Error(errorMessage);
       }
       throw new Error('Network error - please check your connection');
