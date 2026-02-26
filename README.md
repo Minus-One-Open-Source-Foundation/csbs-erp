@@ -6,7 +6,7 @@
 [![Vite](https://img.shields.io/badge/Vite-7.1.2-646CFF?style=flat&logo=vite)](https://vitejs.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.1.18-06B6D4?style=flat&logo=tailwindcss)](https://tailwindcss.com/)
 [![Material-UI](https://img.shields.io/badge/MUI-7.3.2-007FFF?style=flat&logo=mui)](https://mui.com/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
 
 ## 📋 Table of Contents
@@ -61,11 +61,13 @@ This application serves as a centralized platform for:
 - 📄 **Resume Management (URMS)**: Upload, organize, and manage multiple resume versions
 - 📈 **Analytics Dashboard**: Visual insights into academic and activity trends
 - 🎨 **Portfolio Builder**: Showcase skills, projects, and accomplishments
+- 🔑 **OTP Email Verification**: Secure one-time-password verification during registration
 
 ### Faculty Portal
 
 - 📋 **Student Management**: View and manage student profiles
 - ✅ **Request Approval System**: Review and approve/reject student submissions
+- 📜 **Certifications Approval**: Review and approve/reject student certification requests
 - 📊 **Grade Management**: Assign and track student grades
 - 📑 **Report Generation**: Create comprehensive student reports
 - 🔍 **Analytics**: Monitor student performance and engagement metrics
@@ -273,7 +275,7 @@ const api = axios.create({
 
 This frontend requires a Spring Boot backend API. Key endpoints:
 
-- **Authentication**: `/api/auth/login`, `/api/auth/register`
+- **Authentication**: `/api/auth/login`, `/api/auth/register`, `/api/auth/send-otp`, `/api/auth/verify-otp`
 - **Profile Management**: `/api/profile/**`
 - **Events**: `/api/events/**`
 - **Achievements**: `/api/achievements/**`
@@ -340,6 +342,7 @@ src/
 │   ├── URMS.jsx            # Resume management system
 │   ├── FacultyDashboard.jsx        # Faculty dashboard
 │   ├── FacultyRequests.jsx         # Faculty request management
+│   ├── FacultyCertificationsRequests.jsx   # Certification approvals
 │   ├── StudentManagement.jsx       # Student management
 │   ├── GradeManagement.jsx         # Grade assignment
 │   ├── Reports.jsx                 # Report generation
@@ -496,7 +499,7 @@ csbs-erp/
 ├── .gitignore              # Git ignore rules
 ├── CHANGELOG.md            # Version history
 ├── CONTRIBUTING.md         # Contribution guidelines
-├── LICENSE                 # MIT License
+├── LICENSE                 # Proprietary License
 ├── SECURITY.md             # Security policies
 ├── dockerfile              # Docker build configuration
 ├── eslint.config.js        # ESLint configuration
@@ -546,6 +549,12 @@ await authAPI.login(email, password);
 
 // Register new student
 await authAPI.register(name, email, password);
+
+// Send OTP to email for registration verification
+await authAPI.sendOtp(email);
+
+// Verify OTP during registration
+await authAPI.verifyOtp(email, otp);
 ```
 
 #### Profile API (`profileAPI`)
@@ -919,31 +928,23 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 ## 📄 License
 
-This project is licensed under the **MIT License**.
+This project is licensed under a **Proprietary License** — all rights reserved.
 
 ```
-MIT License
+PROPRIETARY SOFTWARE LICENSE
 
-Copyright (c) 2024 Team-Minus-One
+Copyright (c) 2024 Minus One Open Source Foundation. All Rights Reserved.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Dissemination, reproduction, modification, distribution, or use of this
+software, in whole or in part, is strictly prohibited without the prior
+written permission of Minus One Open Source Foundation.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+See the LICENSE file for full terms.
 ```
+
+> ⚠️ **This is not open-source software.** Unauthorised copying, modification,
+> distribution, or use of this software is strictly prohibited and may result
+> in civil and criminal penalties.
 
 ## 💬 Support
 

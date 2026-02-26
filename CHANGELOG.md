@@ -11,9 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enterprise-grade README documentation
 - CONTRIBUTING.md with detailed contribution guidelines
 - SECURITY.md with security policies and best practices
-- LICENSE file (MIT)
-- .env.example template for environment configuration
 - CHANGELOG.md for tracking version history
+- .env.example template for environment configuration
+- OTP email verification during student registration (bug fix: resend OTP flow)
+- Faculty Certifications Requests page for approving/rejecting student certifications
+
+### Changed
+- License updated from MIT to Proprietary (All Rights Reserved)
 
 ## [1.0.0] - 2024-10-31
 
