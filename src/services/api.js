@@ -596,7 +596,33 @@ export const achievementAPI = {
   },
 
   // Create a new achievement
-  createAchievement: async (formData) => {
+  createAchievement: async (achievementData, imageFile) => {
+    // Validate required fields
+    if (!achievementData.title || !achievementData.category || !achievementData.eventName || 
+        !achievementData.description || !achievementData.userEmail) {
+      throw new Error('Missing required achievement fields');
+    }
+
+    const formData = new FormData();
+    formData.append('title', achievementData.title);
+    formData.append('category', achievementData.category);
+    formData.append('description', achievementData.description);
+    formData.append('userEmail', achievementData.userEmail);
+    formData.append('eventName', achievementData.eventName);
+    
+    if (imageFile) {
+      formData.append('image', imageFile);
+    }
+
+    console.log('Creating achievement with data:', {
+      title: achievementData.title,
+      category: achievementData.category,
+      description: achievementData.description,
+      userEmail: achievementData.userEmail,
+      eventName: achievementData.eventName,
+      hasImage: !!imageFile
+    });
+
     const response = await api.post('/achievements/create', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',

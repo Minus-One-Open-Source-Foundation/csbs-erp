@@ -144,8 +144,19 @@ export default function Achievements() {
 
   const saveAchievement = async () => {
     try {
+      // Validate required fields
       if (!formData.title.trim()) {
         toast.warning("Please enter a title!");
+        return;
+      }
+
+      if (!formData.category) {
+        toast.warning("Please select a category!");
+        return;
+      }
+
+      if (!formData.description.trim()) {
+        toast.warning("Please enter a description!");
         return;
       }
 
@@ -156,41 +167,50 @@ export default function Achievements() {
         return;
       }
 
-      // Create FormData for file upload
-      const submitData = new FormData();
-      submitData.append('title', formData.title);
-      submitData.append('category', formData.category);
-      // Include the specific achievement type (handle co- and extra-curricular)
-      let finalType = '';
-      if (formData.category === 'CO_CURRICULAR') {
-        finalType = formData.achievementType === 'OTHERS' ? formData.otherAchievementType : formData.achievementType;
-      } else if (formData.category === 'EXTRA_CURRICULAR') {
-        finalType = formData.extraType === 'OTHERS' ? formData.otherExtraType : formData.extraType;
+      // Determine the event name based on category and type
+      let eventName = '';
+      if (formData.category === 'COCURRICULAR') {
+        eventName = formData.achievementType === 'OTHERS' ? formData.otherAchievementType : formData.achievementType;
+      } else if (formData.category === 'EXTRACURRICULAR') {
+        eventName = formData.extraType === 'OTHERS' ? formData.otherExtraType : formData.extraType;
       } else {
-        finalType = formData.achievementType || formData.extraType || '';
+        eventName = formData.achievementType || formData.extraType || '';
       }
-      submitData.append('achievementType', finalType);
-      submitData.append('description', formData.description);
-      // Include optional date if provided
-      if (formData.date) submitData.append('date', formData.date);
-      submitData.append('userEmail', userEmail);
 
-      if (formData.image) {
-        submitData.append('image', formData.image);
+      // Validate eventName
+      if (!eventName || !eventName.trim()) {
+        toast.warning("Please specify the event name!");
+        return;
       }
 
       // Debug: Log what we're sending
       console.log('📤 Submitting achievement data:');
       console.log('- Title:', formData.title);
       console.log('- Category:', formData.category);
-      console.log('- Achievement Type:', finalType);
+      console.log('- Event Name:', eventName);
       console.log('- Description:', formData.description);
-      console.log('- Date:', formData.date);
       console.log('- User Email:', userEmail);
       console.log('- Has Image:', !!formData.image);
 
-      // Submit to backend
-      const response = await achievementAPI.createAchievement(submitData);
+      // Validate all required fields before creating the object
+      if (!formData.title || !formData.category || !formData.description || !userEmail || !eventName) {
+        toast.error('Please fill in all required fields');
+        return;
+      }
+
+      // Create data object matching backend expectations
+      const achievementData = {
+        title: formData.title.trim(),
+        category: formData.category,
+        eventName: eventName.trim(),
+        description: formData.description.trim(),
+        userEmail: userEmail
+      };
+
+      console.log('✅ Final achievement data object:', achievementData);
+
+      // Submit to backend (API will handle FormData creation)
+      const response = await achievementAPI.createAchievement(achievementData, formData.image);
 
       if (response.success) {
         // Refresh the achievements list
@@ -238,11 +258,11 @@ export default function Achievements() {
   // Debug: Log filtered results
   console.log(`📊 Filtered ${filteredAchievements.length} achievements for category: ${activeCategory}`);
 
-  const categories = ["All", "CO_CURRICULAR", "EXTRA_CURRICULAR"];
+  const categories = ["All", "COCURRICULAR", "EXTRACURRICULAR"];
   const categoryLabels = {
     "All": "All",
-    "CO_CURRICULAR": "Co-Curricular",
-    "EXTRA_CURRICULAR": "Extra-Curricular"
+    "COCURRICULAR": "Co-Curricular",
+    "EXTRACURRICULAR": "Extra-Curricular"
   };
 
   const formatDate = (dateString) => {
@@ -394,12 +414,12 @@ export default function Achievements() {
               <label className="block text-sm text-gray-600 mb-1">Category</label>
               <select name="category" value={formData.category} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg text-base">
                 <option value="">Select Category</option>
-                <option value="CO_CURRICULAR">Co-Curricular</option>
-                <option value="EXTRA_CURRICULAR">Extra-Curricular</option>
+                <option value="COCURRICULAR">Co-Curricular</option>
+                <option value="EXTRACURRICULAR">Extra-Curricular</option>
               </select>
             </div>
 
-            {formData.category === "CO_CURRICULAR" && (
+            {formData.category === "COCURRICULAR" && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                 <div className="md:col-span-1">
@@ -494,7 +514,7 @@ export default function Achievements() {
               </div>
             )}
 
-            {formData.category === "EXTRA_CURRICULAR" && (
+            {formData.category === "EXTRACURRICULAR" && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="md:col-span-1">
                   <label className="block text-sm text-gray-600 mb-1">Event</label>
